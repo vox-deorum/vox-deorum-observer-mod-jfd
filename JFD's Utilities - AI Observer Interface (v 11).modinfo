@@ -1,0 +1,190 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mod id="970aae10-1004-4c8a-af2d-8d601de5ec02" version="11">
+  <Properties>
+    <Name>JFD's Utilities - AI Observer Interface</Name>
+    <Teaser>[COLOR_POSITIVE_TEXT]AI Observer Interface[ENDCOLOR] mod for CBR/AI games.</Teaser>
+    <Description>[COLOR_POSITIVE_TEXT]AI Observer Interface[ENDCOLOR] mod for CBR/AI games.</Description>
+    <Authors>JFD</Authors>
+    <HideSetupGame>0</HideSetupGame>
+    <AffectsSavedGames>1</AffectsSavedGames>
+    <MinCompatibleSaveVersion>0</MinCompatibleSaveVersion>
+    <SupportsSinglePlayer>1</SupportsSinglePlayer>
+    <SupportsMultiplayer>1</SupportsMultiplayer>
+    <SupportsHotSeat>1</SupportsHotSeat>
+    <SupportsMac>1</SupportsMac>
+    <ReloadAudioSystem>1</ReloadAudioSystem>
+    <ReloadLandmarkSystem>0</ReloadLandmarkSystem>
+    <ReloadStrategicViewSystem>1</ReloadStrategicViewSystem>
+    <ReloadUnitSystem>1</ReloadUnitSystem>
+  </Properties>
+  <Dependencies />
+  <References>
+    <Mod id="a8ac71dc-dcd9-4f87-af61-8ae7951ade57" minversion="0" maxversion="999" title="JFD's Rise to Power - (2) (UI) Top Panel" />
+    <Mod id="3fc450d7-c1d9-46e3-97ea-6d60a3485187" minversion="0" maxversion="999" title="JFD's Rise to Power - (2) (UI) Diplo Corner" />
+    <Mod id="aeea1d87-bb9b-4542-af59-5e3541fc1b06" minversion="0" maxversion="999" title="" />
+  </References>
+  <Blocks />
+  <Files>
+    <File md5="EA29518D45EFB6B501222E18B1BDC520" import="1">Art/Font Icons/JFDFontIcons_AIObserver_22.dds</File>
+    <File md5="68FD6249CE1A4E55C9F3B9BFAC9580B7" import="1">Art/Font Icons/JFDFontIcons_AIObserver_22.ggxml</File>
+    <File md5="D30590A777AA3944C2FBD110C9F29471" import="1">Art/Font Icons/JFDFontIcons_Players_OverlayMaps_22.dds</File>
+    <File md5="B32C35BA8FC91762B877FAFFC9E98551" import="1">Art/Font Icons/JFDFontIcons_Players_OverlayMaps_22.ggxml</File>
+    <File md5="56081EC8249214A1E9EB8877AEEE7455" import="1">Art/Images/aiobserversymbolframe32.dds</File>
+    <File md5="DE83886DFFEBC5989E962A4CA9531DC6" import="1">Art/Images/aiobserversymbolrankedframe32.dds</File>
+    <File md5="15AAB90B8D3F0B39A4C07D02C9B8E6E5" import="1">Art/Images/aiobserversymbolrankedframe45.dds</File>
+    <File md5="273E74894B9927443F06C2C92A96CF88" import="1">Art/Images/bottomright128x224_2.dds</File>
+    <File md5="DD9609605DD804723B6C60C77EE5F61F" import="1">Art/Images/civinfobox104.dds</File>
+    <File md5="C285769372EE91FE445338E770743775" import="1">Art/Images/civinfobox128.dds</File>
+    <File md5="F5C1837E0AABAF31E6348A0B7EFD9C28" import="1">Art/Images/civinfobox88.dds</File>
+    <File md5="EB6ACFE7A3F51BD57E71655DC375ECB3" import="1">Art/Images/civinfobox96.dds</File>
+    <File md5="414EF294CAE52244F3F1EAFA639C6B81" import="1">Art/Images/civinfoboxlarge.dds</File>
+    <File md5="6CD813D68891481CF437A524EAEBE720" import="1">Art/Images/civinfoboxsmall.dds</File>
+    <File md5="419E1992BB41717B99CE8DD768352F1C" import="1">Art/Images/civsymbolsframe24.dds</File>
+    <File md5="8BAD576DA69478129310E23D26A41CE8" import="1">Art/Images/civsymbolsframe32.dds</File>
+    <File md5="13E7F6AFBFF2C275409B2040DAD576E8" import="1">Art/Images/diplobox.dds</File>
+    <File md5="AD07226FD7376B528B1A1B50DFC0536C" import="1">Art/Images/diplomacypanelleft.dds</File>
+    <File md5="9F32F2454DF2451F0F3722679EA89000" import="1">Art/Images/fancyfern.dds</File>
+    <File md5="C15193D6B617A6D19C3D95A1C5BA6B19" import="1">Art/Images/fancyfernR.dds</File>
+    <File md5="F0CF7C729F0A04A1A21E4006644CA064" import="1">Art/Images/fancytrimdesat_cut.dds</File>
+    <File md5="0EBBE72CB8AFAC8687B994AF44929031" import="1">Art/Images/fancytrim_cut.dds</File>
+    <File md5="C5C8467A202B0D480EAF60AFBFA84A6B" import="1">Art/Images/IGEButton.dds</File>
+    <File md5="0715ABC1548EC5D34E197F84BF755D87" import="1">Art/Images/IGEButtonHL.dds</File>
+    <File md5="5CD368A8651AFEFF0B4FB3B10AF5376D" import="1">Art/Images/IGEButtonOld.dds</File>
+    <File md5="25002A691C60A6CCA70DC5C0CCE140B8" import="1">Art/Images/IGEButtonOldHL.dds</File>
+    <File md5="A722F0860E0489C4AB05675712A050B1" import="1">Art/Images/InfoAddictButton.dds</File>
+    <File md5="2E79BC78609925D5F70FD4EC0372276D" import="1">Art/Images/InfoAddictButtonHL.dds</File>
+    <File md5="675C2076DFFA147F8DC7E411D6CAA2B5" import="1">Art/Images/JFDOverlayMap64.dds</File>
+    <File md5="7E3F2C1748566AB0A3AB7716B5FABC37" import="1">Art/Images/leadernamebar.dds</File>
+    <File md5="E61E00DE23FA9FA29AEE5ABC020C9025" import="1">Art/Images/leftportraitdecor128real.dds</File>
+    <File md5="9608698901904660BDFE8F76CDC5F22C" import="1">Art/Images/mainclose32.dds</File>
+    <File md5="688B8B478B08E3478D5D8F43B20C818E" import="1">Art/Images/mainclosehl32.dds</File>
+    <File md5="244DA1D1DC50E2781F5CFF0DB4F0C47F" import="1">Art/Images/mainopen32.dds</File>
+    <File md5="205A72E65CF78B521A21B0771DB3E0F6" import="1">Art/Images/mainopenhl32.dds</File>
+    <File md5="6FF0648A9BF94B056FAD507F538870A5" import="1">Art/Images/overlaymapbutton.dds</File>
+    <File md5="01AAFF9F31750A367DEF907C85682684" import="1">Art/Images/overlaymapbuttonhl.dds</File>
+    <File md5="E4609E324143DC5DB6C0F5ACF446B98E" import="1">Art/Images/PediaButton.dds</File>
+    <File md5="FAABB995E4E4880E0A5E161B07A097A4" import="1">Art/Images/PediaButtonHL.dds</File>
+    <File md5="3AC9EB82D90D14B15DE703FE61E9DA11" import="1">Art/Images/topcentreaiobserver.dds</File>
+    <File md5="E8CFB4CCFABAC9885386D0E76B134F81" import="1">Art/Images/topleft001alt.dds</File>
+    <File md5="048AC206781E0E6B77509124512D1C55" import="1">Art/Images/topleft2aiobserver.dds</File>
+    <File md5="E48E48D7925FE4B04BF97344758E7762" import="1">Art/Images/topleft2frame.dds</File>
+    <File md5="5CDF9AA82FFBDEB4B074DEBD14C05A65" import="1">Art/Images/topleft2frameend.dds</File>
+    <File md5="A250920064191E28EEBC78BFED3E9CA7" import="1">Art/Images/topleft2_aiobserver2.dds</File>
+    <File md5="4963DA8C346CD919B885F884FD2BA3B5" import="1">Art/Images/topleft2_aiobserver3.dds</File>
+    <File md5="1ADB64ABE508CBB867DF6AE526007C61" import="1">Art/Images/topleftaiobserver.dds</File>
+    <File md5="094BF8945B799425ECE2FEAC05DBC5B4" import="1">Art/Images/topleftaiobserver2.dds</File>
+    <File md5="F2A72CF0A1B714D0BA5E3EF7BACCE321" import="1">Art/Images/topleftaiobserver3.dds</File>
+    <File md5="91D5B235C2F93B529EE391DA1619F8A8" import="1">Art/Images/topleftaiobserver3_GA.dds</File>
+    <File md5="BB8AD030BC3B823DC3FE7793806F2B65" import="1">Art/Images/topleftbtm_aiobserver.dds</File>
+    <File md5="2855238518EAE96E4A53B1DDCE604197" import="1">Art/Images/topleftfancy_aiobserver.dds</File>
+    <File md5="D39CC58F5914FEF8E363946764C32EED" import="1">Art/Images/topleftframe.dds</File>
+    <File md5="63AA28506DF8D6EC908AC1DC594C1BC6" import="1">Art/Images/topleftframe2.dds</File>
+    <File md5="7CD178EC564535BB8B02720311FA67C2" import="1">Art/Images/topleftframe22.dds</File>
+    <File md5="88F5EC2A12BB50EF31145314FEAC4426" import="1">Art/Images/topleftframeL.dds</File>
+    <File md5="D50478FD397E4AB28361CF000783EDEE" import="1">Art/Images/topleftframeR.dds</File>
+    <File md5="FEF109C9D1DECFDA29F784F179DE80E0" import="1">Art/Images/topleftframeRalt.dds</File>
+    <File md5="A5B00185E1A8605D319122F70FF3D28C" import="1">Art/Images/topleft_aiobserver.dds</File>
+    <File md5="87DD3DABD35BDB7BE43B58C0579821DB" import="1">Art/Images/topleft_aiobserver1.dds</File>
+    <File md5="B5EDCE993566C27F6E3DF63C7194F710" import="1">Art/Images/topleft_aiobserver2.dds</File>
+    <File md5="B4DB3B1DB0DC173A44CF4AFCE6F1E471" import="1">Art/Images/topright020_esp_shorter.dds</File>
+    <File md5="907529ACDF38E85E90CFABCD58B5C842" import="1">Art/Images/TurnBanner.dds</File>
+    <File md5="C617CF53586BB58B2F73E0C88348A586" import="1">Art/JFDFontIcons_AIObserver_SovGovs_22.ggxml</File>
+    <File md5="37E7FFDCA50A1546F3F903C011E5A471" import="1">Art/JFDFontIcons_AIObserver_SovGovs_22.dds</File>
+    <File md5="45AD036ED79B0FE8F7109F94EB2709E7" import="0">Core/JFDGameText_AIObserver.xml</File>
+    <File md5="65B93271720092841BBDF9CAB6266DDA" import="0">Core/JFDGameText_Interface_AIObserver.xml</File>
+    <File md5="5C6477475766B9C9E1B3F489AF3B9B0C" import="0">Core/JFDMiniMaps_AIObserver.sql</File>
+    <File md5="DB158F099C79C101B5A27529A41F3ECE" import="0">Core/JFDMaster_AIObserver.sql</File>
+    <File md5="82D96CD558CC379028CC263FC5B2A7A2" import="0">Core/JFDCityDescriptors_AIObserver.sql</File>
+    <File md5="B2CAFE2B715EB9CF15BCE0E263051693" import="0">Core/JFDColors_AIObserver.sql</File>
+    <File md5="E1D54B80F9C0A435BBE80B1BAF44A2BA" import="0">Core/JFDGameOptions_AIObserver.sql</File>
+    <File md5="34CFEEF8FE66D4D0107E4CB48A0072A5" import="0">Core/JFDIconFonts_AIObserver.sql</File>
+    <File md5="756C572DFFEF269ADA848A4E3F8E2D8D" import="0">Core/JFDArtDefines_AIObserver.sql</File>
+    <File md5="CBE87F154953EB904B060E3038E1A98D" import="0">Core/JFDPolicyBranches_AIObserver.sql</File>
+    <File md5="C3D314A67CD6ABC84111E86DC2BA5549" import="0">Core/JFDReligions_AIObserver.sql</File>
+    <File md5="A75FB5CC00E5473D64A99E9BF9C04D9D" import="0">Core/Overlay Maps/JFDGameText_Diplomacy_OverlayMaps.xml</File>
+    <File md5="709D2D9D9B364F4F3BC86A883F24D7AF" import="0">Core/Overlay Maps/JFDGameText_Interface_OverlayMaps.xml</File>
+    <File md5="D2AD109FD7560673F1C9904F9C1425E6" import="0">Core/Overlay Maps/JFDGameText_Players_OverlayMaps.xml</File>
+    <File md5="5162335ABACE6C7A52859635099C4876" import="0">Core/Overlay Maps/JFDIconFonts_OverlayMaps.sql</File>
+    <File md5="05F74C95F9AFCC7F8448372176EADEEE" import="0">Core/Overlay Maps/JFDMaster_OverlayMaps.sql</File>
+    <File md5="4797F929322225281349CF14B27E5988" import="0">Core/Overlay Maps/JFDOverlayMapClasses_OverlayMaps.sql</File>
+    <File md5="27C74C900D997C3E1E3CCB4DBBD6C316" import="0">Core/Overlay Maps/JFDOverlayMapFilters_OverlayMaps.sql</File>
+    <File md5="7B330E3F1C599BF5B67A45F2FE88DB3D" import="0">Core/Overlay Maps/JFDOverlayMapOptions_OverlayMaps.sql</File>
+    <File md5="B6FFFF06EEAFC513E6ECFF9F148850B7" import="0">Core/Overlay Maps/JFDOverlayMaps_Diplomacy_OverlayMaps.sql</File>
+    <File md5="22989F4550470AD0EB8EC06F145C5B76" import="0">Core/Overlay Maps/JFDOverlayMaps_Players_OverlayMaps.sql</File>
+    <File md5="D60F37E01FE67960B8A7196FB608BF5E" import="0">CreditsInfo.txt</File>
+    <File md5="D756306ACB6EC0E1BAD2189567750D9A" import="0">Lua/JFD_AIObserver_Functions.lua</File>
+    <File md5="6C49F2F1867E106CF65E1AC126BD0C8D" import="0">Lua/JFD_AIObserver_Functions.xml</File>
+    <File md5="102983A3F73EA98C4FFA95E9F2E6E040" import="0">Lua/JFD_UI_BigMiniMapOverview.lua</File>
+    <File md5="D6BFBBFD233D02B7A2F5CDBF4C03675A" import="0">Lua/JFD_UI_BigMiniMapOverview.xml</File>
+    <File md5="55296C72053FB0A5578FCEE53841A1FA" import="0">Lua/JFD_UI_MiniMapOverview.lua</File>
+    <File md5="E11A4CB0DF624063C0AA3E52540B7E45" import="0">Lua/JFD_UI_MiniMapOverview.xml</File>
+    <File md5="549653EF7343F21A7F730715D02D7DA0" import="0">Lua/JFD_UI_OverlayMapsOverview.lua</File>
+    <File md5="9D3F27A260C89F906BD2CDDC757FF760" import="0">Lua/JFD_UI_OverlayMapsOverview.xml</File>
+    <File md5="7CC47D7720941555301F84DB0BC868B7" import="0">Lua/UI/Bak/JFD_AIObserver_Functions.lua</File>
+    <File md5="6D8405C1DED2253EBBF1DE2EA7371D76" import="0">Lua/UI/Bak/JFD_AIObserver_Functions.xml</File>
+    <File md5="E01AE94B1625EED365AE8ADCD9A18C59" import="0">Lua/UI/Bak/MiniMapPanel.lua</File>
+    <File md5="FCEFE8F8A5F6301E37D541E1BFF5EE44" import="0">Lua/UI/Bak/MiniMapPanel.xml</File>
+    <File md5="F9C629C2E3711EDF539652B350F6A059" import="0">Lua/UI/Bak/TopPanel.lua</File>
+    <File md5="341E692E8F3E784EFA4D9E9B5BC5AF13" import="0">Lua/UI/Bak/TopPanel.xml</File>
+    <File md5="291A3B60D1B06C3E0E5267E5F9292D60" import="0">Lua/UI/MiniMap/minimapfog.dds</File>
+    <File md5="3BBC51F40A0FDEC2AF2BEED5DCE34E47" import="1">Lua/UI/MiniMap/MiniMapPanel.lua</File>
+    <File md5="2DCDECAB26EC86096D4D81CF04446F5F" import="1">Lua/UI/MiniMap/MiniMapPanel.xml</File>
+    <File md5="CD4385EF71340D2BB986E2C591D5C377" import="1">Lua/UI/Overrides/CityBannerManager.lua</File>
+    <File md5="509B09FB0A1990B615D97BBA84290BC0" import="1">Lua/UI/Overrides/CityBannerManager.xml</File>
+    <File md5="5E04567CC8C39ED4BAD328184601946D" import="1">Lua/UI/Overrides/DiploCorner.lua</File>
+    <File md5="800BFB7302072D6F4277628F8A481656" import="1">Lua/UI/Overrides/DiploCorner.xml</File>
+    <File md5="C70BEEFBC2603C16C88A164597049134" import="1">Lua/UI/Overrides/Governments_BannerCivicUnlocked.dds</File>
+    <File md5="70ED2021A914CFEEDAF76B033C0C2761" import="0">Lua/UI/Overrides/InfoCorner.lua</File>
+    <File md5="862B2724D799B8FDB3B2C76FE0D4532D" import="0">Lua/UI/Overrides/InfoCorner.xml</File>
+    <File md5="3740353AB53C21157A14FBE59EF14B4C" import="0">Lua/UI/Overrides/MiniMapPanel.lua</File>
+    <File md5="6D270B3848ACB913C36A6534392BA4BC" import="0">Lua/UI/Overrides/MiniMapPanel.xml</File>
+    <File md5="C80B7BB2F60CA2FC37C2D389BF18B59D" import="1">Lua/UI/Overrides/NewTurn.lua</File>
+    <File md5="17F59F6E9D3F22C3DCEE613F5F6FC60A" import="1">Lua/UI/Overrides/NewTurn.xml</File>
+    <File md5="A07C2DFB3B5DFAF8BF858FEEA08AAC15" import="1">Lua/UI/Overrides/TopPanel.lua</File>
+    <File md5="341E692E8F3E784EFA4D9E9B5BC5AF13" import="1">Lua/UI/Overrides/TopPanel.xml</File>
+    <File md5="1ACD2840B8620EE3802C3A660BA23ED9" import="1">Lua/UI/Overrides/TopPanel_Back.lua</File>
+    <File md5="4CB46E99A636514752F8322D4499F37E" import="0">Lua/UI/Overrides/TurnProcessing.lua</File>
+    <File md5="7A6397F6DE772C5A0111D536D655C6D0" import="0">Lua/UI/Overrides/TurnProcessing.xml</File>
+    <File md5="C2251CDC72146BC980468F5A6C3C1D8D" import="0">Lua/UI/WC Stuff/DiploVotePopup.lua</File>
+    <File md5="23829728CD23F37A45090861BC9FE631" import="0">Lua/UI/WC Stuff/DiploVotePopup.xml</File>
+    <File md5="3216B44DD45373C8BE05BB94E26E879F" import="0">Lua/UI/WC Stuff/LeagueOverview.lua</File>
+    <File md5="1C45921EAADA8BAE4D212FC5B520D09C" import="0">Lua/UI/WC Stuff/LeagueOverview.xml</File>
+    <File md5="E279C8B71B5C7CBE9C6EDA9EF9E52DFE" import="0">Lua/UI/WC Stuff/LeagueProjectPopup.lua</File>
+    <File md5="1B764AA33F0D6EE1932C1DDC981F7E9E" import="0">Lua/UI/WC Stuff/LeagueProjectPopup.xml</File>
+    <File md5="E5998C850A3FF99E780E2F3547E63A4A" import="0">Lua/UI/WC Stuff/LeagueSplash.lua</File>
+    <File md5="D0CB9961F6012F24DB34CD2C1B64908F" import="0">Lua/UI/WC Stuff/LeagueSplash.xml</File>
+    <File md5="69A714E36C1BEC8D13D88DC143D68B12" import="0">Lua/UI/WC Stuff/VoteResultsPopup.lua</File>
+    <File md5="73D968613C1596A46891ED5A7D208FB5" import="0">Lua/UI/WC Stuff/VoteResultsPopup.xml</File>
+    <File md5="D56D1A6DF3877F3326F6E437F296F818" import="1">Lua/Utilities/JFD_AIObserver_Minimap_Utils.lua</File>
+    <File md5="9347D210861AC33084C47D28FE252F2E" import="1">Lua/Utilities/JFD_OverlayMaps_Utils.lua</File>
+    <File md5="808D86B8A746B0E30C9D9C9C52BFC038" import="1">Lua/Utilities/JFD_AIObserver_Utils.lua</File>
+  </Files>
+  <Actions>
+    <OnModActivated>
+      <UpdateDatabase>Core/Overlay Maps/JFDIconFonts_OverlayMaps.sql</UpdateDatabase>
+      <UpdateDatabase>Core/JFDMaster_AIObserver.sql</UpdateDatabase>
+      <UpdateDatabase>Core/JFDArtDefines_AIObserver.sql</UpdateDatabase>
+      <UpdateDatabase>Core/JFDCityDescriptors_AIObserver.sql</UpdateDatabase>
+      <UpdateDatabase>Core/JFDColors_AIObserver.sql</UpdateDatabase>
+      <UpdateDatabase>Core/JFDGameOptions_AIObserver.sql</UpdateDatabase>
+      <UpdateDatabase>Core/JFDGameText_AIObserver.xml</UpdateDatabase>
+      <UpdateDatabase>Core/JFDGameText_Interface_AIObserver.xml</UpdateDatabase>
+      <UpdateDatabase>Core/JFDIconFonts_AIObserver.sql</UpdateDatabase>
+      <UpdateDatabase>Core/JFDMiniMaps_AIObserver.sql</UpdateDatabase>
+      <UpdateDatabase>Core/JFDPolicyBranches_AIObserver.sql</UpdateDatabase>
+      <UpdateDatabase>Core/JFDReligions_AIObserver.sql</UpdateDatabase>
+    </OnModActivated>
+  </Actions>
+  <EntryPoints>
+    <EntryPoint type="InGameUIAddin" file="Lua/JFD_AIObserver_Functions.xml">
+      <Name>JFD_AIObserver_Functions.xml</Name>
+      <Description>
+      </Description>
+    </EntryPoint>
+    <EntryPoint type="InGameUIAddin" file="Lua/JFD_UI_BigMiniMapOverview.lua">
+      <Name>JFD_UI_BigMiniMapOverview.lua</Name>
+      <Description>
+      </Description>
+    </EntryPoint>
+  </EntryPoints>
+</Mod>

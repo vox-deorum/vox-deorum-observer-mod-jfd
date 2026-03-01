@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GameData>
+	<Language_en_US>
+		<!--======================================================================================================-->
+		<!--OVERLAY MAPS: PLAYERS-->
+		<!--======================================================================================================-->
+		<Row Tag="TXT_KEY_OVERLAY_CLASS_JFD_PLAYERS">
+			<Text>Players</Text>
+		</Row>
+		<Row Tag="TXT_KEY_OVERLAY_CLASS_JFD_PLAYERS_HELP">
+			<Text>Show the distribution of Players on the map.</Text>
+		</Row>
+		<!--===================================================-->
+		<!--OVERLAY MAPS: PLAYERS BORDERS-->
+		<!--===================================================-->
+		<Row Tag="TXT_KEY_OVERLAY_MAP_JFD_PLAYERS_BORDERS">
+			<Text>Borders</Text>
+		</Row>
+		<Row Tag="TXT_KEY_OVERLAY_MAP_JFD_PLAYERS_BORDERS_OWNER">
+			<Text>By Owner</Text>
+		</Row>
+		<Row Tag="TXT_KEY_OVERLAY_MAP_JFD_PLAYERS_BORDERS_RANK">
+			<Text>By Rank</Text>
+		</Row>
+		<!--===================================================-->
+		<!--OVERLAY MAPS: PLAYERS GOVERNMENT-->
+		<!--===================================================-->
+		<Row Tag="TXT_KEY_OVERLAY_MAP_JFD_PLAYERS_GOVERNMENT">
+			<Text>Governments</Text>
+		</Row>
+		<Row Tag="TXT_KEY_OVERLAY_MAP_JFD_PLAYERS_GOVERNMENT_STATUS">
+			<Text>By Status</Text>
+		</Row>
+		<Row Tag="TXT_KEY_OVERLAY_MAP_JFD_PLAYERS_GOVERNMENT_TYPE">
+			<Text>By Type</Text>
+		</Row>
+		<!--Legends-->
+		<Row Tag="TXT_KEY_LEGEND_JFD_GOVERNMENT">
+			<Text>Government Chosen</Text>
+		</Row>
+		<Row Tag="TXT_KEY_LEGEND_JFD_GOVERNMENT_NOT">
+			<Text>None</Text>
+		</Row>
+		<!--===================================================-->
+		<!--OVERLAY MAPS: PLAYERS GROWTH-->
+		<!--===================================================-->
+		<Row Tag="TXT_KEY_OVERLAY_MAP_JFD_PLAYERS_GROWTH">
+			<Text>Growth</Text>
+		</Row>
+		<Row Tag="TXT_KEY_OVERLAY_MAP_JFD_PLAYERS_GROWTH_STATUS">
+			<Text>By Status</Text>
+		</Row>
+		<Row Tag="TXT_KEY_OVERLAY_MAP_JFD_PLAYERS_GROWTH_RANK">
+			<Text>By Rank</Text>
+		</Row>
+		<!--Legends-->
+		<Row Tag="TXT_KEY_LEGEND_JFD_GROWTH_BOOMING">
+			<Text>Booming (WLTKD)</Text>
+		</Row>
+		<Row Tag="TXT_KEY_LEGEND_JFD_GROWTH_GROWING">
+			<Text>Growing</Text>
+		</Row>
+		<Row Tag="TXT_KEY_LEGEND_JFD_GROWTH_STAGNANT">
+			<Text>Stagnant</Text>
+		</Row>
+		<Row Tag="TXT_KEY_LEGEND_JFD_GROWTH_DECLINING">
+			<Text>Declining</Text>
+		</Row>
+		<!--===================================================-->
+		<!--OVERLAY MAPS: PLAYERS HAPPINESS-->
+		<!--===================================================-->
+		<Row Tag="TXT_KEY_OVERLAY_MAP_JFD_PLAYERS_HAPPINESS">
+			<Text>Happiness</Text>
+		</Row>
+		<Row Tag="TXT_KEY_OVERLAY_MAP_JFD_PLAYERS_HAPPINESS_STATUS">
+			<Text>By Status</Text>
+		</Row>
+		<Row Tag="TXT_KEY_OVERLAY_MAP_JFD_PLAYERS_HAPPINESS_RANK">
+			<Text>By Rank</Text>
+		</Row>
+		<!--Legends-->
+		<Row Tag="TXT_KEY_LEGEND_JFD_HAPPINESS_ANARCHY">
+			<Text>Anarchy</Text>
+		</Row>
+		<Row Tag="TXT_KEY_LEGEND_JFD_GOLDEN_AGE">
+			<Text>Golden Age</Text>
+		</Row>
+		<Row Tag="TXT_KEY_LEGEND_JFD_HAPPINESS_HAPPY">
+			<Text>Happy</Text>
+		</Row>
+		<Row Tag="TXT_KEY_LEGEND_JFD_HAPPINESS_SUPER_UNHAPPY">
+			<Text>Super Unhappy</Text>
+		</Row>
+		<Row Tag="TXT_KEY_LEGEND_JFD_HAPPINESS_VERY_UNHAPPY">
+			<Text>Very Unhappy</Text>
+		</Row>
+		<Row Tag="TXT_KEY_LEGEND_JFD_HAPPINESS_UNHAPPY">
+			<Text>Unhappy</Text>
+		</Row>
+		<!--===================================================-->
+		<!--OVERLAY MAPS: PLAYERS IDEOLOGY-->
+		<!--===================================================-->
+		<Row Tag="TXT_KEY_OVERLAY_MAP_JFD_PLAYERS_IDEOLOGY">
+			<Text>Ideologies</Text>
+		</Row>
+		<Row Tag="TXT_KEY_OVERLAY_MAP_JFD_PLAYERS_IDEOLOGY_STATUS">
+			<Text>By Status</Text>
+		</Row>
+		<Row Tag="TXT_KEY_OVERLAY_MAP_JFD_PLAYERS_IDEOLOGY_TYPE">
+			<Text>By Type</Text>
+		</Row>
+		<!--Legends-->
+		<Row Tag="TXT_KEY_LEGEND_JFD_IDEOLOGY">
+			<Text>Ideology Chosen</Text>
+		</Row>
+		<Row Tag="TXT_KEY_LEGEND_JFD_IDEOLOGY_NOT">
+			<Text>None</Text>
+		</Row>
+		<!--===================================================-->
+		<!--OVERLAY MAPS: PLAYERS INDUSTRY-->
+		<!--===================================================-->
+		<Row Tag="TXT_KEY_OVERLAY_MAP_JFD_PLAYERS_INDUSTRY">
+			<Text>Industries</Text>
+		</Row>
+		<Row Tag="TXT_KEY_OVERLAY_MAP_JFD_PLAYERS_INDUSTRY_RANK">
+			<Text>By Rank</Text>
+		</Row>
+		<!--===================================================-->
+		<!--OVERLAY MAPS: PLAYERS MILITARY-->
+		<!--===================================================-->
+		<Row Tag="TXT_KEY_OVERLAY_MAP_JFD_PLAYERS_MILITARY">
+			<Text>Militaries</Text>
+		</Row>
+		<Row Tag="TXT_KEY_OVERLAY_MAP_JFD_PLAYERS_MILITARY_RANK">
+			<Text>By Rank</Text>
+		</Row>
+		<!--===================================================-->
+		<!--OVERLAY MAPS: PLAYERS POPULATION-->
+		<!--===================================================-->
+		<Row Tag="TXT_KEY_OVERLAY_MAP_JFD_PLAYERS_POPULATION">
+			<Text>Technologies</Text>
+		</Row>
+		<Row Tag="TXT_KEY_OVERLAY_MAP_JFD_PLAYERS_POPULATION_RANK">
+			<Text>By Rank</Text>
+		</Row>
+		<!--===================================================-->
+		<!--OVERLAY MAPS: PLAYERS RELIGION-->
+		<!--===================================================-->
+		<Row Tag="TXT_KEY_OVERLAY_MAP_JFD_PLAYERS_RELIGION">
+			<Text>Religions</Text>
+		</Row>
+		<Row Tag="TXT_KEY_OVERLAY_MAP_JFD_PLAYERS_RELIGION_TYPE">
+			<Text>By Type</Text>
+		</Row>
+		<!--===================================================-->
+		<!--OVERLAY MAPS: PLAYERS TECHNOLOGY-->
+		<!--===================================================-->
+		<Row Tag="TXT_KEY_OVERLAY_MAP_JFD_PLAYERS_TECHNOLOGY">
+			<Text>Technologies</Text>
+		</Row>
+		<Row Tag="TXT_KEY_OVERLAY_MAP_JFD_PLAYERS_TECHNOLOGY_ERA">
+			<Text>By Era</Text>
+		</Row>
+		<Row Tag="TXT_KEY_OVERLAY_MAP_JFD_PLAYERS_TECHNOLOGY_STATUS">
+			<Text>By Status</Text>
+		</Row>
+		<Row Tag="TXT_KEY_OVERLAY_MAP_JFD_PLAYERS_TECHNOLOGY_RANK">
+			<Text>By Rank</Text>
+		</Row>
+		<!--Legends-->
+		<Row Tag="TXT_KEY_LEGEND_JFD_TECHNOLOGY_PROGRESSING">
+			<Text>Progressing</Text>
+		</Row>
+		<Row Tag="TXT_KEY_LEGEND_JFD_TECHNOLOGY_STALLED">
+			<Text>Stalled</Text>
+		</Row>
+		<!--===================================================-->
+		<!--OVERLAY MAPS: PLAYERS TREASURY-->
+		<!--===================================================-->
+		<Row Tag="TXT_KEY_OVERLAY_MAP_JFD_PLAYERS_TREASURY">
+			<Text>Treasuries</Text>
+		</Row>
+		<Row Tag="TXT_KEY_OVERLAY_MAP_JFD_PLAYERS_TREASURY_STATUS">
+			<Text>By Status</Text>
+		</Row>		 
+		<Row Tag="TXT_KEY_OVERLAY_MAP_JFD_PLAYERS_TREASURY_RANK">
+			<Text>By Rank</Text>
+		</Row>
+		<!--Legends-->
+		<Row Tag="TXT_KEY_LEGEND_JFD_TREASURY_PROSPERING">
+			<Text>Prospering</Text>
+		</Row>
+		<Row Tag="TXT_KEY_LEGEND_JFD_TREASURY_BALANCED">
+			<Text>Balanced</Text>
+		</Row>
+		<Row Tag="TXT_KEY_LEGEND_JFD_TREASURY_DEPLETING">
+			<Text>Depleting</Text>
+		</Row>
+		<Row Tag="TXT_KEY_LEGEND_JFD_TREASURY_DEPLETED">
+			<Text>Depleted</Text>
+		</Row>
+	</Language_en_US>
+</GameData>

@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Created by ModBuddy on 1/9/2019 5:49:39 AM -->
+<GameData>
+	<Language_en_US>
+		<!--===================================================-->
+		<!--AI OBSERVER-->
+		<!--===================================================-->
+		<Row Tag="TXT_KEY_JFD_AIOBSERVER_PAN_SELECTED_TT">
+			<Text>Pan on selected.</Text>
+		</Row>
+		<!--===================================================-->
+		<!--GAME OPTIONS-->
+		<!--===================================================-->
+		<Row Tag="TXT_KEY_GAMEOPTION_JFD_AIOBSERVER_AUTORESOLVE_WC">
+			<Text>Auto-Resolve World Congress</Text>
+		</Row>
+		<Row Tag="TXT_KEY_GAMEOPTION_JFD_AIOBSERVER_AUTORESOLVE_WC_HELP">
+			<Text>Any input required for the World Congress to proceed will be automated (based on active player flavours).</Text>
+		</Row>
+		<Row Tag="TXT_KEY_GAMEOPTION_JFD_AIOBSERVER_ENABLE_CITYDESCS">
+			<Text>Enable City Descriptions</Text>
+		</Row>
+		<Row Tag="TXT_KEY_GAMEOPTION_JFD_AIOBSERVER_ENABLE_CITYDESCS_HELP">
+			<Text>Enables a city description to the City Banner relating to its size and status.</Text>
+		</Row>
+		<Row Tag="TXT_KEY_GAMEOPTION_JFD_AIOBSERVER_SUPPRESS_NOTIFS">
+			<Text>Suppress Intrusive Notifications</Text>
+		</Row>
+		<Row Tag="TXT_KEY_GAMEOPTION_JFD_AIOBSERVER_SUPPRESS_NOTIFS_HELP">
+			<Text>Suppresses intrusive Notifications like the discovery of Ancient Ruins or Natural Wonders.</Text>
+		</Row>
+		<Row Tag="TXT_KEY_GAMEOPTION_JFD_AIOBSERVER_SUPPRESS_POPUPS">
+			<Text>Suppress Intrusive Popups</Text>
+		</Row>
+		<Row Tag="TXT_KEY_GAMEOPTION_JFD_AIOBSERVER_SUPPRESS_POPUPS_HELP">
+			<Text>Suppresses intrusive popups like Who's Winning and Golden Age.</Text>
+		</Row>
+		<!--===================================================-->
+		<!--MINIMAP OVERVIEW-->
+		<!--===================================================-->
+		<Row Tag="TXT_KEY_JFD_MINIMAP_OVERVIEW">
+			<Text>Minimap Overview</Text>
+		</Row>
+		<Row Tag="TXT_KEY_JFD_MINIMAP_OVERVIEW_LEGENDS">
+			<Text>LEGEND</Text>
+		</Row>
+		<Row Tag="TXT_KEY_JFD_MINIMAP_OVERVIEW_CIVS">
+			<Text>CIVILIZATIONS</Text>
+		</Row>
+		<Row Tag="TXT_KEY_JFD_MINIMAP_OVERVIEW_CITY_STATES">
+			<Text>CITY-STATES</Text>
+		</Row>
+		<!--OPTIONS-->
+		<Row Tag="TXT_KEY_JFD_MINIMAP_SHOW_BARBS">
+			<Text>Show Barbarians</Text>
+		</Row>
+		<Row Tag="TXT_KEY_JFD_MINIMAP_SHOW_BARBS_TT">
+			<Text>Show Barbarians (including their encampments) on map.</Text>
+		</Row>
+		<Row Tag="TXT_KEY_JFD_MINIMAP_SHOW_CITIES">
+			<Text>Show Cities</Text>
+		</Row>
+		<Row Tag="TXT_KEY_JFD_MINIMAP_SHOW_CITIES_TT">
+			<Text>Show cities on map.</Text>
+		</Row>
+		<Row Tag="TXT_KEY_JFD_MINIMAP_SHOW_REVEALED">
+			<Text>Show As Revealed</Text>
+		</Row>
+		<Row Tag="TXT_KEY_JFD_MINIMAP_SHOW_REVEALED_TT">
+			<Text>Show map as all revealed.</Text>
+		</Row>
+		<Row Tag="TXT_KEY_JFD_MINIMAP_SHOW_UNITS">
+			<Text>Show Units</Text>
+		</Row>
+		<Row Tag="TXT_KEY_JFD_MINIMAP_SHOW_UNITS_TT">
+			<Text>Show units on map.</Text>
+		</Row>
+		<Row Tag="TXT_KEY_JFD_MINIMAP_SHOW_WATER">
+			<Text>Show Water Tiles</Text>
+		</Row>
+		<Row Tag="TXT_KEY_JFD_MINIMAP_SHOW_WATER_TT">
+			<Text>Show owned water tiles.</Text>
+		</Row>
+		<!--DEFAULT-->
+		<Row Tag="TXT_KEY_JFD_MINIMAP_DEFAULT">
+			<Text>Default</Text>
+		</Row>
+		<Row Tag="TXT_KEY_JFD_MINIMAP_LEGEND_DEFAULT">
+			<Text>{1_Desc}</Text>
+		</Row>
+		<!--CULTURE TYPES-->
+		<Row Tag="TXT_KEY_JFD_MINIMAP_CULTURES">
+			<Text>Cultures</Text>
+		</Row>
+		<!--ERAS-->
+		<Row Tag="TXT_KEY_JFD_MINIMAP_ERAS">
+			<Text>Eras</Text>
+		</Row>
+		<Row Tag="TXT_KEY_LEGEND_JFD_ERA_ANCIENT">
+			<Text>Ancient</Text>
+		</Row>
+		<Row Tag="TXT_KEY_LEGEND_JFD_ERA_CLASSICAL">
+			<Text>Classical</Text>
+		</Row>
+		<Row Tag="TXT_KEY_LEGEND_JFD_ERA_MEDIEVAL">
+			<Text>Medieval</Text>
+		</Row>
+		<Row Tag="TXT_KEY_LEGEND_JFD_ERA_RENAISSANCE">
+			<Text>Renaissance</Text>
+		</Row>
+		<Row Tag="TXT_KEY_LEGEND_JFD_ERA_ENLIGHTENMENT">
+			<Text>Enlightenment</Text>
+		</Row>
+		<Row Tag="TXT_KEY_LEGEND_JFD_ERA_INDUSTRIAL">
+			<Text>Industrial</Text>
+		</Row>
+		<Row Tag="TXT_KEY_LEGEND_JFD_ERA_MODERN">
+			<Text>Modern</Text>
+		</Row>
+		<Row Tag="TXT_KEY_LEGEND_JFD_ERA_POSTMODERN">
+			<Text>Atomic</Text>
+		</Row>
+		<Row Tag="TXT_KEY_LEGEND_JFD_ERA_FUTURE">
+			<Text>Future</Text>
+		</Row>
+		<!--FACTIONS-->
+		<Row Tag="TXT_KEY_JFD_MINIMAP_FACTIONS">
+			<Text>Factions</Text>
+		</Row>
+		<Row Tag="TXT_KEY_JFD_FACTION_JFD_TRADITIONAL_SHORT_DESC">
+			<Text>Traditional</Text>
+		</Row>
+		<!--GOVERNMENTS-->
+		<Row Tag="TXT_KEY_JFD_MINIMAP_GOVERNMENTS">
+			<Text>Governments</Text>
+		</Row>
+		<Row Tag="TXT_KEY_GOVERNMENT_JFD_CITY_STATE_DESC">
+			<Text>City-State</Text>
+		</Row>
+		<!--IDEOLOGIES-->
+		<Row Tag="TXT_KEY_JFD_MINIMAP_IDEOLOGIES">
+			<Text>Ideologies</Text>
+		</Row>
+		<Row Tag="TXT_KEY_POLICY_BRANCH_JFD_NONE">
+			<Text>No Ideology</Text>
+		</Row>
+		<!--RELATIONS-->
+		<Row Tag="TXT_KEY_JFD_MINIMAP_RELATIONS">
+			<Text>Relations</Text>
+		</Row>
+		<Row Tag="TXT_KEY_LEGEND_ALLIES">
+			<Text>Allies</Text>
+		</Row>
+		<Row Tag="TXT_KEY_LEGEND_FRIENDS">
+			<Text>Friends</Text>
+		</Row>
+		<Row Tag="TXT_KEY_LEGEND_NEUTRAL">
+			<Text>Neutral</Text>
+		</Row>
+		<Row Tag="TXT_KEY_LEGEND_ENEMIES">
+			<Text>Enemies</Text>
+		</Row>
+		<Row Tag="TXT_KEY_LEGEND_WAR">
+			<Text>At War</Text>
+		</Row>
+		<Row Tag="TXT_KEY_LEGEND_UNMET">
+			<Text>Unmet</Text>
+		</Row>
+		<Row Tag="TXT_KEY_LEGEND_US">
+			<Text>Us</Text>
+		</Row>
+		<!--RELIGIONS-->
+		<Row Tag="TXT_KEY_JFD_MINIMAP_RELIGIONS">
+			<Text>Religions</Text>
+		</Row>
+		<Row Tag="TXT_KEY_NO_RELIGION">
+			<Text>No Religion</Text>
+		</Row>
+		<!--STABILITY-->
+		<Row Tag="TXT_KEY_JFD_MINIMAP_STABILITY">
+			<Text>Stability</Text>
+		</Row>
+		<Row Tag="TXT_KEY_LEGEND_ANARCHY">
+			<Text>Anarchy</Text>
+		</Row>
+		<Row Tag="TXT_KEY_LEGEND_GOLDEN_AGE">
+			<Text>Golden Age</Text>
+		</Row>
+		<Row Tag="TXT_KEY_LEGEND_DARK_AGE">
+			<Text>Dark Age</Text>
+		</Row>
+		<Row Tag="TXT_KEY_LEGEND_STABLE">
+			<Text>Stable</Text>
+		</Row>
+		<Row Tag="TXT_KEY_LEGEND_UNSTABLE">
+			<Text>Unstable</Text>
+		</Row>
+		<Row Tag="TXT_KEY_LEGEND_V_UNSTABLE">
+			<Text>Very Unstable</Text>
+		</Row>
+		<Row Tag="TXT_KEY_LEGEND_REBELLION">
+			<Text>Rebellion</Text>
+		</Row>
+		<!--===================================================-->
+		<!--WORLD CIVS OVERVIEW-->
+		<!--===================================================-->
+		<Row Tag="TXT_KEY_JFD_OM_CIVILIZATION_INFO_TITLE">
+			<Text>WORLD CIVILIZATIONS</Text>
+		</Row>
+	</Language_en_US>
+</GameData>

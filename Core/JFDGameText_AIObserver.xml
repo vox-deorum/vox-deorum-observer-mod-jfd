@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Created by ModBuddy on 1/9/2019 5:49:39 AM -->
+<GameData>
+	<Language_en_US>
+		<!--===================================================-->
+		<!--CITY DESCRIPTIONS-->
+		<!--===================================================-->
+		<Row Tag="TXT_KEY_JFD_CITY_DESCRIPTOR_OF">
+			<Text>of</Text>
+		</Row>
+		<Row Tag="TXT_KEY_JFD_CITY_DESCRIPTOR_THE">
+			<Text>The</Text>
+		</Row>
+		<Row Tag="TXT_KEY_JFD_CITY_DESCRIPTOR_HAMLET">
+			<Text>Hamlet</Text>
+		</Row>
+		<Row Tag="TXT_KEY_JFD_CITY_DESCRIPTOR_VILLAGE">
+			<Text>Village</Text>
+		</Row>
+		<Row Tag="TXT_KEY_JFD_CITY_DESCRIPTOR_TOWN">
+			<Text>Town</Text>
+		</Row>
+		<Row Tag="TXT_KEY_JFD_CITY_DESCRIPTOR_MUNICIPALITY">
+			<Text>Municipality</Text>
+		</Row>
+		<Row Tag="TXT_KEY_JFD_CITY_DESCRIPTOR_CITY">
+			<Text>City</Text>
+		</Row>
+		<Row Tag="TXT_KEY_JFD_CITY_DESCRIPTOR_METROPOLIS">
+			<Text>Metropolis</Text>
+		</Row>
+		<Row Tag="TXT_KEY_JFD_CITY_DESCRIPTOR_CONURBATION">
+			<Text>Conurbation</Text>
+		</Row>
+		<Row Tag="TXT_KEY_JFD_CITY_DESCRIPTOR_MEGALOPOLIS">
+			<Text>Megalopolis</Text>
+		</Row>
+		<Row Tag="TXT_KEY_JFD_CITY_DESCRIPTOR_DISPUTED">
+			<Text>Disputed</Text>
+		</Row>
+		<Row Tag="TXT_KEY_JFD_CITY_DESCRIPTOR_COLONIAL">
+			<Text>Colonial</Text>
+		</Row>
+		<Row Tag="TXT_KEY_JFD_CITY_DESCRIPTOR_AUTONOMOUS">
+			<Text>Autonomous</Text>
+		</Row>
+		<Row Tag="TXT_KEY_JFD_CITY_DESCRIPTOR_OCCUPIED">
+			<Text>{1_Adj}-Occupied</Text>
+		</Row>
+		<!--===================================================-->
+		<!--MONTHS-->
+		<!--===================================================-->
+		<!--Months-->
+		<Replace Tag="TXT_KEY_MONTH1">
+			<Text>Jan.</Text>
+		</Replace>
+		<Replace Tag="TXT_KEY_MONTH2">
+			<Text>Feb.</Text>
+		</Replace>
+		<Replace Tag="TXT_KEY_MONTH3">
+			<Text>Mar.</Text>
+		</Replace>
+		<Replace Tag="TXT_KEY_MONTH4">
+			<Text>Apr.</Text>
+		</Replace>
+		<Replace Tag="TXT_KEY_MONTH5">
+			<Text>May</Text>
+		</Replace>
+		<Replace Tag="TXT_KEY_MONTH6">
+			<Text>Jun.</Text>
+		</Replace>
+		<Replace Tag="TXT_KEY_MONTH7">
+			<Text>Jul.</Text>
+		</Replace>
+		<Replace Tag="TXT_KEY_MONTH8">
+			<Text>Aug.</Text>
+		</Replace>
+		<Replace Tag="TXT_KEY_MONTH9">
+			<Text>Sep.</Text>
+		</Replace>
+		<Replace Tag="TXT_KEY_MONTH10">
+			<Text>Oc.</Text>
+		</Replace>
+		<Replace Tag="TXT_KEY_MONTH11">
+			<Text>Nov.</Text>
+		</Replace>
+		<Replace Tag="TXT_KEY_MONTH12">
+			<Text>Dec.</Text>
+		</Replace>
+		<Replace Tag="TXT_KEY_TP_TURN_COUNTER">
+			<Text>T{1_Num}</Text>
+		</Replace>
+		<!--===================================================-->
+		<!--POLICY BRANCHES-->
+		<!--===================================================-->
+		<Row Tag="TXT_KEY_TRADITION_TITLE_SHORT">
+			<Text>{@1: gender feminine?Lady; other?Lord;} {1_PlayerName:textkey}</Text>
+		</Row>
+		<Row Tag="TXT_KEY_RATIONALISM_TITLE_SHORT">
+			<Text>{1_PlayerName:textkey} the Wise</Text>
+		</Row>
+		<Row Tag="TXT_KEY_PIETY_TITLE_SHORT">
+			<Text>{1_PlayerName:textkey} the Pious</Text>
+		</Row>
+		<Row Tag="TXT_KEY_HONOR_TITLE_SHORT">
+			<Text>{1_PlayerName:textkey} the Great</Text>
+		</Row>
+		<Row Tag="TXT_KEY_PATRONAGE_TITLE_SHORT">
+			<Text>{1_PlayerName:textkey} the Magnanimous</Text>
+		</Row>
+		<Row Tag="TXT_KEY_COMMERCE_TITLE_SHORT">
+			<Text>Doge {1_PlayerName:textkey}</Text>
+		</Row>
+		<Row Tag="TXT_KEY_LIBERTY_TITLE_SHORT">
+			<Text>Consul {1_PlayerName:textkey}</Text>
+		</Row>
+		<Row Tag="TXT_KEY_EXPLORATION_TITLE_SHORT">
+			<Text>Captain {1_PlayerName:textkey}</Text>
+		</Row>
+		<Row Tag="TXT_KEY_AESTHETICS_TITLE_SHORT">
+			<Text>{1_PlayerName:textkey} the Enlightened</Text>
+		</Row>
+		<Row Tag="TXT_KEY_ORDER_TITLE_SHORT">
+			<Text>Chairman {1_PlayerName:textkey}</Text>
+		</Row>
+		<Row Tag="TXT_KEY_FREEDOM_TITLE_SHORT">
+			<Text>President {1_PlayerName:textkey}</Text>
+		</Row>
+		<Row Tag="TXT_KEY_AUTOCRACY_TITLE_SHORT">
+			<Text>{1_PlayerName:textkey} the Terrible</Text>
+		</Row>
+	</Language_en_US>
+</GameData>

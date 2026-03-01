@@ -1,0 +1,54 @@
+--==========================================================================================================================
+-- FONT ICONS
+--==========================================================================================================================
+----------------------------------------------------------------------------------------------------------------------------	
+-- IconFontTextures
+----------------------------------------------------------------------------------------------------------------------------
+INSERT OR REPLACE INTO IconFontTextures 
+		(IconFontTexture, 								IconFontTextureFile)
+VALUES	('ICON_FONT_TEXTURE_JFD_OVERLAYMAPS_PLAYERS',	'JFDFontIcons_Players_OverlayMaps_22');	
+--------------------------------------------------------------------------------------------------------------------------
+-- IconFontMapping
+--------------------------------------------------------------------------------------------------------------------------
+INSERT OR REPLACE INTO IconFontMapping 
+		(IconName, 									IconFontTexture,									IconMapping)
+VALUES	('ICON_LEGEND_ANARCHY', 					'ICON_FONT_TEXTURE_JFD_OVERLAYMAPS_PLAYERS',		2),
+		('ICON_LEGEND_IDEOLOGY', 					'ICON_FONT_TEXTURE_JFD_OVERLAYMAPS_PLAYERS',		3),
+		('ICON_LEGEND_NO_DEFENSE_PACT', 			'ICON_FONT_TEXTURE_JFD_OVERLAYMAPS_PLAYERS',		26),
+		('ICON_LEGEND_NO_FACTION', 					'ICON_FONT_TEXTURE_JFD_OVERLAYMAPS_PLAYERS',		11),
+		('ICON_LEGEND_NO_IDEOLOGY', 				'ICON_FONT_TEXTURE_JFD_OVERLAYMAPS_PLAYERS',		4),
+		('ICON_LEGEND_NO_RELIGION', 				'ICON_FONT_TEXTURE_JFD_OVERLAYMAPS_PLAYERS',		11),
+		('ICON_LEGEND_NO_POLICY_BRANCH', 			'ICON_FONT_TEXTURE_JFD_OVERLAYMAPS_PLAYERS',		25),
+		--POLICY GOVS
+		('ICON_JFD_LEGEND_GOV_MONARCHY', 			'ICON_FONT_TEXTURE_JFD_OVERLAYMAPS_PLAYERS',		42),
+		('ICON_JFD_LEGEND_GOV_MONARCHY_A', 			'ICON_FONT_TEXTURE_JFD_OVERLAYMAPS_PLAYERS',		43),
+		('ICON_JFD_LEGEND_GOV_MONARCHY_F', 			'ICON_FONT_TEXTURE_JFD_OVERLAYMAPS_PLAYERS',		44),
+		('ICON_JFD_LEGEND_GOV_MONARCHY_O', 			'ICON_FONT_TEXTURE_JFD_OVERLAYMAPS_PLAYERS',		45),
+		('ICON_JFD_LEGEND_GOV_MONARCHY_S', 			'ICON_FONT_TEXTURE_JFD_OVERLAYMAPS_PLAYERS',		54),
+		('ICON_JFD_LEGEND_GOV_REPUBLIC', 			'ICON_FONT_TEXTURE_JFD_OVERLAYMAPS_PLAYERS',		46),
+		('ICON_JFD_LEGEND_GOV_REPUBLIC_A', 			'ICON_FONT_TEXTURE_JFD_OVERLAYMAPS_PLAYERS',		47),
+		('ICON_JFD_LEGEND_GOV_REPUBLIC_F', 			'ICON_FONT_TEXTURE_JFD_OVERLAYMAPS_PLAYERS',		48),
+		('ICON_JFD_LEGEND_GOV_REPUBLIC_O', 			'ICON_FONT_TEXTURE_JFD_OVERLAYMAPS_PLAYERS',		49),
+		('ICON_JFD_LEGEND_GOV_REPUBLIC_S', 			'ICON_FONT_TEXTURE_JFD_OVERLAYMAPS_PLAYERS',		55),
+		('ICON_JFD_LEGEND_GOV_THEOCRACY', 			'ICON_FONT_TEXTURE_JFD_OVERLAYMAPS_PLAYERS',		50),
+		('ICON_JFD_LEGEND_GOV_THEOCRACY_A', 		'ICON_FONT_TEXTURE_JFD_OVERLAYMAPS_PLAYERS',		51),
+		('ICON_JFD_LEGEND_GOV_THEOCRACY_F', 		'ICON_FONT_TEXTURE_JFD_OVERLAYMAPS_PLAYERS',		52),
+		('ICON_JFD_LEGEND_GOV_THEOCRACY_O', 		'ICON_FONT_TEXTURE_JFD_OVERLAYMAPS_PLAYERS',		53),
+		('ICON_JFD_LEGEND_GOV_THEOCRACY_S', 		'ICON_FONT_TEXTURE_JFD_OVERLAYMAPS_PLAYERS',		56),
+		('ICON_JFD_LEGEND_GOV_TRIBE', 				'ICON_FONT_TEXTURE_JFD_OVERLAYMAPS_PLAYERS',		41),
+		--PLAYERS: GROWTH
+		('ICON_LEGEND_GROWTH', 						'ICON_FONT_TEXTURE_JFD_OVERLAYMAPS_PLAYERS',		21),
+		('ICON_LEGEND_GROWTH_2', 					'ICON_FONT_TEXTURE_JFD_OVERLAYMAPS_PLAYERS',		22),
+		('ICON_LEGEND_GROWTH_3', 					'ICON_FONT_TEXTURE_JFD_OVERLAYMAPS_PLAYERS',		23),
+		('ICON_LEGEND_GROWTH_4', 					'ICON_FONT_TEXTURE_JFD_OVERLAYMAPS_PLAYERS',		24),
+		--PLAYERS: TECHNOLOGY
+		('ICON_LEGEND_TECHNOLOGY', 					'ICON_FONT_TEXTURE_JFD_OVERLAYMAPS_PLAYERS',		14),
+		('ICON_LEGEND_TECHNOLOGY_2', 				'ICON_FONT_TEXTURE_JFD_OVERLAYMAPS_PLAYERS',		15),
+		('ICON_LEGEND_TECHNOLOGY_3', 				'ICON_FONT_TEXTURE_JFD_OVERLAYMAPS_PLAYERS',		15),
+		--PLAYERS: TREASURY
+		('ICON_LEGEND_TREASURY', 					'ICON_FONT_TEXTURE_JFD_OVERLAYMAPS_PLAYERS',		17),
+		('ICON_LEGEND_TREASURY_2', 					'ICON_FONT_TEXTURE_JFD_OVERLAYMAPS_PLAYERS',		18),		
+		('ICON_LEGEND_TREASURY_3', 					'ICON_FONT_TEXTURE_JFD_OVERLAYMAPS_PLAYERS',		19),		
+		('ICON_LEGEND_TREASURY_4', 					'ICON_FONT_TEXTURE_JFD_OVERLAYMAPS_PLAYERS',		20);
+--==========================================================================================================================
+--==========================================================================================================================

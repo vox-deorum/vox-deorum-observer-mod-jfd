@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GameData>
+	<Language_en_US>
+		<!--======================================================================================================-->
+		<!--OVERLAY MAPS: DIPLOMACY-->
+		<!--======================================================================================================-->
+		<Row Tag="TXT_KEY_OVERLAY_CLASS_JFD_DIPLOMACY">
+			<Text>Diplomacy</Text>
+		</Row>
+		<Row Tag="TXT_KEY_OVERLAY_CLASS_JFD_DIPLOMACY_HELP">
+			<Text>Show the distribution of Diplomatic relations on the map.</Text>
+		</Row>
+		<!--===================================================-->
+		<!--OVERLAY MAPS: DIPLOMACY DEFENSIVE PACT-->
+		<!--===================================================-->
+		<Row Tag="TXT_KEY_OVERLAY_MAP_JFD_DIPLOMACY_DEFENSIVE_PACT">
+			<Text>Defensive Pacts</Text>
+		</Row>
+		<Row Tag="TXT_KEY_OVERLAY_MAP_JFD_DIPLOMACY_DEFENSIVE_PACT_STATUS">
+			<Text>By Status</Text>
+		</Row>
+		<!--Legends-->
+		<Row Tag="TXT_KEY_LEGEND_JFD_DEFENSIVE_PACT">
+			<Text>Defensive Pact</Text>
+		</Row>
+		<Row Tag="TXT_KEY_LEGEND_JFD_DEFENSIVE_PACT_NOT">
+			<Text>No Defensive Pact</Text>
+		</Row>
+		<!--===================================================-->
+		<!--OVERLAY MAPS: DIPLOMACY DOF-->
+		<!--===================================================-->
+		<Row Tag="TXT_KEY_OVERLAY_MAP_JFD_DIPLOMACY_DOF">
+			<Text>Dec. of Friendship</Text>
+		</Row>
+		<Row Tag="TXT_KEY_OVERLAY_MAP_JFD_DIPLOMACY_DOF_STATUS">
+			<Text>By Status</Text>
+		</Row>
+		<!--Legends-->
+		<Row Tag="TXT_KEY_LEGEND_JFD_DOF">
+			<Text>DoF</Text>
+		</Row>
+		<Row Tag="TXT_KEY_LEGEND_JFD_DOF_NOT">
+			<Text>No DoF</Text>
+		</Row>
+		<!--===================================================-->
+		<!--OVERLAY MAPS: DIPLOMACY EMBASSY FROM-->
+		<!--===================================================-->
+		<Row Tag="TXT_KEY_OVERLAY_MAP_JFD_DIPLOMACY_EMBASSY_FROM">
+			<Text>Embassy (From)</Text>
+		</Row>
+		<Row Tag="TXT_KEY_OVERLAY_MAP_JFD_DIPLOMACY_EMBASSY_FROM_STATUS">
+			<Text>By Status</Text>
+		</Row>
+		<!--Legends-->
+		<Row Tag="TXT_KEY_LEGEND_JFD_EMBASSY_FROM">
+			<Text>Embassy</Text>
+		</Row>
+		<Row Tag="TXT_KEY_LEGEND_JFD_EMBASSY_FROM_NOT">
+			<Text>No Embassy</Text>
+		</Row>
+		<!--===================================================-->
+		<!--OVERLAY MAPS: DIPLOMACY EMBASSY TO-->
+		<!--===================================================-->
+		<Row Tag="TXT_KEY_OVERLAY_MAP_JFD_DIPLOMACY_EMBASSY_TO">
+			<Text>Embassy (To)</Text>
+		</Row>
+		<Row Tag="TXT_KEY_OVERLAY_MAP_JFD_DIPLOMACY_EMBASSY_TO_STATUS">
+			<Text>By Status</Text>
+		</Row>
+		<!--Legends-->
+		<Row Tag="TXT_KEY_LEGEND_JFD_EMBASSY_TO">
+			<Text>Embassy</Text>
+		</Row>
+		<Row Tag="TXT_KEY_LEGEND_JFD_EMBASSY_TO_NOT">
+			<Text>No Embassy</Text>
+		</Row>
+		<!--===================================================-->
+		<!--OVERLAY MAPS: DIPLOMACY OPEN BORDERS FROM-->
+		<!--===================================================-->
+		<Row Tag="TXT_KEY_OVERLAY_MAP_JFD_DIPLOMACY_OPEN_BORDERS_FROM">
+			<Text>Open Borders (From)</Text>
+		</Row>
+		<Row Tag="TXT_KEY_OVERLAY_MAP_JFD_DIPLOMACY_OPEN_BORDERS_FROM_STATUS">
+			<Text>By Status</Text>
+		</Row>
+		<!--Legends-->
+		<Row Tag="TXT_KEY_LEGEND_JFD_OPEN_BORDERS_FROM">
+			<Text>Open Borders</Text>
+		</Row>
+		<Row Tag="TXT_KEY_LEGEND_JFD_OPEN_BORDERS_FROM_NOT">
+			<Text>No Open Borders</Text>
+		</Row>
+		<!--===================================================-->
+		<!--OVERLAY MAPS: DIPLOMACY OPEN BORDERS TO-->
+		<!--===================================================-->
+		<Row Tag="TXT_KEY_OVERLAY_MAP_JFD_DIPLOMACY_OPEN_BORDERS_TO">
+			<Text>Open Borders (To)</Text>
+		</Row>
+		<Row Tag="TXT_KEY_OVERLAY_MAP_JFD_DIPLOMACY_OPEN_BORDERS_TO_STATUS">
+			<Text>By Status</Text>
+		</Row>
+		<!--Legends-->
+		<Row Tag="TXT_KEY_LEGEND_JFD_OPEN_BORDERS_TO">
+			<Text>Open Borders</Text>
+		</Row>
+		<Row Tag="TXT_KEY_LEGEND_JFD_OPEN_BORDERS_TO_NOT">
+			<Text>No Open Borders</Text>
+		</Row>
+		<!--===================================================-->
+		<!--OVERLAY MAPS: DIPLOMACY RELATIONS-->
+		<!--===================================================-->
+		<Row Tag="TXT_KEY_OVERLAY_MAP_JFD_DIPLOMACY_RELATIONS">
+			<Text>Relations</Text>
+		</Row>
+		<Row Tag="TXT_KEY_OVERLAY_MAP_JFD_DIPLOMACY_RELATIONS_STATUS">
+			<Text>By Status</Text>
+		</Row>
+		<!--Legends-->
+		<Row Tag="TXT_KEY_LEGEND_JFD_RELATIONS_AFRAID">
+			<Text>Afraid</Text>
+		</Row>
+		<Row Tag="TXT_KEY_LEGEND_JFD_RELATIONS_DECEPTIVE">
+			<Text>Deceptive</Text>
+		</Row>
+		<Row Tag="TXT_KEY_LEGEND_JFD_RELATIONS_DENOUNCING">
+			<Text>Denouncing</Text>
+		</Row>
+		<Row Tag="TXT_KEY_LEGEND_JFD_RELATIONS_FRIENDLY">
+			<Text>Friendly</Text>
+		</Row>
+		<Row Tag="TXT_KEY_LEGEND_JFD_RELATIONS_HOSTILE">
+			<Text>Hostile</Text>
+		</Row>
+		<Row Tag="TXT_KEY_LEGEND_JFD_RELATIONS_GUARDED">
+			<Text>Guarded</Text>
+		</Row>
+		<Row Tag="TXT_KEY_LEGEND_JFD_RELATIONS_NEUTRAL">
+			<Text>Neutral</Text>
+		</Row>
+		<Row Tag="TXT_KEY_LEGEND_JFD_RELATIONS_UNMET">
+			<Text>Unmet</Text>
+		</Row>
+		<Row Tag="TXT_KEY_LEGEND_JFD_RELATIONS_WAR">
+			<Text>At War</Text>
+		</Row>
+		<!--===================================================-->
+		<!--OVERLAY MAPS: DIPLOMACY RESEARCH AGREEMENT-->
+		<!--===================================================-->
+		<Row Tag="TXT_KEY_OVERLAY_MAP_JFD_DIPLOMACY_RESEARCH_AGREEMENT">
+			<Text>Research Agreements</Text>
+		</Row>
+		<Row Tag="TXT_KEY_OVERLAY_MAP_JFD_DIPLOMACY_RESEARCH_AGREEMENT_STATUS">
+			<Text>By Status</Text>
+		</Row>
+		<!--Legends-->
+		<Row Tag="TXT_KEY_LEGEND_JFD_RESEARCH_AGREEMENT">
+			<Text>Research Agreement</Text>
+		</Row>
+		<Row Tag="TXT_KEY_LEGEND_JFD_RESEARCH_AGREEMENT_NOT">
+			<Text>No Research Agreement</Text>
+		</Row>
+		<!--===================================================-->
+		<!--OVERLAY MAPS: DIPLOMACY WAR/PEACE-->
+		<!--===================================================-->
+		<Row Tag="TXT_KEY_OVERLAY_MAP_JFD_DIPLOMACY_WAR_PEACE">
+			<Text>War/Peace</Text>
+		</Row>
+		<Row Tag="TXT_KEY_OVERLAY_MAP_JFD_DIPLOMACY_WAR_PEACE_STATUS">
+			<Text>By Status</Text>
+		</Row>
+		<!--Legends-->
+		<Row Tag="TXT_KEY_LEGEND_JFD_WAR_PEACE_PEACE">
+			<Text>Peace</Text>
+		</Row>
+		<Row Tag="TXT_KEY_LEGEND_JFD_WAR_PEACE_PEACE_FORCED">
+			<Text>Peace (Forced)</Text>
+		</Row>
+		<Row Tag="TXT_KEY_LEGEND_JFD_WAR_PEACE_WAR">
+			<Text>War</Text>
+		</Row>
+	</Language_en_US>
+</GameData>

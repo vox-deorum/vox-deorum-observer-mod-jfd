@@ -1,0 +1,560 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Context Font="TwCenMT16" FontStyle="Base" Color="Beige" ColorSet="Beige_Black" >
+
+	<!--=======================================================================================================================-->
+	<!--   International Popup -->
+	<!--=======================================================================================================================-->
+
+	<Instance Offset="0,0" Name="PlayerEntryInstance" Size="420,90" >
+		<Box Size="926,90" Anchor="L,T" Color="Black.0" ID="PlayerEntryBox">
+			<Box  Size="936,82" Anchor="C,C" Offset="10,0" ID="PlayerEntryAnimGrid" />
+			<AlphaAnim ID="PlayerEntryAnim" Anchor="L,T" Offset="5,0" Size="956,85" TextureOffset="0.0"  Pause="0" Cycle="Bounce" Speed="0" AlphaStart=".75" AlphaEnd=".75" Hidden="0">
+				<Grid  Size="956,85" Anchor="C,C" Offset="0,0" Style="GridGlass16" ID="PlayerEntryAnimGrid2" />
+				<Grid  Size="956,85" Anchor="C,C" Offset="0,0" Style="Grid9Gold8" ID="PlayerEntryAnimGridGA" />
+				<Grid  Size="956,85" Anchor="C,C" Offset="0,0" Style="Grid9Red8" ID="PlayerEntryAnimGridDA" />
+				<Grid  Size="956,85" Anchor="C,C" Offset="0,0" Style="Grid9Science8" ID="PlayerEntryAnimGridNA" />
+			</AlphaAnim>
+
+			<!-- Leader Portrait -->
+			<Image Anchor="L,C" Size="64,64" Offset="4,0"  Texture="Assets/UI/Art/Icons/IconFrame64.dds"  >
+				<Image Anchor="L,C" Offset="0,0" Size="64,64"   Texture="Assets/UI/Art/Icons/LeaderPortraits512.dds"  ID="Portrait"/>
+			</Image>
+			<!-- Civ Icon -->
+			<Box Color="255,255,255,0" Anchor="L,C" Offset="64,0" Size="32.32">
+				<Image ID="CivIconBG" Size="32.32" Anchor="C,C" Offset="0,0" TextureOffset="32,0" Texture="CivIconBGSizes.dds" />
+				<Image ID="CivIconShadow" Size="24.24" Anchor="C,C" Offset="1,1" Texture="CivSymbolAtlas16.dds" Color="Black.128"/>
+				<Image ID="Icon" Size="24.24" Offset="0,0"  Anchor="C,C" Texture="CivSymbolsColor256.dds" />
+				<Label Anchor="L,C" Offset="0,10" Font="TwCenMT14" ColorSet="Beige_Black_Alpha" FontStyle="Shadow" String="[ICON_GOLDEN_AGE]" ID="AgeIcon"/>
+			</Box>
+			<Stack Anchor="L,C" Offset="98,0" Padding="12" StackGrowth="Bottom" ID="RightInfoStack" Hidden="0">
+				<Image Anchor="L,C" Offset="-62,0" Texture="bar900x2.dds" Size="900.1" Hidden="0"/>
+				<Label Anchor="L,C" Offset="-5,-5" Font="TwCenMT20" ColorSet="Beige_Black_Alpha" FontStyle="Shadow" String="Player Name" ID="PlayerNameText"/>
+				<Label Anchor="L,C" Offset="1,2" Font="TwCenMT18" ColorSet="Beige_Black_Alpha" FontStyle="Shadow" String="Player Name" ID="PlayerCivNameText"/>
+				<Label Anchor="L,C" Offset="1,0" Font="TwCenMT18" ColorSet="Beige_Black_Alpha" FontStyle="Shadow" String="Player Name" ID="PlayerLeaderNameText"/>
+				<Label Anchor="R,L" Offset="-20,10" Font="TwCenMT14" ID="CyclePower" String="" ColorSet="Beige_Black_Alpha" FontStyle="Shadow" />
+				<Image Anchor="L,C" Offset="-62,-2" Texture="bar900x2.dds" Size="900.1" Hidden="0"/>
+			</Stack>
+			<Stack Anchor="R,B" Offset="0,20" Padding="15" StackGrowth="Bottom" ID="LeftInfoStack" Hidden="0">
+				<Label Anchor="R,L" Offset="0,0" Font="TwCenMT14" ID="PlayerStabilityStatsText" String="STABLE" ColorSet="Beige_Black_Alpha" FontStyle="Shadow" />
+				<Label Anchor="R,L" Offset="0,0" Font="TwCenMT14" ID="PlayerGovtStatsText" String="" ColorSet="Beige_Black_Alpha" FontStyle="Shadow" />
+				<Label Anchor="R,L" Offset="0,0" Font="TwCenMT14" ID="PlayerEcoStatsText" String="" ColorSet="Beige_Black_Alpha" FontStyle="Shadow" />
+			</Stack>
+		</Box>
+	</Instance>
+
+	<Grid Size="993,900" Anchor="C,C" Offset="0.0" Padding="0,0" Style="Grid9DetailFive140" ID="WorldCivsList" Hidden="1" ConsumeMouse="1" >
+		<Image ID="HorizontalTrim1" Anchor="C,T" Offset="0,64" Texture="HorizontalTrim.dds" Size="958.5"  />
+
+		<!-- X Presents Label  -->
+		<Label ID="PresentsLabel" Anchor="C,T" Offset="0,20" Font="TwCenMT16" FontStyle="Shadow" ColorSet="Beige_Black_Alpha" String="" />
+		<Label ID="ListNameLabel" Anchor="C,T" Offset="0,18" Font="TwCenMT22" FontStyle="Shadow" ColorSet="Beige_Black_Alpha" String="{TXT_KEY_JFD_OM_CIVILIZATION_INFO_TITLE:upper}"/>
+
+		<ScrollPanel AutoScrollBar="0" Anchor="L,T" Offset="12,76" Size="434,708" ID="PlayerListScrollPanel" Vertical="1" >
+			<Stack Anchor="L,T" Size="428,490" StackGrowth="B" Padding="-6" ID="PlayerListStack" />
+			<ScrollBar  Offset="508,0" Style="VertSlider" Anchor="R,C" AnchorSide="O,I" Length="708" />
+		</ScrollPanel>
+
+		<Image ID="HorizontalTrim2" Anchor="C,B" Offset="0,110" Texture="HorizontalTrim.dds" Size="958.5" />
+
+		<Box Anchor="C,B" AnchorSide="I.I" Offset="0,54"   Size="458,70" Color="255,255,255,0" >
+			<!-- TXT_KEY_CLOSE Button -->
+			<GridButton Anchor="L,B"  Style="SmallButton" Size="150,32"  Offset="-220,0" StateOffsetIncrement="0,0" ID="CloseButton" ToolTip="TXT_KEY_CLOSE" >
+				<Label Anchor="C,C"  Offset="0,0"  String="TXT_KEY_CLOSE" Font="TwCenMT18" ColorSet="Beige_Black_Alpha" FontStyle="Shadow"  />
+			</GridButton>
+		</Box>
+	</Grid>
+
+	<Instance Name="RelationsCivInstance">
+		<Box Size="32,32" Color="255,255,255,0" ID="RelationsCivBase">
+
+			<Image Anchor="L,C" Offset="0,0" Size="32.32" Texture="aiobserversymbolrankedframe32.dds" ID="CivFrame" Hidden="0">
+				<Image ID="RelationsCivIconBG" Size="32.32" Anchor="C,C" Offset="0,0" TextureOffset="32,0" Texture="CivIconBGSizes.dds"/>
+				<Image ID="RelationsCivIconShadow" Size="24.24" Anchor="C,C" Offset="1,1" Texture="CivSymbolAtlas16.dds" Color="Black.128"/>
+				<Image ID="RelationsCivIcon" Size="24.24" Offset="0,0" Anchor="C,C" Texture="CivSymbolsColor256.dds"/>
+				<Image ID="RelationsCivIconHighlight" Size="32.32" Anchor="C,C" Offset="0,0" TextureOffset="32,0" Texture="CivIconBGSizes_Highlight.dds"/>
+				<Label Anchor="C,B" Offset="4,8" String="" Font="TwCenMT14" ID="RelationsIcon" ColorSet="Beige_Black_Alpha" FontStyle="Shadow" WrapWidth="350" />
+			</Image>
+
+			<!--<Grid Size="50,50" Anchor="L,T" Offset="5,-40" Padding="0,0" Style="grid9blueframe" ConsumeMouse="0" Hidden="1" ID="RelationCivGrid"/>-->
+
+			<!--<Box ID="RelationsCivIconBox" Size="32,32" Anchor="L,T" Offset="-2,-3" Color="0,0,0,0">
+				<Image ID="RelationsCivIconBG" Size="32.32" Anchor="C,C" Offset="0,0" TextureOffset="32,0" Texture="CivIconBGSizes.dds"/>
+				<Image ID="RelationsCivIconShadow" Size="24.24" Anchor="C,C" Offset="1,1" Texture="CivSymbolAtlas16.dds" Color="Black.128"/>
+				<Image ID="RelationsCivIcon" Size="24.24" Offset="0,0" Anchor="C,C" Texture="CivSymbolsColor256.dds"/>
+				<Image ID="RelationsCivIconHighlight" Size="32.32" Anchor="C,C" Offset="0,0" TextureOffset="32,0" Texture="CivIconBGSizes_Highlight.dds"/>
+				<Label Anchor="C,B" Offset="-4,6" String="" Font="TwCenMT14" ID="RelationsIcon" ColorSet="Beige_Black_Alpha" FontStyle="Shadow" WrapWidth="350" />
+			</Box>
+			<Label Anchor="C,B" Offset="-3,16" String="[ICON_PLUS]" Font="TwCenMT16" ID="RelationsIconPlus" Hidden="1" ColorSet="Beige_Black_Alpha" FontStyle="Shadow" WrapWidth="350" />-->
+		</Box>
+	</Instance>
+
+	<Image Anchor="R,T" Texture="assets\UI\Art\WorldView\topright020_esp.dds" ConsumeMouse="1" Offset="0,0" Size="512,128" ID="TopRightCorner" Hidden="0">
+		<Box Size="215,32"  Anchor="R,T" Offset="55,14" Color="255,255,255,0" ID="CurrentTernBox">
+			<Stack ID="LabelStack" Padding="1" Anchor="R,C"  Offset="0,-2" StackGrowth="Top">
+				<Label Hidden="0" Anchor="R,C" String="" Font="TwCenMT16" ID="CurrentEra"/>
+				<Label Hidden="0" Anchor="R,C" String="" Font="TwCenMT18" ID="CurrentTern"/>
+			</Stack>
+		</Box>
+	</Image>
+	<Grid Size="175,140" Anchor="R,T" Offset="5,-40" Padding="0,0" Style="Grid9DetailSix140" ConsumeMouse="0" Hidden="1" ID="DateGrid">
+		<Label Hidden="0" Offset="0,-45" Anchor="C,C" String="" ToolTip="Current Date" Font="TwCenMT22" ID="CurrentDate"/>
+		<Label Hidden="0" Offset="0,12" Anchor="C,C" String="" ToolTip="Current Turn" Font="TwCenMT14" ID="CurrentTern3"/>
+	</Grid>
+	<Button Anchor="R,T" Size="45.45" Offset="0,0" Texture="PediaButton.dds" ID="PediaButton" ToolTip="Open Civilopedia" Hidden="1">
+		<ShowOnMouseOver>
+			<Image Anchor="R,T" Offset="0,0" Size="45.45" Texture="PediaButton.dds" ID="PediaImage" />
+			<AlphaAnim Anchor="R,T" Offset="0,0" Size="45.45"  TextureOffset="0.0" Texture="PediaButtonHL.dds"  Pause="0" Cycle="Bounce" Speed="2" AlphaStart="0.95" AlphaEnd="0.55" ID="PediaAlpha" />
+		</ShowOnMouseOver>
+	</Button>
+
+	<Stack Anchor="R,T" Offset="6,12" Padding="-2" StackGrowth="Bottom" ID="InfoButtonStack" Hidden="0">
+
+		<!--<Button ConsumeMouse="1" Anchor="C,C" Offset="0,0" Size="45.45" Texture="mainclose.dds" ID="ShowInterfaceButton" Hidden="0" ToolTip="Hide/Show Interface" >
+			<ShowOnMouseOver>
+				<Image Anchor="R,T" Offset="0,0" Size="45.45" Texture="mainclose.dds" ID="ShowInterfaceMO" />
+				<AlphaAnim Anchor="R,T" Offset="0,0" Size="45.45"  TextureOffset="0.0" Texture="mainclosehl.dds"  Pause="0" Cycle="Bounce" Speed="2" AlphaStart="0.95" AlphaEnd="0.55" ID="ShowInterfaceHL" />
+			</ShowOnMouseOver>
+		</Button>-->
+
+		<PullDown ConsumeMouse="1" Offset="0,0" Anchor="R,T" Size="45,45" AutoSizePopUp="0" SpaceForScroll="0" ScrollThreshold="999" ID="MultiPull">
+			<ButtonData>
+				<Button Anchor="R,T" Size="45.45" Texture="assets\UI\Art\Notification\NotificationNotes.dds" ToolTip="TXT_KEY_DIPLO_ADDITIONAL">
+					<ShowOnMouseOver>
+						<Image Anchor="R,T" Offset="0,0" Size="45.45" Texture="assets\UI\Art\Notification\NotificationNotes.dds"/>
+						<AlphaAnim Anchor="R,T" Offset="0,0" Size="45.45" TextureOffset="0.0" Texture="assets\UI\Art\Notification\NotificationNotesHL.dds" Pause="0" Cycle="Bounce" Speed="2" AlphaStart="0.95" AlphaEnd="0.55"/>
+					</ShowOnMouseOver>
+				</Button>
+			</ButtonData>
+			<GridData Anchor="L,T" Offset="-200,-41" AutoSize="1" Style="Grid9DetailTwo140" Padding="0,0"/>
+			<ScrollPanelData Anchor="L,T" Size="140,200" Vertical="1" HideScrollBar="1" AutoScrollBar="0">
+				<!-- Scroll Controls -->
+				<ScrollBar Style="VertSlider" Anchor="R,C" AnchorSide="O,I"/>
+				<UpButton Style="ScrollBarUp" Anchor="R,T" AnchorSide="O,I"/>
+				<DownButton Style="ScrollBarDown" Anchor="R,B" AnchorSide="O,I"/>
+			</ScrollPanelData>
+			<StackData StackGrowth="Bottom" Padding="0" Size="140,300" Anchor="L,T"/>
+			<InstanceData Name="InstanceOne">
+				<Button Size="210,24" Anchor="C,T" ID="Button">
+					<ShowOnMouseOver>
+						<AlphaAnim Anchor="C,C" Offset="0,0" Size="180,24" Pause="0" Cycle="Bounce" Speed="1" AlphaStart="1" AlphaEnd="0">
+							<Grid Size="180,26" Offset="0,0" Padding="0,0" Style="Grid9FrameTurns"/>
+						</AlphaAnim>
+					</ShowOnMouseOver>
+				</Button>
+			</InstanceData>
+		</PullDown>
+		<Button Anchor="C,C" Size="45.45" Offset="0,0" Texture="IGEButton.dds" ID="IGEButton" ToolTip="Open IGE" Hidden="1" >
+			<ShowOnMouseOver>
+				<Image Anchor="R,T" Offset="0,0" Size="45.45" Texture="IGEButton.dds" ID="IGEImage" />
+				<AlphaAnim Anchor="R,T" Offset="0,0" Size="45.45"  TextureOffset="0.0" Texture="IGEButtonHL.dds"  Pause="0" Cycle="Bounce" Speed="2" AlphaStart="0.95" AlphaEnd="0.55" ID="IGEAlpha" />
+			</ShowOnMouseOver>
+		</Button>
+		<Button Anchor="C,C" Size="45.45" Offset="0,0" Texture="InfoAddictButton.dds" ID="InfoAddictButton" ToolTip="Open InfoAddict" Hidden="1" >
+			<ShowOnMouseOver>
+				<Image Anchor="R,T" Offset="0,0" Size="45.45" Texture="InfoAddictButton.dds" ID="InfoAddictImage" />
+				<AlphaAnim Anchor="R,T" Offset="0,0" Size="45.45"  TextureOffset="0.0" Texture="InfoAddictButtonHL.dds"  Pause="0" Cycle="Bounce" Speed="2" AlphaStart="0.95" AlphaEnd="0.55" ID="InfoAddictAlpha" />
+			</ShowOnMouseOver>
+		</Button>
+		<Button Anchor="C,C" Size="45.45" Offset="0,0" Texture="overlaymapbutton.dds" ID="OverlayMapsButton" ToolTip="Open Map Overlays Overview" Hidden="1" >
+			<ShowOnMouseOver>
+				<Image Anchor="R,T" Offset="0,0" Size="45.45" Texture="overlaymapbutton.dds" ID="OMImage" />
+				<AlphaAnim Anchor="R,T" Offset="0,0" Size="45.45"  TextureOffset="0.0" Texture="overlaymapbuttonHL.dds"  Pause="0" Cycle="Bounce" Speed="2" AlphaStart="0.95" AlphaEnd="0.55" ID="OMAlpha" />
+			</ShowOnMouseOver>
+		</Button>
+	</Stack>
+
+
+	<Container ID="Tab" ConsumeMouse="1" Anchor="L,T" Size="500,150">
+		<ShowOnMouseOver ID="ShowOnMouseOver"/>
+		<Box Size="360,240" Anchor="L,T" Offset="0,-40" Color="Black.0" ID="PlayerEntryBox">
+
+			<Image Anchor="L,C" Offset="96,78" Texture="diplomacypanelleft.dds" Size="450.220" Hidden="1" ID="DiploPanelLeft"/>
+
+			<Image Offset="0,-10" Anchor="C,C" TextureOffset="5,0" Texture="assets\UI\Art\WorldView\Divider.dds" Size="5.16" ID="Divider1" Hidden="1" />
+
+
+			<Button Anchor="L,C"  Size="418,63" Color="255,255,255,255"  Offset="0,0" StateOffsetIncrement="0,0" ID="InfoButton1" Hidden="1">
+				<ShowOnMouseOver>
+					<AlphaAnim ID="BounceAnim" Anchor="L,T" Size="418,70" Offset="0,-3" Pause="0" Cycle="Bounce" Speed="1" AlphaStart="2" AlphaEnd="1">
+						<Grid  ID="BounceGrid" Size="418,70" Offset="0,0" Padding="0,0" Style="Grid9FrameTurnsHL" />
+					</AlphaAnim>
+				</ShowOnMouseOver>
+
+				<Box Anchor="L,T" Size="432,63" Color="19,32,46,120" ID="InfoBox1">
+
+				</Box>
+				<Label Anchor="L,T" Offset="10,7" Font="TwCenMT20" ColorSet="Beige_Black_Alpha" FontStyle="Shadow" ID="InfoName1" />
+
+				<Image Anchor="L,B" Offset="0,0" Texture="BlueBar500x3.dds" Size="432,1" ID="InfoBar1" />
+			</Button>
+
+			<!--Header-->
+			<Stack Anchor="L,T" Offset="130,88"  StackGrowth="Right" ID="RelationsCivStack" Padding="0"/>
+			<Image Anchor="L,T" Offset="0,40" Texture="topleftaiobserver3.dds" Size="640.128" Hidden="0" ID="TopLeft"/>
+			<Image Anchor="L,T" Offset="25,95" Texture="topleft2_aiobserver2.dds" Size="520.21" Hidden="0" ID="TopLeft2">
+				<Stack Anchor="L,C" Offset="105,10" Padding="4" StackGrowth="Right" ID="InfoStack" Hidden="0">
+
+					<!--Capital-->
+					<Image Hidden="1" Offset="0,-12" Anchor="C,C" TextureOffset="5,0" Texture="assets\UI\Art\WorldView\Divider.dds" Hidden="0" Size="5.16" ID="CapDivider" />
+					<Image Anchor="L,C" Offset="0,-13" Size="26.20" Texture="topleftframe22.dds" ID="CapInfoFrame" Hidden="0">
+						<Label Anchor="L,C" Offset="2,-2" Font="TwCenMT16" ID="CapIcon" String="[ICON_CAPITAL]" Hidden="0" ColorSet="Beige_Black_Alpha" FontStyle="Shadow" />
+					</Image>
+					<TextButton Offset="0,-13" Anchor="C,C" String="?"  TruncateWidth="65" Font="TwCenMT14" NormalState="Beige_Black" Hidden="0" MouseOver="White_Black" ButtonDown="Beige_Black_Alpha" ID="CapInfo"/>
+
+					<!--Cities-->
+					<Image Hidden="1" Offset="0,-12" Anchor="C,C" TextureOffset="5,0" Texture="assets\UI\Art\WorldView\Divider.dds" Hidden="0" Size="5.16" ID="CitiesDivider" />
+					<Image Anchor="L,C" Offset="0,-13" Size="26.20" Texture="topleftframe22.dds" ID="CitiesInfoFrame" Hidden="0">
+						<Label Anchor="L,C" Offset="2,-2" Font="TwCenMT16" ID="CitiesIcon" String="[ICON_CITY]" Hidden="0" ColorSet="Beige_Black_Alpha" FontStyle="Shadow" />
+					</Image>
+					<TextButton Offset="0,-13" Anchor="C,C"  String="?"   Font="TwCenMT14" NormalState="Beige_Black"  MouseOver="White_Black" ButtonDown="Beige_Black_Alpha" ID="CitiesInfo"/>
+
+					<!--Population-->
+					<Image Hidden="1" Offset="0,-12" Anchor="C,C" TextureOffset="5,0" Texture="assets\UI\Art\WorldView\Divider.dds" Size="5.16" ID="PopDivider" />
+					<Image Anchor="L,C" Offset="0,-13" Size="26.20" Texture="topleftframe22.dds" ID="PopInfoFrame" Hidden="0">
+						<Label Anchor="L,C" Offset="2,-2" Font="TwCenMT16" ID="PopIcon" String="[ICON_CITIZEN]" Hidden="0" ColorSet="Beige_Black_Alpha" FontStyle="Shadow" />
+					</Image>
+					<TextButton Offset="0,-13" Anchor="C,C"  String="?"   Font="TwCenMT14" NormalState="Beige_Black"  MouseOver="White_Black" ButtonDown="Beige_Black_Alpha" ID="PopInfo" />
+
+					<!--Followers
+					<Image Hidden="1" Offset="0,-12" Anchor="C,C" TextureOffset="5,0" Texture="assets\UI\Art\WorldView\Divider.dds" Size="5.16"  ID="FolDivider" />
+					<Image Anchor="L,C" Offset="0,-13" Size="26.20" Texture="topleftframe22.dds" ID="FolInfoFrame" Hidden="0">
+						<Label Anchor="L,C" Offset="2,-2" Font="TwCenMT16" ID="FolIcon" String="[ICON_RELIGION_BUDDHISM]" Hidden="0" ColorSet="Beige_Black_Alpha" FontStyle="Shadow" />
+					</Image>
+					<TextButton Offset="0,-13" Anchor="C,C"  String="?"   Font="TwCenMT14" NormalState="Beige_Black"  MouseOver="White_Black" ButtonDown="Beige_Black_Alpha" ID="FolInfo" />-->
+
+					<!--Soldiers-->
+					<Image Hidden="1" Offset="0,-12" Anchor="C,C" TextureOffset="5,0" Texture="assets\UI\Art\WorldView\Divider.dds" Size="5.16" ID="MilDivider" />
+					<Image Anchor="L,C" Offset="0,-13" Size="26.20" Texture="topleftframe22.dds" ID="MilInfoFrame" Hidden="0">
+						<Label Anchor="L,C" Offset="2,-2" Font="TwCenMT16" ID="MilIcon" String="[ICON_STRENGTH]" Hidden="0" ColorSet="Beige_Black_Alpha" FontStyle="Shadow" />
+					</Image>
+					<TextButton Offset="0,-13" Anchor="C,C"  String="?"   Font="TwCenMT14" NormalState="Beige_Black"  MouseOver="White_Black" ButtonDown="Beige_Black_Alpha" ID="MilInfo" />
+
+					<!--Research-->
+					<Image Hidden="1" Offset="0,-12" Anchor="C,C" TextureOffset="5,0" Texture="assets\UI\Art\WorldView\Divider.dds" Hidden="0"  Size="5.16" ID="ResDivider" />
+					<Image Anchor="L,C" Offset="0,-13" Size="26.20" Texture="topleftframe22.dds" ID="ResInfoFrame" Hidden="0">
+						<Label Anchor="L,C" Offset="2,-2" Font="TwCenMT16" ID="ResIcon" String="[ICON_RESEARCH]" Hidden="0" ColorSet="Beige_Black_Alpha" FontStyle="Shadow" />
+					</Image>
+					<TextButton Offset="0,-13" Anchor="C,C"  String="?"   Font="TwCenMT14" NormalState="Beige_Black"  Hidden="0"  MouseOver="White_Black" ButtonDown="Beige_Black_Alpha" ID="ResInfo" />
+
+					<!--Treasury-->
+					<Image Hidden="1" Offset="0,-12" Anchor="C,C" TextureOffset="5,0" Texture="assets\UI\Art\WorldView\Divider.dds" Hidden="0" Size="5.16" ID="TreDivider" />
+					<Image Anchor="L,C" Offset="0,-13" Size="26.20" Texture="topleftframe22.dds" ID="TreInfoFrame" Hidden="0">
+						<Label Anchor="L,C" Offset="2,-2" Font="TwCenMT16" ID="TreIcon" String="[ICON_GOLD]" Hidden="0" ColorSet="Beige_Black_Alpha" FontStyle="Shadow" />
+					</Image>
+					<TextButton Offset="0,-13" Anchor="C,C"  String="?"   Font="TwCenMT14" NormalState="Beige_Black" Hidden="0" MouseOver="White_Black" ButtonDown="Beige_Black_Alpha" ID="TreInfo" />
+
+					<!--Stability-->
+					<Image Hidden="1" Offset="0,-12" Anchor="C,C" TextureOffset="5,0" Texture="assets\UI\Art\WorldView\Divider.dds" Size="5.16" ID="HappDivider" />
+					<Image Anchor="L,C" Offset="0,-13" Size="26.20" Texture="topleftframe22.dds" ID="HappInfoFrame" Hidden="0">
+						<Label Anchor="L,C" Offset="2,-2" Font="TwCenMT16" ID="HappIcon" String="[ICON_HAPPINESS_1]" Hidden="0" ColorSet="Beige_Black_Alpha" FontStyle="Shadow" />
+					</Image>
+					<TextButton Offset="0,-13" Anchor="C,C"  String="?"   Font="TwCenMT14" NormalState="Beige_Black"  Hidden="0"  MouseOver="White_Black" ButtonDown="Beige_Black_Alpha" ID="HappInfo" />
+
+					<Image Hidden="1" Offset="0,-12" Anchor="C,C" TextureOffset="5,0" Texture="assets\UI\Art\WorldView\Divider.dds" Hidden="0"  Size="5.16" ID="EndDivider" />
+				</Stack>
+				<Label Anchor="L,C" Offset="135,-2" Font="TwCenMT14" TruncateWidth="500" ColorSet="Beige_Black_Alpha" FontStyle="Shadow" String="" ID="CivStatusLabel" Hidden="0"/>
+			</Image>
+
+			<Image Anchor="L,T" Offset="0,40" Texture="leftportraitdecor128real.dds" Size="123.107" Hidden="1" ID="TopLeftDecor">
+				<Image Anchor="L,T" Offset="4,-12" ID="LeaderIcon2"  Size="128,128" />
+			</Image>
+
+			<Image Anchor="L,T" Offset="10,132" Texture="fancyfern.dds" Size="100.41" Hidden="1" ID="TopLeftFanciness"/>
+			<Image Anchor="L,T" Offset="0,40" Texture="fancyfernR.dds" Size="89.38" Hidden="1" ID="TopLeftFancinessR"/>
+
+			<!--Leader Icon-->
+			<Button Hidden="0" Anchor="L,C" Texture="leaderportraits1024frame.dds" NoStateChange="1" Offset="14,-20" Size="128.128" ID="LeaderButton" >
+				<Image Anchor="C,C"  Size="128.128" ID="LeaderIcon" Hidden="0"/>
+			</Button>
+			<Label Anchor="L,C" Offset="135,-41" Font="TwCenMT14" TruncateWidth="210" ColorSet="Beige_Black_Alpha" FontStyle="Shadow" String="" ID="PlayerLeaderNameText" Hidden="0"/>
+
+			<!--Civ Icon-->
+			<Image Anchor="L,C" Size="80,80" Offset="0,0" Texture="assets\UI\Art\Notification\NotificationFrameBase.dds" ID="CivButton" Hidden="0">
+				<Image Anchor="C,C" ID="CivIcon" Offset="0,-1" Size="80,80" Texture="assets\UI\Art\Notification\CivSymbolsColor640.dds"/>
+			</Image>
+			<Image Anchor="L,C" Size="64,64" Offset="10,4" Texture="iconframe64.dds" ID="CivButtonSmall" Hidden="1">
+				<Image Anchor="C,C" ID="CivIconSmall" Offset="0,-1" Size="64,64" Texture="assets\UI\Art\Notification\CivSymbolsColor640.dds"/>
+			</Image>
+			<!--Civ civiconframe84
+			<Button Hidden="0" Anchor="L,C" NoStateChange="1" Offset="4,-4"  Texture="CivSymbolsColor640.dds" Size="80.80" ID="CivButton" >
+				<Image Anchor="C,C"  Size="80.80" ID="CivIcon" Hidden="0"/>
+			</Button>-->
+			<Label Anchor="L,C" Offset="135,-54" Font="TwCenMT16" TruncateWidth="210" ColorSet="Beige_Black_Alpha" FontStyle="Shadow" String="Player Name" ID="PlayerNameText" Hidden="0"/>
+
+			<!--Stability
+			<Stack Anchor="C,T" Offset="130,95" Padding="0" StackGrowth="Right" ID="StabStack" Hidden="0">
+				<Image Anchor="L,C" Offset="0,0" Size="26.20" Texture="topleftframe22.dds" ID="HapFrame" Hidden="1">
+					<Label Anchor="L,C" Offset="2,-2" Font="TwCenMT16" ID="HapLab" String="[ICON_HAPPINESS_1]" Hidden="1" ColorSet="Beige_Black_Alpha" FontStyle="Shadow" />
+				</Image>
+				<Image Anchor="L,C" Offset="0,0" Size="44.20" Texture="topleftframe2.dds" ID="HapFrame2" Hidden="0">
+					<Label Anchor="L,C" Offset="2,-2" Font="TwCenMT16" ID="HapLab2" String="[ICON_HAPPINESS_1]STABLE" Hidden="0" ColorSet="Beige_Black_Alpha" FontStyle="Shadow" />
+				</Image>
+				<Image Anchor="L,C" Offset="0,0" Size="26.20" Texture="topleftframe22.dds" ID="SciFrame" Hidden="0">
+					<Label Anchor="L,C" Offset="2,-2" Font="TwCenMT16" ID="SciLab" String="[ICON_RESEARCH]" Hidden="0" ColorSet="Beige_Black_Alpha" FontStyle="Shadow" />
+				</Image>
+				<Image Anchor="L,C" Offset="0,0" Size="26.20" Texture="topleftframe22.dds" ID="GolFrame" Hidden="0">
+					<Label Anchor="L,C" Offset="2,-2" Font="TwCenMT16" ID="GolLab" String="[ICON_GOLD]" Hidden="0" ColorSet="Beige_Black_Alpha" FontStyle="Shadow" />
+				</Image>
+			</Stack>-->
+
+			<!--Ideo Icon-->
+			<Image Anchor="L,C" Offset="80,17" Size="32.32" Texture="aiobserversymbolframe32.dds" ID="PlayerIdeo" Hidden="0" ToolTip="Ideology" >
+				<Label Anchor="C,C" Offset="0,-2" Font="TwCenMT24" ID="PlayerIdeoLabel" String="[ICON_IDEOLOGY_A]" ColorSet="Beige_Black_Alpha" FontStyle="Stroke"  />
+				<Label Anchor="C,C" Offset="0,12" Font="TwCenMT16" ID="PlayerIdeoIcon" String="F" ColorSet="Beige_Black_Alpha" FontStyle="Stroke" Hidden="1"  />
+			</Image>
+			<!--Reli Icon-->
+			<Image Anchor="L,C" Offset="50,22" Size="32.32" Texture="aiobserversymbolframe32.dds" ID="PlayerReli" Hidden="0" ToolTip="Religion" >
+				<Label Anchor="C,C" Offset="1,-4" Font="TwCenMT24" ID="PlayerReliLabel" String="[ICON_PANTHEON_A]" ColorSet="Beige_Black_Alpha" FontStyle="Stroke"  />
+				<Label Anchor="C,C" Offset="0,12" Font="TwCenMT16" ID="PlayerReliIcon" String="F" ColorSet="Beige_Black_Alpha" FontStyle="Stroke" Hidden="1"  />
+			</Image>
+			<!--Gov Icon-->
+			<Image Anchor="L,C" Offset="50,22" Size="32.32" Texture="aiobserversymbolframe32.dds" ID="PlayerGov" Hidden="1" ToolTip="Government" >
+				<Label Anchor="C,C" Offset="0,-4" Font="TwCenMT24" ID="PlayerGovLabel" String="[ICON_GOVERNMENT_A]" ColorSet="Beige_Black_Alpha" FontStyle="Stroke"  />
+				<Label Anchor="C,C" Offset="0,12" Font="TwCenMT16" ID="PlayerGovIcon" String="F" ColorSet="Beige_Black_Alpha" FontStyle="Stroke" Hidden="1"  />
+			</Image>
+
+			<!--Stats-->
+			<Stack Anchor="L,T" Offset="365,55" Padding="0" StackGrowth="Right" ID="StatsStack" Hidden="1">
+				<Image Anchor="L,C" Offset="0,0" Size="26.20" Texture="topleftframe22.dds" ID="EraInfoFrame" Hidden="1">
+					<Label Anchor="L,C" Offset="2,-2" Font="TwCenMT16" ID="EraInfo" String="" Hidden="0" ColorSet="Beige_Black_Alpha" FontStyle="Shadow" />
+				</Image>
+				<Image Anchor="L,C" Offset="0,0" Size="26.20" Texture="topleftframe22.dds" ID="HapInfoFrame" Hidden="0">
+					<Label Anchor="L,C" Offset="2,-2" Font="TwCenMT16" ID="HapInfo" String="[ICON_HAPPINESS_1]" Hidden="0" ColorSet="Beige_Black_Alpha" FontStyle="Shadow" />
+				</Image>
+				<Image Anchor="L,C" Offset="0,0" Size="26.20" Texture="topleftframe22.dds" ID="FooInfoFrame" Hidden="1">
+					<Label Anchor="L,C" Offset="2,-2" Font="TwCenMT16" ID="FooInfo" String="[ICON_FOOD]" Hidden="0" ColorSet="Beige_Black_Alpha" FontStyle="Shadow" />
+				</Image>
+				<Image Anchor="L,C" Offset="0,0" Size="26.20" Texture="topleftframe22.dds" ID="SciInfoFrame" Hidden="0">
+					<Label Anchor="L,C" Offset="2,-2" Font="TwCenMT16" ID="SciInfo" String="[ICON_RESEARCH]" Hidden="0" ColorSet="Beige_Black_Alpha" FontStyle="Shadow" />
+				</Image>
+				<Image Anchor="L,C" Offset="0,0" Size="26.20" Texture="topleftframe22.dds" ID="GolInfoFrame" Hidden="0">
+					<Label Anchor="L,C" Offset="2,-2" Font="TwCenMT16" ID="GolInfo" String="[ICON_GOLD]" Hidden="0" ColorSet="Beige_Black_Alpha" FontStyle="Shadow" />
+				</Image>
+				<Image Anchor="L,C" Offset="0,0" Size="26.20" Texture="topleftframe22.dds" ID="ReliInfoFrame" Hidden="0">
+					<Label Anchor="L,C" Offset="2,-2" Font="TwCenMT16" ID="ReliInfo" String="" ColorSet="Beige_Black_Alpha" FontStyle="Shadow" />
+				</Image>
+				<Image Anchor="L,C" Offset="0,0" Size="26.20" Texture="topleftframe22.dds" ID="GovInfoFrame" Hidden="0">
+					<Label Anchor="L,C" Offset="2,-2" Font="TwCenMT16" ID="GovInfo" String="" ColorSet="Beige_Black_Alpha" FontStyle="Shadow" />
+				</Image>
+				<Image Anchor="L,C" Offset="0,0" Size="26.20" Texture="topleftframe22.dds" ID="FactInfoFrame" Hidden="0">
+					<Label Anchor="L,C" Offset="2,-2" Font="TwCenMT16" ID="FactInfo" String="" ColorSet="Beige_Black_Alpha" FontStyle="Shadow" />
+				</Image>
+				<Image Anchor="L,C" Offset="0,0" Size="26.20" Texture="topleftframe22.dds" ID="IdeoInfoFrame" Hidden="0">
+					<Label Anchor="L,C" Offset="2,-2" Font="TwCenMT16" ID="IdeoInfo" String="" ColorSet="Beige_Black_Alpha" FontStyle="Shadow" />
+				</Image>
+			</Stack>
+
+			<!--World Civs-->
+			<Button Anchor="L,T" Offset="0,40" Size="45.45" Texture="assets\UI\Art\Icons\MainWorldButton.dds" ID="WorldCivsButton" ToolTip="Open World Civilizations Overview[NEWLINE][NEWLINE]Right-click to open the Government Overview." >
+				<ShowOnMouseOver>
+					<Image Anchor="R,T" Offset="0,0" Size="45.45" Texture="assets\UI\Art\Icons\MainWorldButton.dds" ID="PDImage" />
+					<AlphaAnim Anchor="R,T" Offset="0,0" Size="45.45"  TextureOffset="0.0" Texture="assets\UI\Art\Icons\MainWorldButtonHL.dds"  Pause="0" Cycle="Bounce" Speed="2" AlphaStart="0.95" AlphaEnd="0.55" ID="PDAlpha" />
+				</ShowOnMouseOver>
+			</Button>
+
+			<PullDown ID="CivPlayerMenu" Style="GenericPullDown" ScrollThreshold="170" Size="120,27" SpaceForScroll="1" Anchor="C,T" Offset="284,58">
+				<Stack Anchor="L,C" Offset=",0" ID="CivPlayerStack" Padding="-2" StackGrowth="Left" Hidden="0">
+					<Label ID="CivPlayerName" Anchor="C,C" TruncateWidth="70" Offset="5,0" Font="TwCenMT14" FontStyle="Shadow" ColorSet="Beige_Black_Alpha"/>
+					<Image ID="CivPlayerIcon" Anchor="C,C" Size="32,32" Texture="CivSymbolAtlas32.dds"/>
+				</Stack>
+				<StackData ID="CivPlayerMenuStack"/>
+				<InstanceData Name="InstanceOne" >
+					<Button ID="Button" Size="120,24" Anchor="C,C">
+						<ShowOnMouseOver>
+							<AlphaAnim Anchor="C,C" Size="100,24" Offset="5,0" Pause="0" Cycle="Bounce" Speed="1" AlphaStart="1" AlphaEnd="0">
+								<Grid Size="100,26" Offset="5,0" Style="Grid9FrameTurns" />
+							</AlphaAnim>
+						</ShowOnMouseOver>
+						<Stack Anchor="L,C" Offset="0,0" Padding="0" StackGrowth="Left" Hidden="0">
+							<Label ID="CivPlayerName" Anchor="C,C" TruncateWidth="70" Offset="0,0" Font="TwCenMT14" FontStyle="Shadow" ColorSet="Beige_Black_Alpha"/>
+							<Image ID="CivPlayerIcon" Anchor="C,C" Size="32,32" Texture="CivSymbolAtlas32.dds"/>
+						</Stack>
+					</Button>
+				</InstanceData>
+			</PullDown>
+
+			<!--<PullDown ID="CivPlayerMenu" Hidden="1" Style="GenericPullDown" ScrollThreshold="230" Size="84,64" AutoSizePopUp="1" SpaceForScroll="1" Anchor="L,C" Offset="5,0">
+				<ButtonData>
+					<Button NoStateChange="1" Texture="iconframe64.dds" Size="64.64" Anchor="L,C" >
+						<Image Texture="Assets/UI/Art/Controls/9 Grids/Corner16.dds" ID="CivPlayerCorner" TextureOffset="0.16" Offset="5.5"  Size="16,16" Anchor="R,B"  />
+
+						<ShowOnMouseOver>
+							<Image Texture="Assets/UI/Art/Controls/9 Grids/Corner16.dds" TextureOffset="0.16" Offset="5.5"  Size="16,16" Anchor="R,B"  />
+						</ShowOnMouseOver>
+
+						<Image ID="CivPlayerIcon" Anchor="L,C" Offset="0,0" Size="64,64" Texture="CivSymbolAtlas32.dds" Color="255,255,255,255"/>
+					</Button>
+				</ButtonData>
+
+				<StackData ID="CivPlayerMenuStack"/>
+
+				<InstanceData Name="InstanceOne" >
+					<Button ID="Button" Size="64,64" Anchor="C,C">
+						<ShowOnMouseOver>
+							<AlphaAnim Anchor="C,C" Size="64,64" Pause="0" Cycle="Bounce" Speed="1" AlphaStart="1" AlphaEnd="0">
+								<Grid Size="64,64" Style="Grid9FrameTurns" />
+							</AlphaAnim>
+						</ShowOnMouseOver>
+
+						<Image ID="CivPlayerIcon" Anchor="C,C" Offset="0,0" Size="64,64" Texture="CivSymbolAtlas32.dds" Color="255,255,255,255"/>
+					</Button>
+				</InstanceData>
+			</PullDown>-->
+
+
+			<!--Civ Buttons (Obsolete probs)-->
+			<Button Anchor="L,T" NoStateChange="1" Offset="0,88"  Texture="civsymbolsframe32.dds" Size="45.45" ID="CivButton7" Hidden="1">
+				<Image Anchor="C,C"  Size="64.64" ID="CivButtonImage7" Hidden="1"/>
+				<Label Anchor="C,C" Offset="-7,-7" Font="TwCenMT14" ID="CivButtonIcon7" String="" ColorSet="Beige_Black_Alpha" FontStyle="Shadow" />
+				<Label Anchor="C,C" Offset="0,0" Font="TwCenMT14" ID="CivButtonSecIcon7" String="" ColorSet="Beige_Black_Alpha" FontStyle="Stroke" Hidden="1"/>
+			</Button>
+			<Button Anchor="L,T" NoStateChange="1" Offset="-4,124"  Texture="aiobserversymbolframe32.dds" Size="32.32" ID="CivButton6" Hidden="1">
+				<Image Anchor="C,C"  Size="64.64" ID="CivButtonImage6" Hidden="1"/>
+				<Label Anchor="C,C" Offset="0,0" Font="TwCenMT16" ID="CivButtonIcon6" String="" ColorSet="Beige_Black_Alpha" FontStyle="Shadow" />
+				<Label Anchor="C,C" Offset="0,0" Font="TwCenMT14" ID="CivButtonSecIcon6" String="" ColorSet="Beige_Black_Alpha" FontStyle="Stroke" Hidden="1"/>
+			</Button>
+			<Button Anchor="L,T" NoStateChange="1" Offset="113,93"  Texture="aiobserversymbolframe32.dds" Size="32.32" ID="CivButton5" Hidden="1">
+				<Image Anchor="C,C"  Size="64.64" ID="CivButtonImage5" Hidden="1"/>
+				<Label Anchor="C,C" Offset="0,0" Font="TwCenMT16" ID="CivButtonIcon5" String="" ColorSet="Beige_Black_Alpha" FontStyle="Shadow" />
+				<Label Anchor="C,C" Offset="0,0" Font="TwCenMT14" ID="CivButtonSecIcon5" String="" ColorSet="Beige_Black_Alpha" FontStyle="Stroke" Hidden="1"/>
+			</Button>
+			<Button Anchor="L,T" NoStateChange="1" Offset="106,94"  Texture="aiobserversymbolframe32.dds" Size="32.32" ID="CivButton4" Hidden="1">
+				<Image Anchor="C,C"  Size="64.64" ID="CivButtonImage4" Hidden="1"/>
+				<Label Anchor="C,C" Offset="0,0" Font="TwCenMT16" ID="CivButtonIcon4" String="" ColorSet="Beige_Black_Alpha" FontStyle="Shadow" />
+				<Label Anchor="C,C" Offset="0,0" Font="TwCenMT14" ID="CivButtonSecIcon4" String="" ColorSet="Beige_Black_Alpha" FontStyle="Stroke" Hidden="1"/>
+			</Button>
+			<Button Anchor="L,T" NoStateChange="1" Offset="90,116"  Texture="aiobserversymbolframe32.dds" Size="32.32" ID="CivButton3" Hidden="1">
+				<Image Anchor="C,C"  Size="64.64" ID="CivButtonImage3" Hidden="1"/>
+				<Label Anchor="C,C" Offset="0,0" Font="TwCenMT16" ID="CivButtonIcon3" String="" ColorSet="Beige_Black_Alpha" FontStyle="Shadow" />
+				<Label Anchor="C,C" Offset="0,0" Font="TwCenMT14" ID="CivButtonSecIcon3" String="" ColorSet="Beige_Black_Alpha" FontStyle="Stroke" Hidden="1"/>
+			</Button>
+			<Button Anchor="L,T" NoStateChange="1" Offset="63,123"  Texture="aiobserversymbolframe32.dds" Size="32.32" ID="CivButton2" Hidden="1">
+				<Image Anchor="C,C"  Size="64.64" ID="CivButtonImage2" Hidden="1"/>
+				<Label Anchor="C,C" Offset="0,0" Font="TwCenMT16" ID="CivButtonIcon2" String="" ColorSet="Beige_Black_Alpha" FontStyle="Shadow"/>
+				<Label Anchor="C,C" Offset="0,0" Font="TwCenMT14" ID="CivButtonSecIcon2" String="" ColorSet="Beige_Black_Alpha" FontStyle="Stroke" Hidden="1"/>
+			</Button>
+			<Button Anchor="L,T" NoStateChange="1" Offset="55,20"  Texture="aiobserversymbolframe32.dds" Size="32.32" ID="CivButton1" Hidden="1">
+				<Image Anchor="C,C"  Size="64.64" ID="CivButtonImage1" Hidden="1"/>
+				<Label Anchor="C,C" Offset="0,0" Font="TwCenMT16" ID="CivButtonIcon1" String="" ColorSet="Beige_Black_Alpha" FontStyle="Shadow" />
+				<Label Anchor="C,C" Offset="0,0" Font="TwCenMT14" ID="CivButtonSecIcon1" String="" ColorSet="Beige_Black_Alpha" FontStyle="Stroke" Hidden="1"/>
+			</Button>
+
+
+			<!--<PullDown ID="CivPlayerMenu" Style="GenericPullDown" WrapWidth="200" ScrollThreshold="170" Size="40,32" SpaceForScroll="1" Anchor="L,C" Offset="132,-48" Hidden="1">
+				<ButtonData>
+					<GridButton Style="SquareButton" Anchor="L,C" >
+						<Image Texture="Assets/UI/Art/Controls/9 Grids/Corner16.dds" TextureOffset="0.0" Offset="3.3"  Size="16,16" Anchor="R,B"  />
+
+						<ShowOnMouseOver>
+							<Image Texture="Assets/UI/Art/Controls/9 Grids/Corner16.dds" TextureOffset="0.16" Offset="3.3"  Size="16,16" Anchor="R,B"  />
+						</ShowOnMouseOver>
+
+						<Image ID="CivPlayerIcon" Anchor="L,C" Offset="0,0" Size="32,32" Texture="CivSymbolAtlas32.dds" Color="255,255,255,255"/>
+					</GridButton>
+				</ButtonData>
+
+				<StackData ID="CivPlayerMenuStack"/>
+
+				<InstanceData Name="InstanceOne" >
+					<Button ID="Button" Size="38,32" Anchor="L,C">
+						<ShowOnMouseOver>
+							<AlphaAnim Anchor="C,C" Size="27,32" Pause="0" Cycle="Bounce" Speed="1" AlphaStart="1" AlphaEnd="0">
+								<Grid Size="32,32" Style="Grid9FrameTurns" />
+							</AlphaAnim>
+						</ShowOnMouseOver>
+
+						<Image ID="CivPlayerIcon" Anchor="L,C" Offset="-4,0" Size="32,32" Texture="CivSymbolAtlas32.dds" Color="255,255,255,255"/>
+					</Button>
+				</InstanceData>
+			</PullDown>-->
+
+		</Box>
+
+		<Image Anchor="L,T" Offset="140,10" Size="45.45" Texture="aiobserversymbolrankedframe45.dds" ID="PlayerScore" Hidden="1" ToolTip="Score" >
+			<Label Anchor="C,C" Offset="0,-2" Font="TwCenMT24" ID="PlayerScoreLabel" ColorSet="Beige_Black_Alpha" FontStyle="Stroke"  />
+			<Label Anchor="C,C" Offset="0,12" Font="TwCenMT20" ID="PlayerScoreIcon" ColorSet="Beige_Black_Alpha" FontStyle="Stroke" Hidden="0"  />
+		</Image>
+		<Button ConsumeMouse="1" Anchor="R,T" Offset="-64,14" Size="32.32" Texture="mainopen32.dds" ID="ShowInterfaceButton" Hidden="1" ToolTip="Hide/Show Interface" >
+			<ShowOnMouseOver>
+				<Image Anchor="R,T" Offset="0,0" Size="32.32" Texture="mainopen32.dds" ID="ShowInterfaceMO" />
+				<AlphaAnim Anchor="R,T" Offset="0,0" Size="32.32"  TextureOffset="0.0" Texture="mainopenhl32.dds"  Pause="0" Cycle="Bounce" Speed="2" AlphaStart="0.95" AlphaEnd="0.55" ID="ShowInterfaceHL" />
+			</ShowOnMouseOver>
+		</Button>
+
+		<Button Hidden="1" Anchor="L,T" NoStateChange="1" Offset="-5,155"  Texture="45x45baseframe.dds" Size="45.45" ID="CultureButton" >
+			<Image Anchor="C,C"  Size="45.45" ID="CultureIcon" Hidden="0"/>
+		</Button>
+
+		<!--</ShowOnMouseOver>-->
+	</Container>
+
+	<Image Anchor="C,T" Offset="0,0" Texture="topcentreaiobserver.dds" Size="450.42" Hidden="1" ID="TopCentre">
+		<!--<Stack Anchor="C,C" Offset="0,0"  StackGrowth="Right" ID="RelationsCivStack" Padding="0"/>-->
+	</Image>
+
+
+
+	<!--Hide the old top panel stuff-->
+	<Image Anchor="C,T" Texture="assets\UI\Art\WorldView\TopPanelBar.dds" Size="Full.32" ID="TopPanelInfoBar" ConsumeMouse="true" Hidden="1"/>
+
+	<Stack Anchor="L,T" Offset="10,6" Padding="10" StackGrowth="Right" ID="TopPanelInfoStack" Hidden="1">
+
+		<TextButton Anchor="C,T" Offset="0,0" String="000 Turn"  Color="Science" ID="SciencePerTurn" ToolTipType="TooltipTypeTopPanel" />
+
+		<TextButton Anchor="C,T" Offset="-0,0" String="000,000 Turn: Total 000,000" ColorLayer0="255,235,0,255"  ID="GoldPerTurn" ToolTipType="TooltipTypeTopPanel" />
+
+		<TextButton Anchor="C,T" Offset="-0,0" String="000,000 Turn: Total 000,000" ColorLayer0="255,235,0,255"  ID="ProsperityScore" ToolTipType="TooltipTypeTopPanel" Hidden="1" />
+
+		<TextButton Anchor="C,T" Offset="-0,0" String="000,000 Turn: Total 000,000" ColorLayer0="255,235,0,255"  ID="InternationalTradeRoutes" ToolTipType="TooltipTypeTopPanel" />
+
+		<TextButton Anchor="C,T" String="HAPPINESS!" ColorLayer0="255,255,200,255"  ID="HappinessString" ToolTipType="TooltipTypeTopPanel"/>
+
+		<TextButton Anchor="C,T" String="GOLDEN AGE!"  ColorLayer0="255,255,255,255"  ID="GoldenAgeString" ToolTipType="TooltipTypeTopPanel"/>
+
+		<TextButton Anchor="C,T" String="LOYALTY!" ColorLayer0="255,255,200,255"  ID="LoyaltyString" ToolTipType="TooltipTypeTopPanel" Hidden="1"/>
+		<TextButton Anchor="C,T" String="SOVEREIGNTY!" ColorLayer0="255,255,200,255"  ID="SovereigntyString" ToolTipType="TooltipTypeTopPanel" Hidden="1"/>
+		<TextButton Anchor="C,T" String="CULTURE!" ColorLayer0="255,255,200,255"  ID="CultureString" ToolTipType="TooltipTypeTopPanel"/>
+
+		<TextButton Anchor="C,T" String="Tourism!" ColorLayer0="255,255,200,255"  ID="TourismString" ToolTipType="TooltipTypeTopPanel"/>
+
+		<TextButton Anchor="C,T" String="PIETY!" ColorLayer0="255,255,200,255"  ID="PietyString" ToolTipType="TooltipTypeTopPanel" Hidden="1"/>
+		<TextButton Anchor="C,T" String="FAITH!" ColorLayer0="255,255,200,255"  ID="FaithString" ToolTipType="TooltipTypeTopPanel"/>
+
+
+		<!--<TextButton Anchor="C,C" String="TXT_KEY_UNIT_SUPPLY_REACHED" ID="UnitSupplyString" Hidden="1"/>-->
+		<Image Anchor="C,T" Offset="0,-3" Texture="assets\UI\Art\WorldView\OverSupplyLimit.dds" Size="20.20" ID="UnitSupplyString" />
+	</Stack>
+
+	<Image Anchor="R,T" Texture="assets\UI\Art\WorldView\TopPanelBar.dds" Size="295.32" ConsumeMouse="true" Hidden="1"/>
+	<Stack Anchor="R,T" Offset="10,4" Padding="10" StackGrowth="Left" ID="TopPanelInfoStackLeft" Hidden="1">
+		<TextButton Offset="0,-12" Anchor="C,C"  String="TXT_KEY_MENU_CAPS"   Font="TwCenMT20" NormalState="Beige_Black"  MouseOver="White_Black" ButtonDown="Beige_Black_Alpha" ID="MenuButton" ToolTip="TXT_KEY_MENU_TOOLTIP" />
+		<Image Offset="0,-10" Anchor="C,C" TextureOffset="5,0" Texture="assets\UI\Art\WorldView\Divider.dds" Size="5.16"  />
+		<TextButton Offset="0,-12" Anchor="C,C"  String=""   Font="TwCenMT20" NormalState="Beige_Black"  MouseOver="White_Black" ButtonDown="Beige_Black_Alpha" ID="CurrentTime"/>
+		<Image Offset="0,-12" Anchor="C,C" TextureOffset="5,0" Texture="assets\UI\Art\WorldView\Divider.dds" Size="5.16"  />
+		<TextButton Offset="0,-12" Anchor="C,C"  String="?"   Font="TwCenMT20" NormalState="Beige_Black"  MouseOver="White_Black" ButtonDown="Beige_Black_Alpha" ID="CivilopediaButton" ToolTip="TXT_KEY_CIVILOPEDIA_TOOLTIP" />
+		<Image Offset="0,-12" Anchor="C,C" TextureOffset="5,0" Texture="assets\UI\Art\WorldView\Divider.dds" Size="5.16"  />
+		<!--<Label Offset="0,-12" Anchor="C,C" String="Date: 2100 AD"  Font="TwCenMT20" ID="CurrentDate"/>-->
+		<Label Offset="0,-12" Anchor="C,C" String="Turn: 1"  Font="TwCenMT20" ID="CurrentTurn"/>
+		<Image Offset="0,-12" Anchor="C,C" TextureOffset="5,0" Texture="assets\UI\Art\WorldView\Divider.dds" Size="5.16"  />
+		<TextButton Offset="0,3" Anchor="C,T" String="" ColorLayer0="255,0,255,255"  ID="ResourceString" ToolTipType="TooltipTypeTopPanel"/>
+		<Button Anchor="C,C" Size="32,32" Offset="-10,-10" ToolTip="TXT_KEY_JFD_UNHIDE_RESOURCES" Texture="CityNamePanelArrows.dds" ID="UnhideResources" Hidden="1">
+		</Button>
+		<Button Anchor="C,C" Size="32,32" TextureOffset="32.0" ToolTip="TXT_KEY_JFD_HIDE_RESOURCES" Offset="-10,-10" Texture="CityNamePanelArrows.dds" ID="HideResources" Hidden="0">
+		</Button>
+		<Label Hidden="1" Offset="0,-12" Anchor="C,C" String=""  Font="TwCenMT20" ID="MagistratesDignitaries"/>
+
+	</Stack>
+
+
+	<ToolTipType Name="TooltipTypeTopPanel" >
+		<Grid Size="530,90" Offset="8.0" Padding="8,8" Style="GridBlack8"  ID="TopPanelMouseover" NoClip="1" >
+			<Label Offset="12,12" Font="TwCenMT16" ID="TooltipLabel" String="Brief description" LeadingOffset="-5" WrapWidth="512" />
+		</Grid>
+	</ToolTipType>
+
+
+
+
+
+
+</Context>

@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Context ColorSet="Beige_Black_Alpha" Font="TwCenMT16" FontStyle="Shadow">
+
+	<Box Style="BGBlock_ClearTopBar" />
+
+	<Instance Name="LegendInstance" >
+		<Button Anchor="L,T" Size="150,30" Color="0,0,0,0" Offset="0,5" ID="LegendButton" Disabled="1">
+			<Grid Anchor="C,C" Offset="0,1" Size="150,30"  Style="Grid9FrameTurnsHL" Hidden="1" ID="LegendSelectHighlight" />
+			<Grid	ULSize="60,1"  ULTexStart="0,0"
+					UCSize="60,1"   UCTexStart="60,0"
+					URSize="60,1"  URTexStart="240,0"
+					LSize="60,1"  LTexStart="0,0"
+					CSize="60,1" CTexStart="60,0"
+					RSize="60,1"  RTexStart="240,0"
+					LLSize="60,1"  LLTexStart="0,0"
+					LCSize="60,1"   LCTexStart="60,0"
+					LRSize="60,1"  LRTexStart="240,0"
+					NoStateChange="1" UL="0" UC="" Offset="-5,-5" Texture="bar300x2.dds" Size="165,1" Anchor="C,B" />
+			<Label  Anchor="L,C"  Font="TwCenMT14" Offset="10,0" Size="32,32" ID="LegendFont" Hidden="0"/>
+			<Image Anchor="L,C" Offset="6,0" Size="32,32"   Texture="Assets/UI/Art/Icons/CivSymbolsColor256.dds" Hidden="1" ID="PlayerIcon"/>
+			<Line Color="0,255,255,120" Offset="-1,-1" Start="40,8" End="110,8" Width="2" ID="LegendLine"/>
+			<Label Offset="36,14" String="America" TruncateWidth="130" Font="TwCenMT14" ColorSet="Beige_Black_Alpha" FontStyle="Shadow" ID="LegendName" />
+		</Button>
+	</Instance>
+
+	<Instance Name="PlayerInstance" >
+
+		<Button Anchor="L,T" Size="150,30" Color="0,0,0,0" Offset="0,5" ID="PlayerButton">
+			<Grid Anchor="C,C" Offset="0,1" Size="150,30"  Style="Grid9FrameTurnsHL" Hidden="1" ID="PlayerSelectHighlight" />
+			<Grid	ULSize="60,1"  ULTexStart="0,0"
+					UCSize="60,1"   UCTexStart="60,0"
+					URSize="60,1"  URTexStart="240,0"
+					LSize="60,1"  LTexStart="0,0"
+					CSize="60,1" CTexStart="60,0"
+					RSize="60,1"  RTexStart="240,0"
+					LLSize="60,1"  LLTexStart="0,0"
+					LCSize="60,1"   LCTexStart="60,0"
+					LRSize="60,1"  LRTexStart="240,0"
+					NoStateChange="1" UL="0" UC="" Offset="-5,-5" Texture="bar300x2.dds" Size="165,1" Anchor="C,B" />
+
+			<Image Anchor="L,C" Offset="0,0" Size="32,32"   Texture="Assets/UI/Art/Icons/CivSymbolsColor256.dds" Hidden="0" ID="PlayerIcon"/>
+			<Line Color="0,255,255,120" Offset="-6,-1" Start="40,8" End="110,8" Width="2" ID="PlayerLine"/>
+			<Label Offset="32,14" String="America" TruncateWidth="130" Font="TwCenMT14" ColorSet="Beige_Black_Alpha" FontStyle="Shadow" ID="PlayerName" />
+		</Button>
+	</Instance>
+
+	<Instance Name="MinorPlayerInstance" >
+
+		<Button Anchor="L,T" Size="150,30" Color="0,0,0,0" Offset="0,5" ID="MinorPlayerButton">
+			<Grid Anchor="C,C" Offset="0,1" Size="150,30"  Style="Grid9FrameTurnsHL" Hidden="1" ID="MinorPlayerSelectHighlight" />
+			<Grid	ULSize="60,1"  ULTexStart="0,0"
+					UCSize="60,1"   UCTexStart="60,0"
+					URSize="60,1"  URTexStart="240,0"
+					LSize="60,1"  LTexStart="0,0"
+					CSize="60,1" CTexStart="60,0"
+					RSize="60,1"  RTexStart="240,0"
+					LLSize="60,1"  LLTexStart="0,0"
+					LCSize="60,1"   LCTexStart="60,0"
+					LRSize="60,1"  LRTexStart="240,0"
+					NoStateChange="1" UL="0" UC="" Offset="-5,-5" Texture="bar300x2.dds" Size="165,1" Anchor="C,B" />
+
+			<Image Anchor="L,C" Offset="0,0" Size="32,32"  ID="PlayerTexture" Hidden="0"/>
+			<Line Color="0,255,255,120" Offset="-6,-1" Start="40,8" End="110,8" Width="2" ID="PlayerLine"/>
+			<Label Offset="32,14" String="America" TruncateWidth="130" Font="TwCenMT14" ColorSet="Beige_Black_Alpha" FontStyle="Shadow" ID="PlayerName" />
+		</Button>
+	</Instance>
+
+	<Grid Size="990,653" Anchor="C,C" Offset="0,6" Padding="0,0" Style="Grid9DetailFive140" ID="MainGrid">
+
+		<!-- Decoration -->
+		<!-- Top -->
+		<Image Anchor="C,T" AnchorSide="I.O" Size="256,64" Offset="0,-14" Texture="assets\UI\Art\Icons\Top512IconTrim.dds">
+			<Image ID="Icon" Size="64,64" Offset="-1,-1" Anchor="C,C" Texture="JFDOverlayMap64.dds"/>
+		</Image>
+
+		<!-- Side treatments -->
+		<Box Style="MenuLeftSideTreatment"/>
+		<Box Style="MenuRightSideTreatment"/>
+
+		<Label Style="MenuTitleCaption" String="TXT_KEY_JFD_MINIMAP_OVERVIEW" />
+
+		<!-- Top Panel -->
+		<Box Anchor="C,T" Size="955,32" Offset="0,44" Color="0.0.0.128" >
+			<Image ID="MapTrimTop" Anchor="C,B" Offset="0,0" Texture="HorizontalTrim.dds" Size="956,5" Hidden="1" />
+		</Box>
+
+		<!-- Content Panel -->
+		<Box ID="MainPanel" Anchor="C,C" Color="0,0,0,0" Offset="0,-40" Size="920,440">
+
+			<Image Anchor="C,T" Offset="35,25" ID="HorizontalTrimTop" Texture="HorizontalTrim.dds" Hidden="0" Size="850,5" />
+
+			<!-- Map Tab Content-->
+			<Box ID="MapPanel" Offset="-10,60" Color="0,0,0,255" Size="930,425" Hidden="0" >
+
+				<ReplayMap ID="Map" Anchor="L,T" Offset="-8,-20" Size="860,385" />
+				<PullDown Anchor="R,T" Style="GenericPullDown" ScrollThreshold="150" Size="350,27" AutoSizePopUp="1" SpaceForScroll="1" Offset="0,-70" ID="MiniMapFilterPulldown" >
+					<Label Anchor="C,C"  Offset="0,0" Font="TwCenMT20" ColorSet="Beige_Black_Alpha" FontStyle="Shadow" ID="MiniMapFilterPulldownLabel" />
+				</PullDown>
+
+				<Grid Anchor="R,T" Offset="0,-20" Size="160,385" Style="Grid9Frame" ID="ScrollGrid" >
+
+					<ScrollPanel Hidden="0" Offset="-2,4" Anchor="R,T" AutoScrollBar="0" Size="160,378" Vertical="1" ID="LegendScrollPanel" >
+
+						<ScrollBar Style="VertSlider" Length="342" Offset="0,0" Anchor="R,C" AnchorSide="O,I" ID="LegendScrollBar" />
+						<UpButton  Offset="0,0"  Style="ScrollBarUp"  Anchor="R,T" AnchorSide="O,I" ID="LegendScrollUp" />
+						<DownButton Offset="0,0" Style="ScrollBarDown"  Anchor="R,B" AnchorSide="O,I" ID="LegendScrollDown" />
+
+						<Stack Anchor="R,T" Offset="0,6" StackGrowth="Bottom" Padding="5" ID="MainStack">
+
+							<Button ID="LegendButton" Anchor="R,T" Size="160,27" Offset="0,0" Hidden="1" Disabled="0">
+								<Grid ID="LegendButtonGrid"  Size="175,27" Offset="-10,0" Padding="0,0" Style="Grid9FrameTurns" />
+								<Grid ID="LegendButtonGridHL"  Size="175,27" Offset="-10,0" Padding="0,0" Style="Grid9FrameTurnsHL" />
+								<Label Anchor="C,C"  Offset="-6,0"  String="TXT_KEY_JFD_MINIMAP_OVERVIEW_LEGENDS" Font="TwCenMT20" ColorSet="Beige_Black_Alpha" FontStyle="Shadow" ID="LegendLabel" />
+								<ShowOnMouseOver>
+									<AlphaAnim Anchor="L,C" Size="160,27" Pause="0" Cycle="Bounce" Speed="1" AlphaStart="2" AlphaEnd="1">
+										<Grid   Size="160,27" Offset="0,0" Padding="0,0" Style="Grid9FrameTurnsHL" />
+									</AlphaAnim>
+								</ShowOnMouseOver>
+							</Button>
+							<Grid Anchor="R,T" Offset="5,-2" Style="Grid9Blank" Size="155,355" Hidden="1" ID="LegendGrid" >
+								<Stack Offset="0,0" StackGrowth="Bottom"  Padding="2" ID="LegendStack" />
+							</Grid>
+
+							<Button ID="PlayersButton" Anchor="R,T" Size="160,27" Offset="0,0" Hidden="1" Disabled="0">
+								<Grid ID="PlayersButtonGrid"  Size="175,27" Offset="-10,0" Padding="0,0" Style="Grid9FrameTurns" />
+								<Grid ID="PlayersButtonGridHL"  Size="175,27" Offset="-10,0" Padding="0,0" Style="Grid9FrameTurnsHL" />
+								<Label Anchor="C,C"  Offset="-6,0"  String="TXT_KEY_JFD_MINIMAP_OVERVIEW_CIVS" Font="TwCenMT20" ColorSet="Beige_Black_Alpha" FontStyle="Shadow" ID="PlayersLabel" />
+								<ShowOnMouseOver>
+									<AlphaAnim Anchor="L,C" Size="160,27" Pause="0" Cycle="Bounce" Speed="1" AlphaStart="2" AlphaEnd="1">
+										<Grid   Size="160,27" Offset="0,0" Padding="0,0" Style="Grid9FrameTurnsHL" />
+									</AlphaAnim>
+								</ShowOnMouseOver>
+							</Button>
+							<Grid Anchor="R,T" Offset="5,-2" Style="Grid9Blank" Size="155,355" Hidden="1" ID="PlayerGrid" >
+								<Stack Offset="5,0" StackGrowth="Bottom" Padding="2" ID="LegendPlayersStack" />
+							</Grid>
+
+							<Button ID="MinorPlayersButton" Anchor="R,T" Size="160,27" Offset="0,0" Hidden="1" Disabled="0">
+								<Grid ID="MinorPlayersButtonGrid"  Size="175,27" Offset="-10,0" Padding="0,0" Style="Grid9FrameTurns" />
+								<Grid ID="MinorPlayersButtonGridHL"  Size="175,27" Offset="-10,0" Padding="0,0" Style="Grid9FrameTurnsHL" />
+								<Label Anchor="C,C"  Offset="-6,0"  String="TXT_KEY_JFD_MINIMAP_OVERVIEW_CITY_STATES" Font="TwCenMT20" ColorSet="Beige_Black_Alpha" FontStyle="Shadow" ID="MinorPlayersLabel" />
+								<ShowOnMouseOver>
+									<AlphaAnim Anchor="L,C" Size="160,27" Pause="0" Cycle="Bounce" Speed="1" AlphaStart="2" AlphaEnd="1">
+										<Grid   Size="160,27" Offset="0,0" Padding="0,0" Style="Grid9FrameTurnsHL" />
+									</AlphaAnim>
+								</ShowOnMouseOver>
+							</Button>
+							<Grid Anchor="R,T" Offset="5,-2" Style="Grid9Blank" Size="155,355" Hidden="1" ID="MinorPlayerGrid" >
+								<Stack Offset="5,0" StackGrowth="Bottom" Padding="2" ID="LegendMinorPlayersStack" />
+							</Grid>
+						</Stack>
+					</ScrollPanel>
+				</Grid>
+			</Box>
+			<Image ID="MapTrimBottom" Anchor="C,T" Offset="0,485" Texture="HorizontalTrim.dds" Size="956,5" />
+			<PullDown Anchor="L,T" Style="GenericPullDown" ScrollThreshold="150" Size="350,27" AutoSizePopUp="1" SpaceForScroll="1" Offset="69,-10" ID="MiniMapOverlayPulldown" >
+				<Label Anchor="C,C"  Offset="0,0" Font="TwCenMT24" ColorSet="Beige_Black_Alpha" FontStyle="Shadow" ID="MiniMapOverlayPulldownLabel" />
+			</PullDown>
+
+			<Stack Offset="60,-20" StackGrowth="Right"  Anchor="L,B" Padding="5" ID="OptionsStack">
+				<CheckBox ID="ShowRevealed" Offset="0,0" ButtonTexture="assets/UI/Art/Controls/CheckBox2TheBox.dds" Hidden="0" Font="TwCenMT16" ToolTip="TXT_KEY_JFD_MINIMAP_SHOW_REVEALED_TT" TextAnchorSide="Right" TextOffset="0,0" IsChecked="0" ConsumeMouse="1" />
+				<Label ID="ShowRevealedLabel" Offset="-5,10" String="TXT_KEY_JFD_MINIMAP_SHOW_REVEALED" ToolTip="TXT_KEY_JFD_MINIMAP_SHOW_REVEALED_TT" Hidden="0" Font="TwCenMT16"/>
+
+				<CheckBox ID="ShowBarbs" Offset="0,0" ButtonTexture="assets/UI/Art/Controls/CheckBox2TheBox.dds" Hidden="0" Font="TwCenMT16"  ToolTip="TXT_KEY_JFD_MINIMAP_SHOW_BARBS_TT" TextAnchorSide="Right" TextOffset="0,0" IsChecked="0" ConsumeMouse="1" />
+				<Label ID="ShowBarbsLabel" Offset="-5,10" String="TXT_KEY_JFD_MINIMAP_SHOW_BARBS" ToolTip="TXT_KEY_JFD_MINIMAP_SHOW_BARBS_TT" Hidden="0" Font="TwCenMT16"/>
+
+				<CheckBox ID="ShowCities" Offset="0,0" ButtonTexture="assets/UI/Art/Controls/CheckBox2TheBox.dds" Hidden="0" Font="TwCenMT16"  ToolTip="TXT_KEY_JFD_MINIMAP_SHOW_CITIES_TT" TextAnchorSide="Right" TextOffset="0,0" IsChecked="1" ConsumeMouse="1" />
+				<Label ID="ShowCitiesLabel" Offset="-5,10" String="TXT_KEY_JFD_MINIMAP_SHOW_CITIES" ToolTip="TXT_KEY_JFD_MINIMAP_SHOW_CITIES_TT" Hidden="0" Font="TwCenMT16"/>
+
+				<CheckBox ID="ShowUnits" Offset="0,0" ButtonTexture="assets/UI/Art/Controls/CheckBox2TheBox.dds" Hidden="0" Font="TwCenMT16"  ToolTip="TXT_KEY_JFD_MINIMAP_SHOW_UNITS_TT" TextAnchorSide="Right" TextOffset="0,0" IsChecked="0" ConsumeMouse="1" />
+				<Label ID="ShowUnitsLabel" Offset="-5,10" String="TXT_KEY_JFD_MINIMAP_SHOW_UNITS" ToolTip="TXT_KEY_JFD_MINIMAP_SHOW_UNITS_TT" Hidden="0" Font="TwCenMT16"/>
+
+				<CheckBox ID="ShowWater" Offset="0,0" ButtonTexture="assets/UI/Art/Controls/CheckBox2TheBox.dds" Hidden="0" Font="TwCenMT16"  ToolTip="TXT_KEY_JFD_MINIMAP_SHOW_WATER_TT" TextAnchorSide="Right" TextOffset="0,0" IsChecked="0" ConsumeMouse="1" />
+				<Label ID="ShowWaterLabel" Offset="-5,10" String="TXT_KEY_JFD_MINIMAP_SHOW_WATER" ToolTip="TXT_KEY_JFD_MINIMAP_SHOW_WATER_TT" Hidden="0" Font="TwCenMT16"/>
+
+			</Stack>
+		</Box>
+
+		<!-- Bottom Panel -->
+		<Box Anchor="C,B" AnchorSide="I.I" Offset="0,54"   Size="927,56" Color="255,255,255,0" ID="CloseButtonBox" >
+			<!-- Close Button  -->
+			<GridButton Anchor="L,B"  Style="SmallButton" Size="150,32"  Offset="14,0" StateOffsetIncrement="0,0" ID="CloseButton"  >
+				<Label Anchor="C,C"  Offset="0,0"  String="TXT_KEY_CLOSE" Font="TwCenMT18" ColorSet="Beige_Black_Alpha" FontStyle="Shadow"  />
+			</GridButton>
+		</Box>
+	</Grid>
+</Context>

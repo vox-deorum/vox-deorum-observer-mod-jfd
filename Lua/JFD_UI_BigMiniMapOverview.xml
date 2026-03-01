@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Context ColorSet="Beige_Black_Alpha" Font="TwCenMT16" FontStyle="Shadow">
+
+	<Box Style="BGBlock_ClearTopBar" />
+
+	<Grid Size="990,653" Anchor="C,C" Offset="0,0" Padding="0,0" Style="Grid9DetailFive140" ID="MainGrid">
+
+		<!-- Decoration -->
+		<!-- Top -->
+
+		<!-- Side treatments -->
+		<Box Style="MenuLeftSideTreatment"/>
+		<Box Style="MenuRightSideTreatment"/>
+
+		<Label Style="MenuTitleCaption" String="TXT_KEY_JFD_MINIMAP_OVERVIEW" />
+
+		<Button Anchor="C,C" Offset="0,0" Size="1280,760" ID="Minimap" NoStateChange="1" ConsumeMouse="1" />
+
+		<!-- Bottom Panel -->
+		<TextButton Offset="0,25" Anchor="C,B" String="TXT_KEY_CLOSE" Font="TwCenMT14" NormalState="Beige_Black" Hidden="1" MouseOver="White_Black" ButtonDown="Beige_Black_Alpha" ID="CloseButton"/>
+
+		<Box Anchor="C,B" AnchorSide="I.I" Offset="0,54"   Size="927,56" Color="255,255,255,0" ID="CloseButtonBox" >
+			<GridButton Anchor="L,B"  Style="SmallButton" Size="150,32"  Offset="14,0" StateOffsetIncrement="0,0" ID="CloseButton"  >
+				<Label Anchor="C,C"  Offset="0,0"  String="TXT_KEY_CLOSE" Font="TwCenMT18" ColorSet="Beige_Black_Alpha" FontStyle="Shadow"  />
+			</GridButton>
+		</Box>
+	</Grid>
+</Context>

@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GameData>
+	<Language_en_US>
+		<!--===================================================-->
+		<!--MAP OVERLAYS OVERVIEW-->
+		<!--===================================================-->
+		<Row Tag="TXT_KEY_OVERLAY_JFD_OVERVIEW">
+			<Text>Map Overlays</Text>
+		</Row>
+		<Row Tag="TXT_KEY_OVERLAY_CHOOSE_JFD_CLASS">
+			<Text>[COLOR_HIGHLIGHT_TEXT]CHOOSE MAP CLASS[ENDCOLOR]</Text>
+		</Row>
+		<Row Tag="TXT_KEY_OVERLAY_CHOOSE_JFD_MAP">
+			<Text>[COLOR_HIGHLIGHT_TEXT]CHOOSE MAP[ENDCOLOR]</Text>
+		</Row>
+		<!--===================================================-->
+		<!--MAP OVERLAYS OVERVIEW: FILTERS-->
+		<!--===================================================-->
+		<Row Tag="TXT_KEY_OVERLAY_CHOOSE_JFD_FILTER">
+			<Text>[COLOR_HIGHLIGHT_TEXT]CHOOSE FILTER[ENDCOLOR]</Text>
+		</Row>
+		<Row Tag="TXT_KEY_OVERLAY_CHOOSE_JFD_FILTER_PLAYER">
+			<Text>[COLOR_HIGHLIGHT_TEXT]CHOOSE PLAYER[ENDCOLOR]</Text>
+		</Row>
+		<Row Tag="TXT_KEY_OVERLAY_CHOOSE_JFD_FILTER_PLAYER_TT">
+			<Text>Select Map visibility from this perspective.</Text>
+		</Row>
+		<Row Tag="TXT_KEY_OVERLAY_FILTER_JFD_PLAYER_SHOW_ALL">
+			<Text>[COLOR_HIGHLIGHT_TEXT]SHOW ALL[ENDCOLOR]</Text>
+		</Row>
+		<Row Tag="TXT_KEY_OVERLAY_FILTER_JFD_PLAYER_SHOW_ALL_TT">
+			<Text>Select Map visibility from this perspective.</Text>
+		</Row>
+		<Row Tag="TXT_KEY_OVERLAY_FILTER_JFD_PLAYER_SHOW_PLAYER">
+			<Text>[COLOR_HIGHLIGHT_TEXT]{1_Desc}[ENDCOLOR]</Text>
+		</Row>
+		<Row Tag="TXT_KEY_OVERLAY_FILTER_JFD_PLAYER_SHOW_PLAYER_TT">
+			<Text>Select Map visibility from this perspective.</Text>
+		</Row>
+		<Row Tag="TXT_KEY_OVERLAY_FILTER_JFD_ALL_PLAYERS">
+			<Text>All Players</Text>
+		</Row>
+		<Row Tag="TXT_KEY_OVERLAY_FILTER_JFD_ALL_PLAYERS_HELP">
+			<Text>Show all Players on the map.</Text>
+		</Row>
+		<Row Tag="TXT_KEY_OVERLAY_FILTER_JFD_ALL_MAJORS">
+			<Text>Civilizations</Text>
+		</Row>
+		<Row Tag="TXT_KEY_OVERLAY_FILTER_JFD_ALL_MAJORS_HELP">
+			<Text>Show only Civilizations on the map.</Text>
+		</Row>
+		<Row Tag="TXT_KEY_OVERLAY_FILTER_JFD_ALL_MINORS">
+			<Text>City-States</Text>
+		</Row>
+		<Row Tag="TXT_KEY_OVERLAY_FILTER_JFD_ALL_MINORS_HELP">
+			<Text>Show only City-States on the map.</Text>
+		</Row>
+		<!--===================================================-->
+		<!--MAP OVERLAYS OVERVIEW: LEGEND-->
+		<!--===================================================-->
+		<Row Tag="TXT_KEY_OVERLAY_JFD_LEGEND">
+			<Text>LEGEND</Text>
+		</Row>
+		<Row Tag="TXT_KEY_OVERLAY_JFD_LEGEND_CHECK_TT">
+			<Text>Show/Hide on the map.</Text>
+		</Row>
+		<Row Tag="TXT_KEY_OVERLAY_JFD_BARBARIANS">
+			<Text>BARBARIANS</Text>
+		</Row>
+		<Row Tag="TXT_KEY_OVERLAY_JFD_CITY_STATES">
+			<Text>CITY-STATES</Text>
+		</Row>
+		<Row Tag="TXT_KEY_OVERLAY_JFD_CIVILIZATIONS">
+			<Text>CIVILIZATIONS</Text>
+		</Row>
+		<Row Tag="TXT_KEY_OVERLAY_JFD_SHOW_LEGEND">
+			<Text>[ICON_ARROW_LEFT]SHOW LEGEND</Text>
+		</Row>
+		<Row Tag="TXT_KEY_OVERLAY_JFD_SHOW_PLAYERS">
+			<Text>SHOW PLAYERS[ICON_ARROW_RIGHT]</Text>
+		</Row>
+		<!--===================================================-->
+		<!--MAP OVERLAYS OVERVIEW: OPTIONS-->
+		<!--===================================================-->
+		<Row Tag="TXT_KEY_OVERLAY_JFD_OPTIONS_LEGEND_OVERRIDE_WARNING">
+			<Text>[COLOR_NEGATIVE_TEXT]Note: If other Legends are valid, city will be overriden.[ENDCOLOR]</Text>
+		</Row>
+		<!--OPTIONS-->
+		<Row Tag="TXT_KEY_OVERLAY_JFD_OPTIONS">
+			<Text>OPTIONS</Text>
+		</Row>
+		<Row Tag="TXT_KEY_OVERLAY_JFD_OPTION_EXCLUDE_INACTIVE">
+			<Text>Exclude Inactive Players</Text>
+		</Row>
+		<Row Tag="TXT_KEY_OVERLAY_JFD_OPTION_EXCLUDE_INACTIVE_HELP">
+			<Text>Shade tiles only according to the active Player (currently: {1_Desc}).</Text>
+		</Row>
+		<Row Tag="TXT_KEY_OVERLAY_JFD_OPTION_EXCLUDE_INACTIVE_HELP_PLAYER">
+			<Text>[COLOR_HIGHLIGHT_TEXT]{1_Desc}[ENDCOLOR]</Text>
+		</Row>
+		<Row Tag="TXT_KEY_OVERLAY_JFD_OPTION_EXCLUDE_INACTIVE_HELP_NONE">
+			<Text>[COLOR_HIGHLIGHT_TEXT]None[ENDCOLOR]</Text>
+		</Row>
+		<Row Tag="TXT_KEY_OVERLAY_JFD_OPTION_EXCLUDE_PILLAGED_TILES">
+			<Text>Exclude Pillaged</Text>
+		</Row>
+		<Row Tag="TXT_KEY_OVERLAY_JFD_OPTION_EXCLUDE_PILLAGED_TILES_HELP">
+			<Text>[COLOR_WARNING_TEXT]DON'T[ENDCOLOR] shade Tiles that have been pillaged alongside others.</Text>
+		</Row>
+		<Row Tag="TXT_KEY_OVERLAY_JFD_OPTION_EXCLUDE_WATER_TILES">
+			<Text>Exclude Water Tiles</Text>
+		</Row>
+		<Row Tag="TXT_KEY_OVERLAY_JFD_OPTION_EXCLUDE_WATER_TILES_HELP">
+			<Text>[COLOR_WARNING_TEXT]DON'T[ENDCOLOR] shade Water-based Tiles (Ocean, Coast, Lakes, etc.) (other than rivers) alongside others.</Text>
+		</Row>
+		<Row Tag="TXT_KEY_OVERLAY_JFD_OPTION_INCLUDE_BARBARIANS">
+			<Text>Include Barbarians</Text>
+		</Row>
+		<Row Tag="TXT_KEY_OVERLAY_JFD_OPTION_INCLUDE_BARBARIANS_HELP">
+			<Text>Shade Barbarians alongside others.</Text>
+		</Row>
+		<Row Tag="TXT_KEY_OVERLAY_JFD_OPTION_INCLUDE_CITY_TILES">
+			<Text>Include City Tiles</Text>
+		</Row>
+		<Row Tag="TXT_KEY_OVERLAY_JFD_OPTION_INCLUDE_CITY_TILES_HELP">
+			<Text>Shade Tiles alongside Cities.</Text>
+		</Row>
+		<Row Tag="TXT_KEY_OVERLAY_JFD_OPTION_INCLUDE_EMBARKED_UNITS">
+			<Text>Include Embarked Units</Text>
+		</Row>
+		<Row Tag="TXT_KEY_OVERLAY_JFD_OPTION_INCLUDE_EMBARKED_UNITS_HELP">
+			<Text>Shade Embarked Units alongside others.</Text>
+		</Row>
+		<Row Tag="TXT_KEY_OVERLAY_JFD_OPTION_SHOW_BORDERS">
+			<Text>Show Borders</Text>
+		</Row>
+		<Row Tag="TXT_KEY_OVERLAY_JFD_OPTION_SHOW_BORDERS_HELP">
+			<Text>Display player borders on the map.[NEWLINE][NEWLINE]{TXT_KEY_OVERLAY_JFD_OPTIONS_LEGEND_OVERRIDE_WARNING}</Text>
+		</Row>
+		<Row Tag="TXT_KEY_OVERLAY_JFD_OPTION_SHOW_CITIES">
+			<Text>Show Cities</Text>
+		</Row>
+		<Row Tag="TXT_KEY_OVERLAY_JFD_OPTION_SHOW_CITIES_HELP">
+			<Text>Display player cities on the map.[NEWLINE][NEWLINE]{TXT_KEY_OVERLAY_JFD_OPTIONS_LEGEND_OVERRIDE_WARNING}</Text>
+		</Row>
+		<Row Tag="TXT_KEY_OVERLAY_JFD_OPTION_SHOW_STARTS">
+			<Text>Show Starts</Text>
+		</Row>
+		<Row Tag="TXT_KEY_OVERLAY_JFD_OPTION_SHOW_STARTS_HELP">
+			<Text>Display player starting locations on the map.[NEWLINE][NEWLINE]{TXT_KEY_OVERLAY_JFD_OPTIONS_LEGEND_OVERRIDE_WARNING}</Text>
+		</Row>
+		<Row Tag="TXT_KEY_OVERLAY_JFD_OPTION_SHOW_TERRAIN">
+			<Text>Show Terrain</Text>
+		</Row>
+		<Row Tag="TXT_KEY_OVERLAY_JFD_OPTION_SHOW_TERRAIN_HELP">
+			<Text>Shades terrain on the map (toggle off for minimap shading instead).[NEWLINE][NEWLINE]{TXT_KEY_OVERLAY_JFD_OPTIONS_LEGEND_OVERRIDE_WARNING}</Text>
+		</Row>
+	</Language_en_US>
+</GameData>
