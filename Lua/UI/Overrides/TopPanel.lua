@@ -692,7 +692,7 @@ function UpdateNewData(playerID, szTag)
 		local vdLabel = VD_Players[playerID]
 		if vdLabel then
 			VD_Log("Stage2: player=" .. tostring(playerID) .. " label=" .. vdLabel)
-			Controls.PlayerLeaderNameText:SetText(vdLabel)
+			Controls.PlayerLeaderNameText:SetText(vdLabel:gsub("-strategist", ""))
 		else
 			VD_Log("Stage2: player=" .. tostring(playerID) .. " no VD data, showing Unknown")
 			Controls.PlayerLeaderNameText:SetText("Unknown")
