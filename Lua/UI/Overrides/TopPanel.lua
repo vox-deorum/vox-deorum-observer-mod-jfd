@@ -17,19 +17,6 @@ local function VD_Log(...)
 	print("[VD]", ...)
 end
 
--------------------------------------------------
--- VD Stage 4: action type -> friendly name
--------------------------------------------------
-local VD_ACTION_NAMES = {
-	strategy         = "Strategy",
-	research         = "Research",
-	policy           = "Policy",
-	relationship     = "Relationship",
-	persona          = "Persona",
-	flavors          = "Flavor",
-	["unset-flavors"] = "Flavor Reset",
-	["status-quo"]   = "Status Quo",
-}
 
 local function VD_UpdatePanelExtras(playerID)
 	local pPlayer = Players[playerID]
@@ -43,17 +30,8 @@ local function VD_UpdatePanelExtras(playerID)
 		return
 	end
 
-	local parts = {}
 	local firstRationale = nil
 	for _, action in ipairs(actionData.list) do
-		local name = VD_ACTION_NAMES[action.actionType] or action.actionType
-		if action.actionType == "relationship" then
-			local target = action.summary and action.summary:match("[Ww]ith%s+(.-)%s*$")
-			if target and target ~= "" then
-				name = name .. " (" .. target .. ")"
-			end
-		end
-		table.insert(parts, name)
 		if not firstRationale and action.rationale and action.rationale ~= "" then
 			local t = action.actionType
 			if t == "strategy" or t == "flavors" or t == "status-quo" then
@@ -62,14 +40,11 @@ local function VD_UpdatePanelExtras(playerID)
 		end
 	end
 
-	Controls.VD_ActionSummaryText:SetText("Changes: " .. table.concat(parts, ", "))
-	Controls.VD_InfoBox:SetHide(false)
-
 	if firstRationale then
 		Controls.VD_RationaleText:SetText(firstRationale)
-		Controls.VD_RationaleBox:SetHide(false)
+		Controls.VD_InfoBox:SetHide(false)
 	else
-		Controls.VD_RationaleBox:SetHide(true)
+		Controls.VD_InfoBox:SetHide(true)
 	end
 end
 
@@ -897,9 +872,9 @@ local function VD_OnAIProcessingStarted(playerID)
 end
 Events.AIProcessingStartedForPlayer.Add(VD_OnAIProcessingStarted)
 -------------------------------------------------
--- VD Stage 4: Details button opens action dialog
+-- VD Stage 4: click rationale to open action dialog
 -------------------------------------------------
-Controls.VD_DetailsButton:RegisterCallback(Mouse.eLClick, function()
+Controls.VD_RationaleBox:RegisterCallback(Mouse.eLClick, function()
 	LuaEvents.VD_ShowActionDialog(g_iPlayerForView)
 end)
 -------------------------------------------------
