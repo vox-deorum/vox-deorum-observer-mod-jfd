@@ -43,7 +43,7 @@ local function VD_UpdatePanelExtras(playerID)
 	if firstRationale then
 		Controls.VD_RationaleText:SetText(firstRationale)
 		Controls.VD_RationaleBox:DoAutoSize()
-		Controls.VD_InfoBox:DoAutoSize()
+		Controls.VD_InfoBox:SetSizeY(Controls.VD_RationaleBox:GetSizeY())
 		Controls.VD_InfoBox:SetHide(false)
 	else
 		Controls.VD_InfoBox:SetHide(true)
@@ -373,7 +373,8 @@ function UpdateNewData(playerID, szTag)
 			local iPolicies = pPlayer:GetNumPolicies()
 			local strCulFont = "[ICON_CULTURE]"
 			local strCulShortDesc = tostring(iPolicies)
-			local strCulTT = Locale.ConvertTextKey("[ICON_CULTURE] Policies + Tenets: {1_Num}", iPolicies)
+			local iCulturePerTurn = pPlayer:GetTotalJONSCulturePerTurn()
+			local strCulTT = Locale.ConvertTextKey("[ICON_CULTURE] Policies + Tenets: {1_Num} | +{2_Num}/turn", iPolicies, iCulturePerTurn)
 			Controls.CulIcon:SetText(strCulFont)
 			Controls.CulIcon:SetToolTipString(strCulTT)
 			Controls.CulInfo:SetText(strCulShortDesc)
@@ -580,12 +581,13 @@ function UpdateNewData(playerID, szTag)
 			local strResFont = "[ICON_RESEARCH]"
 			local strResShortDesc = tostring(iTechs)
 			local currentResearchID = pPlayer:GetCurrentResearch()
+			local iSciencePerTurn = pPlayer:GetScience()
 			local strResTT
 			if currentResearchID > -1 then
 				local techName = Locale.ConvertTextKey(GameInfo.Technologies[currentResearchID].Description)
-				strResTT = Locale.ConvertTextKey("[ICON_RESEARCH] Techs: {1_Num} | Researching: {2_Desc}", iTechs, techName)
+				strResTT = Locale.ConvertTextKey("[ICON_RESEARCH] Techs: {1_Num} | +{2_Num}/turn | Researching: {3_Desc}", iTechs, iSciencePerTurn, techName)
 			else
-				strResTT = Locale.ConvertTextKey("[ICON_RESEARCH] Techs: {1_Num} | Researching: None", iTechs)
+				strResTT = Locale.ConvertTextKey("[ICON_RESEARCH] Techs: {1_Num} | +{2_Num}/turn | Researching: None", iTechs, iSciencePerTurn)
 			end
 			Controls.ResInfo:SetText(strResShortDesc)
 			Controls.ResInfo:SetToolTipString(strResTT)
@@ -888,7 +890,7 @@ Events.AIProcessingStartedForPlayer.Add(VD_OnAIProcessingStarted)
 -------------------------------------------------
 -- VD Stage 4: click rationale to open action dialog
 -------------------------------------------------
-Controls.VD_RationaleBox:RegisterCallback(Mouse.eLClick, function()
+Controls.VD_InfoBox:RegisterCallback(Mouse.eLClick, function()
 	LuaEvents.VD_ShowActionDialog(g_iPlayerForView)
 end)
 -------------------------------------------------

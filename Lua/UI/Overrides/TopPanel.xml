@@ -212,12 +212,6 @@
 					</Image>
 					<TextButton Offset="0,-13" Anchor="C,C"  String="?"   Font="TwCenMT14" NormalState="Beige_Black"  MouseOver="White_Black" ButtonDown="Beige_Black_Alpha" ID="PopInfo" />
 
-					<!--Culture-->
-					<Image Anchor="L,C" Offset="0,-13" Size="26.20" ID="CulInfoFrame" Hidden="0">
-						<Label Anchor="L,C" Offset="2,-2" Font="TwCenMT16" ID="CulIcon" String="[ICON_CULTURE]" Hidden="0" ColorSet="Beige_Black_Alpha" FontStyle="Shadow" />
-					</Image>
-					<TextButton Offset="0,-13" Anchor="C,C"  String="?"   Font="TwCenMT14" NormalState="Beige_Black"  MouseOver="White_Black" ButtonDown="Beige_Black_Alpha" ID="CulInfo" />
-
 					<!--Followers
 					<Image Anchor="L,C" Offset="0,-13" Size="26.20" Texture="topleftframe22.dds" ID="FolInfoFrame" Hidden="0">
 						<Label Anchor="L,C" Offset="2,-2" Font="TwCenMT16" ID="FolIcon" String="[ICON_RELIGION_BUDDHISM]" Hidden="0" ColorSet="Beige_Black_Alpha" FontStyle="Shadow" />
@@ -235,6 +229,12 @@
 						<Label Anchor="L,C" Offset="2,-2" Font="TwCenMT16" ID="ResIcon" String="[ICON_RESEARCH]" Hidden="0" ColorSet="Beige_Black_Alpha" FontStyle="Shadow" />
 					</Image>
 					<TextButton Offset="0,-13" Anchor="C,C"  String="?"   Font="TwCenMT14" NormalState="Beige_Black"  Hidden="0"  MouseOver="White_Black" ButtonDown="Beige_Black_Alpha" ID="ResInfo" />
+
+					<!--Culture-->
+					<Image Anchor="L,C" Offset="0,-13" Size="26.20" ID="CulInfoFrame" Hidden="0">
+						<Label Anchor="L,C" Offset="2,-2" Font="TwCenMT16" ID="CulIcon" String="[ICON_CULTURE]" Hidden="0" ColorSet="Beige_Black_Alpha" FontStyle="Shadow" />
+					</Image>
+					<TextButton Offset="0,-13" Anchor="C,C"  String="?"   Font="TwCenMT14" NormalState="Beige_Black"  MouseOver="White_Black" ButtonDown="Beige_Black_Alpha" ID="CulInfo" />
 
 					<!--Treasury-->
 					<Image Anchor="L,C" Offset="0,-13" Size="26.20" ID="TreInfoFrame" Hidden="0">
@@ -466,16 +466,16 @@
 			</PullDown>-->
 
 			<!-- VD Stage 4: LLM rationale display -->
-			<Box Anchor="L,T" Offset="130,118" Size="480,135" Color="15,25,40,180" ID="VD_InfoBox" Hidden="1">
-				<Button Anchor="L,T" Offset="0,0" Size="480,135" Color="0,0,0,50" ID="VD_RationaleBox" NoStateChange="1">
-					<ShowOnMouseOver>
-						<AlphaAnim Anchor="C,C" Size="480,135" Offset="0,0" Pause="0" Cycle="Bounce" Speed="1" AlphaStart="0.15" AlphaEnd="0">
-							<Box Size="480,135" Color="255,255,255,255"/>
-						</AlphaAnim>
-					</ShowOnMouseOver>
+			<Button Anchor="L,T" Offset="130,118" Size="480,135" Color="15,25,40,180" ID="VD_InfoBox" Hidden="1" NoStateChange="1">
+				<ShowOnMouseOver>
+					<AlphaAnim Anchor="C,C" Size="480,135" Offset="0,0" Pause="0" Cycle="Bounce" Speed="1" AlphaStart="0.15" AlphaEnd="0">
+						<Box Size="480,135" Color="255,255,255,255"/>
+					</AlphaAnim>
+				</ShowOnMouseOver>
+				<Grid Anchor="L,T" Offset="0,0" ID="VD_RationaleBox">
 					<Label Anchor="L,T" Offset="4,4" Font="TwCenMT14" ColorSet="Beige_Black_Alpha" FontStyle="Shadow" WrapWidth="472" String="" ID="VD_RationaleText"/>
-				</Button>
-			</Box>
+				</Grid>
+			</Button>
 
 		</Box>
 
