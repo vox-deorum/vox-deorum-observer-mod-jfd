@@ -115,11 +115,17 @@ local function VD_UpdatePanelExtras(playerID)
 	local firstRationale = VD_GetFirstRationale(playerID)
 
 	if firstRationale then
-		local rationaleY = Controls.VD_RationaleBox:GetSizeY()
 		Controls.VD_RationaleText:SetText(firstRationale)
 		Controls.VD_RationaleBox:DoAutoSize()
+		local rationaleX = Controls.VD_RationaleBox:GetSizeX()
+		local rationaleY = Controls.VD_RationaleBox:GetSizeY()
+		Controls.VD_InfoBox:SetSizeX(rationaleX)
 		Controls.VD_InfoBox:SetSizeY(rationaleY + 3)
+		Controls.VD_InfoBoxBG:SetSizeX(rationaleX)
+		Controls.VD_InfoBoxBG:SetSizeY(rationaleY + 3)
+		Controls.VD_InfoBoxHL:SetSizeX(rationaleX)
 		Controls.VD_InfoBoxHL:SetSizeY(rationaleY + 3)
+		Controls.VD_InfoBoxHLBox:SetSizeX(rationaleX)
 		Controls.VD_InfoBoxHLBox:SetSizeY(rationaleY + 3)
 		Controls.VD_InfoBox:SetHide(false)
 	else
