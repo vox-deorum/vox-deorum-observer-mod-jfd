@@ -26,8 +26,15 @@ globals = {
     "Player",   -- Civ5 Player API table (used for method-existence checks)
     "Path",     -- Civ5 file path utility
 
+    -- Civ5 input/mouse
+    "Mouse", "KeyEvents", "Keys",
+
     -- Civ5 enum/type tables
     "GameInfoTypes", "NotificationTypes", "YieldTypes", "Type",
+    "ButtonPopupTypes",
+
+    -- Civ5 icon helpers
+    "IconHookup", "CivIconHookup", "SimpleCivIconHookup",
 
     -- Civ5 coordinate helpers
     "HexToWorld", "ToHexFromGrid",

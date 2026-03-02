@@ -1,0 +1,35 @@
+{
+    "runtime.version": "Lua 5.1",
+    "diagnostics.globals": [
+        "Game", "Players", "Teams", "Map", "Locale",
+        "GameInfo", "GameDefines", "GameOptionTypes",
+        "PreGame",
+        "DB",
+        "UIManager", "ContextPtr", "Controls",
+        "InstanceManager", "TTManager",
+        "Events", "LuaEvents",
+        "Modding", "include", "Player", "Path",
+        "GameInfoTypes", "NotificationTypes", "YieldTypes", "Type",
+        "HexToWorld", "ToHexFromGrid",
+        "Mouse", "KeyEvents", "Keys",
+        "ButtonPopupTypes",
+        "IconHookup", "CivIconHookup", "SimpleCivIconHookup",
+        "JFD_Log",
+        "JFD_GetPlayerRank",
+        "JFD_AIObserver_NotificationAdded",
+        "JFD_AIObserver_TurnBegin",
+        "JFD_AIObserver_PopulateDefaultLeaderNames",
+        "JFD_AIObserver_PopulateLeaderFlavours",
+        "JFD_GetNumResearchAgreements",
+        "Game_IsModActive",
+        "Player_GetIdeology",
+        "getStackTrace"
+    ],
+    "diagnostics.disable": [
+        "lowercase-global"
+    ],
+    "workspace.ignoreDir": [
+        "Lua/UI/Bak",
+        "Lua/UI/WC Stuff"
+    ]
+}

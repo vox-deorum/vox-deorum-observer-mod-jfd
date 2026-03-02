@@ -88,8 +88,8 @@ local function VD_SetStatControl(iconCtrl, infoCtrl, iconStr, valueStr, tooltip)
 end
 
 -- Constants for popup entry dynamic height
-local VD_ENTRY_BASE_HEIGHT = 62   -- rationale label Y offset (58) + 4px padding
-local VD_ENTRY_NO_RATIONALE_HEIGHT = 58  -- header + stats rows only
+local VD_ENTRY_BASE_HEIGHT = 67   -- rationale label Y offset (58) + 4px padding + 5px breathing room
+local VD_ENTRY_NO_RATIONALE_HEIGHT = 63  -- header + stats rows only + 5px breathing room
 
 -- Resizes a popup entry box and its background anim grids to a given height
 local function VD_ResizeEntryBox(controlTable, height)
@@ -838,6 +838,9 @@ local function VD_OnPlayerInfo(playerID, aiLabel)
 	if playerID == g_iPlayerForView then
 		UpdateNewData(playerID)
 	end
+	if not Controls.WorldCivsList:IsHidden() then
+		OnWorldCivsListUpdated()
+	end
 end
 LuaEvents.VoxDeorumPlayerInfo.Add(VD_OnPlayerInfo)
 
@@ -853,6 +856,9 @@ local function VD_OnAction(playerID, turn, actionType, summary, rationale)
 	table.insert(VD_Actions[playerID].list, { actionType = actionType, summary = summary, rationale = rationale })
 	if playerID == g_iPlayerForView then
 		UpdateNewData(playerID)
+	end
+	if not Controls.WorldCivsList:IsHidden() then
+		OnWorldCivsListUpdated()
 	end
 end
 LuaEvents.VoxDeorumAction.Add(VD_OnAction)
