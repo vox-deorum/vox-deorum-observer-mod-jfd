@@ -42,6 +42,8 @@ local function VD_UpdatePanelExtras(playerID)
 
 	if firstRationale then
 		Controls.VD_RationaleText:SetText(firstRationale)
+		Controls.VD_RationaleBox:DoAutoSize()
+		Controls.VD_InfoBox:DoAutoSize()
 		Controls.VD_InfoBox:SetHide(false)
 	else
 		Controls.VD_InfoBox:SetHide(true)
@@ -303,24 +305,35 @@ function UpdateNewData(playerID, szTag)
 		
 		local pCapital = pPlayer:GetCapitalCity()
 		if pCapital then
-			-- CAPITAL
-			local strCapName = pCapital:GetName()
-			local strCapIcon = "[ICON_CAPITAL]"
-			local strCapShortDesc
-			local strCapTT
-			if pCapital:IsOriginalCapital() then
-				strCapShortDesc = Locale.ConvertTextKey("{1_Desc}", strCapName)
-				strCapTT = Locale.ConvertTextKey("Capital (Original): {1_Desc}", strCapName)
-			else	
-				strCapName = pCapital:GetName()
-				strCapIcon = "[ICON_CAPITAL_CAPTURED]"
-				strCapShortDesc = Locale.ConvertTextKey("[ICON_CAPITAL_CAPTURED]{1_Desc}", strCapName)
-				strCapTT = Locale.ConvertTextKey("Capital (New): {1_Desc}", strCapName)
-			end	
-			Controls.CapIcon:SetText(strCapIcon)
-			Controls.CapIcon:SetToolTipString(strCapTT)
-			Controls.CapInfo:SetText(strCapShortDesc)
-			Controls.CapInfo:SetToolTipString(strCapTT)
+			--GRAND STRATEGY (repurposed capital slot)
+			local iGS = pPlayer:GetGrandStrategy()
+			local strGSFont, strGSShort, strGSDesc
+			if iGS == 0 then
+				strGSFont = "[ICON_CULTURE]"
+				strGSShort = "Cult."
+				strGSDesc = "Culture Victory"
+			elseif iGS == 1 then
+				strGSFont = "[ICON_INFLUENCE]"
+				strGSShort = "Dipl."
+				strGSDesc = "Diplomacy Victory"
+			elseif iGS == 2 then
+				strGSFont = "[ICON_RESEARCH]"
+				strGSShort = "Sci."
+				strGSDesc = "Science Victory"
+			elseif iGS == 3 then
+				strGSFont = "[ICON_WAR]"
+				strGSShort = "War"
+				strGSDesc = "Conquest Victory"
+			else
+				strGSFont = "[ICON_CAPITAL]"
+				strGSShort = "-"
+				strGSDesc = "No Grand Strategy"
+			end
+			local strGSTT = Locale.ConvertTextKey("{1_Desc} Grand Strategy: {2_Desc}", strGSFont, strGSDesc)
+			Controls.CapIcon:SetText(strGSFont)
+			Controls.CapIcon:SetToolTipString(strGSTT)
+			Controls.CapInfo:SetText(strGSShort)
+			Controls.CapInfo:SetToolTipString(strGSTT)
 			
 			Controls.InfoStack:SetHide(false)
 			Controls.InfoStack:ReprocessAnchoring()
@@ -355,7 +368,20 @@ function UpdateNewData(playerID, szTag)
 			
 			Controls.InfoStack:SetHide(false)
 			Controls.InfoStack:ReprocessAnchoring()
-			
+
+			--CULTURE (policy + tenet count)
+			local iPolicies = pPlayer:GetNumPolicies()
+			local strCulFont = "[ICON_CULTURE]"
+			local strCulShortDesc = tostring(iPolicies)
+			local strCulTT = Locale.ConvertTextKey("[ICON_CULTURE] Policies + Tenets: {1_Num}", iPolicies)
+			Controls.CulIcon:SetText(strCulFont)
+			Controls.CulIcon:SetToolTipString(strCulTT)
+			Controls.CulInfo:SetText(strCulShortDesc)
+			Controls.CulInfo:SetToolTipString(strCulTT)
+
+			Controls.InfoStack:SetHide(false)
+			Controls.InfoStack:ReprocessAnchoring()
+
 			--FOL.
 			-- local iFReli = pPlayer:GetReligionCreatedByPlayer()
 			-- local iReli = iFReli
@@ -475,17 +501,11 @@ function UpdateNewData(playerID, szTag)
 			Controls.InfoStack:SetHide(false)
 			Controls.InfoStack:ReprocessAnchoring()
 			
-			--MIL.
-			-- local iMil = Game.GetRound(math.sqrt((pPlayer:GetMilitaryMight())*2000))
-			local iMil = pPlayer:GetNumMilitaryUnits()
-			local strMil = tostring(iMil)
-			if iMil >= 1000 then
-				iMil = Game.GetRound(iMil/1000)
-				strMil = tostring(iMil) .. "k"
-			end
-			local strMilShortDesc = Locale.ConvertTextKey("{1_Desc}", strMil)
-			-- local strMilTT = Locale.ConvertTextKey("[ICON_STRENGTH] Soldiers: {1_Desc}", strMil)
-			local strMilTT = Locale.ConvertTextKey("[ICON_STRENGTH] Units: {1_Desc}", strMil)
+			--MIL (supply: used/limit)
+			local iToSupply = pPlayer:GetNumUnitsToSupply()
+			local iSupplied = pPlayer:GetNumUnitsSupplied()
+			local strMilShortDesc = tostring(iToSupply) .. "/" .. tostring(iSupplied)
+			local strMilTT = Locale.ConvertTextKey("[ICON_STRENGTH] Supply: {1_Num}/{2_Num}", iToSupply, iSupplied)
 			Controls.MilIcon:SetText("[ICON_STRENGTH]")
 			Controls.MilIcon:SetToolTipString(strMilTT)
 			Controls.MilInfo:SetText(strMilShortDesc)
@@ -555,22 +575,18 @@ function UpdateNewData(playerID, szTag)
 			Controls.InfoStack:SetHide(false)
 			Controls.InfoStack:ReprocessAnchoring()
 			
-			--SCIENCE
-			local iScience = pPlayer:GetScience() 			
-			local strResFont = "[ICON_SCIENCE_POS]"
-			local strResDesc = "[COLOR_JFD_OVERLAY_YIELD_SCIENCE]Progressing![ENDCOLOR]"
-			local strResShortDesc = Locale.ConvertTextKey("[COLOR_JFD_OVERLAY_YIELD_SCIENCE]+{1_Num}[ENDCOLOR]", iScience)
-			if iScience <= 0 then
-				strResFont = "[ICON_SCIENCE_EMP]"
-				strResDesc = "[COLOR_WARNING_TEXT]Stalled![ENDCOLOR]"
-				if iScience == 0 then
-					strResShortDesc = Locale.ConvertTextKey("[COLOR_WARNING_TEXT]{1_Num}![ENDCOLOR]", iScience)
-				else
-					strResShortDesc = Locale.ConvertTextKey("[COLOR_WARNING_TEXT]-{1_Num}[ENDCOLOR]", iScience)
-				end
+			--SCIENCE (tech count; tooltip shows current research)
+			local iTechs = Teams[pPlayer:GetTeam()]:GetTeamTechs():GetTechCount()
+			local strResFont = "[ICON_RESEARCH]"
+			local strResShortDesc = tostring(iTechs)
+			local currentResearchID = pPlayer:GetCurrentResearch()
+			local strResTT
+			if currentResearchID > -1 then
+				local techName = Locale.ConvertTextKey(GameInfo.Technologies[currentResearchID].Description)
+				strResTT = Locale.ConvertTextKey("[ICON_RESEARCH] Techs: {1_Num} | Researching: {2_Desc}", iTechs, techName)
+			else
+				strResTT = Locale.ConvertTextKey("[ICON_RESEARCH] Techs: {1_Num} | Researching: None", iTechs)
 			end
-			local strResTT = Locale.ConvertTextKey("{1_Desc} Research: {2_Desc}", strResFont, strResDesc)
-			-- Controls.ResInfo:SetText(strResDesc)
 			Controls.ResInfo:SetText(strResShortDesc)
 			Controls.ResInfo:SetToolTipString(strResTT)
 			Controls.ResIcon:SetText(strResFont)
@@ -579,28 +595,26 @@ function UpdateNewData(playerID, szTag)
 			Controls.InfoStack:SetHide(false)
 			Controls.InfoStack:ReprocessAnchoring()
 			
-			--GOLD
-			local iGold = pPlayer:GetGold() 
-			local iGoldRate = pPlayer:CalculateGoldRate()			
-			-- local iNumTurnsTilBankrupt = JFD_GetTurnsTilBankruptcy(playerID)
-			local strTreFont = "[ICON_GOLD_POS]"
-			local strTreDesc = "[COLOR_JFD_OVERLAY_YIELD_GOLD]Prospering![ENDCOLOR]"
-			local strTreShortDesc = Locale.ConvertTextKey("[COLOR_JFD_OVERLAY_YIELD_GOLD]+{1_Num}[ENDCOLOR]", iGoldRate)
+			--GOLD (net income display; tooltip shows treasury total)
+			local iGold = pPlayer:GetGold()
+			local iGoldRate = pPlayer:CalculateGoldRate()
+			local strTreFont
 			if iGold == 0 and iGoldRate < 0 then
 				strTreFont = "[ICON_GOLD_EMP]"
-				strTreDesc = "[COLOR_WARNING_TEXT]Bankrupt![ENDCOLOR]"
-				strTreShortDesc = Locale.ConvertTextKey("[COLOR_WARNING_TEXT]{1_Num}![ENDCOLOR]", 0)
 			elseif iGoldRate == 0 then
 				strTreFont = "[ICON_GOLD_NEU]"
-				strTreDesc = "[COLOR_WARNING_TEXT]Flat![ENDCOLOR]"
-				strTreShortDesc = Locale.ConvertTextKey("[COLOR_WARNING_TEXT]{1_Num}![ENDCOLOR]", iGoldRate)
 			elseif iGoldRate < 0 then
 				strTreFont = "[ICON_GOLD_NEG]"
-				strTreDesc = "[COLOR_WARNING_TEXT]Depleting![ENDCOLOR]"
-				strTreShortDesc = Locale.ConvertTextKey("[COLOR_WARNING_TEXT]{1_Num}![ENDCOLOR]", iGoldRate)
+			else
+				strTreFont = "[ICON_GOLD_POS]"
 			end
-			local strTreTT = Locale.ConvertTextKey("{1_Desc} Treasury: {2_Desc}", strTreFont, strTreDesc) 
-			-- Controls.TreInfo:LocalizeAndSetText(strTreDesc)
+			local strTreShortDesc
+			if iGoldRate >= 0 then
+				strTreShortDesc = Locale.ConvertTextKey("[COLOR_JFD_OVERLAY_YIELD_GOLD]+{1_Num}[ENDCOLOR]", iGoldRate)
+			else
+				strTreShortDesc = Locale.ConvertTextKey("[COLOR_WARNING_TEXT]{1_Num}[ENDCOLOR]", iGoldRate)
+			end
+			local strTreTT = Locale.ConvertTextKey("{1_Desc} Treasury: {2_Num} gold | Net: {3_Num}/turn", strTreFont, iGold, iGoldRate)
 			Controls.TreInfo:LocalizeAndSetText(strTreShortDesc)
 			Controls.TreInfo:SetToolTipString(strTreTT)
 			Controls.TreIcon:LocalizeAndSetText(strTreFont)
