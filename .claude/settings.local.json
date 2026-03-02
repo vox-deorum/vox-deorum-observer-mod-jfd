@@ -3,7 +3,7 @@
     "allow": [
       "WebFetch(domain:github.com)",
       "Bash(curl -s \"https://api.github.com/repos/mpeterv/luacheck/releases/latest\")",
-      "Bash(python -c \"import sys,json; r=json.load\\(sys.stdin\\); print\\(r[''tag_name'']\\); [print\\(a[''browser_download_url'']\\) for a in r.get\\(''assets'',[]\\)]\")"
+      "Bash(python -:*)"
     ]
   }
 }
