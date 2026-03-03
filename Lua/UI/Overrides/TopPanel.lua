@@ -956,7 +956,8 @@ local function VD_OnAIProcessingStarted(playerID)
 
 	-- LLM player — close auto-opened dialog; switch immediately if current-turn rationale exists,
 	-- otherwise defer panel switch to VD_OnAction on first rationale
-	if VD_Players[playerID] then
+	local vdLabel = VD_Players[playerID]
+	if vdLabel and vdLabel ~= "VPAI / none" then
 		if g_bWorldCivsAutoOpened and not Controls.WorldCivsList:IsHidden() then
 			Controls.WorldCivsList:SetHide(true)
 			Controls.Tab:SetHide(false)
