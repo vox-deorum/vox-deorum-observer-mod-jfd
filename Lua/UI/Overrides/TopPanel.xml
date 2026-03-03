@@ -34,34 +34,34 @@
 			<!-- Row 2: Stats bar -->
 			<Stack Anchor="L,T" Offset="98,32" Padding="6" StackGrowth="Right" ID="VD_StatsStack">
 				<!--Cities-->
-				<Image Anchor="L,C" Offset="0,0" Size="26.20" >
+				<Box Anchor="L,C" Offset="0,0" Size="26.20" Color="0,0,0,0" >
 					<Label Anchor="L,C" Offset="2,-2" Font="TwCenMT16" ID="VD_CitiesIcon" String="[ICON_CITY]" ColorSet="Beige_Black_Alpha" FontStyle="Shadow" />
-				</Image>
+				</Box>
 				<TextButton Offset="0,0" Anchor="C,C" String="?" Font="TwCenMT14" NormalState="Beige_Black" MouseOver="White_Black" ButtonDown="Beige_Black_Alpha" ID="VD_CitiesInfo" />
 				<!--Population-->
-				<Image Anchor="L,C" Offset="0,0" Size="26.20" >
+				<Box Anchor="L,C" Offset="0,0" Size="26.20" Color="0,0,0,0" >
 					<Label Anchor="L,C" Offset="2,-2" Font="TwCenMT16" ID="VD_PopIcon" String="[ICON_CITIZEN]" ColorSet="Beige_Black_Alpha" FontStyle="Shadow" />
-				</Image>
+				</Box>
 				<TextButton Offset="0,0" Anchor="C,C" String="?" Font="TwCenMT14" NormalState="Beige_Black" MouseOver="White_Black" ButtonDown="Beige_Black_Alpha" ID="VD_PopInfo" />
 				<!--Military-->
-				<Image Anchor="L,C" Offset="0,0" Size="26.20" >
+				<Box Anchor="L,C" Offset="0,0" Size="26.20" Color="0,0,0,0" >
 					<Label Anchor="L,C" Offset="2,-2" Font="TwCenMT16" ID="VD_MilIcon" String="[ICON_STRENGTH]" ColorSet="Beige_Black_Alpha" FontStyle="Shadow" />
-				</Image>
+				</Box>
 				<TextButton Offset="0,0" Anchor="C,C" String="?" Font="TwCenMT14" NormalState="Beige_Black" MouseOver="White_Black" ButtonDown="Beige_Black_Alpha" ID="VD_MilInfo" />
 				<!--Tech-->
-				<Image Anchor="L,C" Offset="0,0" Size="26.20" >
+				<Box Anchor="L,C" Offset="0,0" Size="26.20" Color="0,0,0,0" >
 					<Label Anchor="L,C" Offset="2,-2" Font="TwCenMT16" ID="VD_ResIcon" String="[ICON_RESEARCH]" ColorSet="Beige_Black_Alpha" FontStyle="Shadow" />
-				</Image>
+				</Box>
 				<TextButton Offset="0,0" Anchor="C,C" String="?" Font="TwCenMT14" NormalState="Beige_Black" MouseOver="White_Black" ButtonDown="Beige_Black_Alpha" ID="VD_ResInfo" />
 				<!--Culture/Policy-->
-				<Image Anchor="L,C" Offset="0,0" Size="26.20" >
+				<Box Anchor="L,C" Offset="0,0" Size="26.20" Color="0,0,0,0" >
 					<Label Anchor="L,C" Offset="2,-2" Font="TwCenMT16" ID="VD_CulIcon" String="[ICON_CULTURE]" ColorSet="Beige_Black_Alpha" FontStyle="Shadow" />
-				</Image>
+				</Box>
 				<TextButton Offset="0,0" Anchor="C,C" String="?" Font="TwCenMT14" NormalState="Beige_Black" MouseOver="White_Black" ButtonDown="Beige_Black_Alpha" ID="VD_CulInfo" />
 				<!--Treasury/Gold-->
-				<Image Anchor="L,C" Offset="0,0" Size="26.20" >
+				<Box Anchor="L,C" Offset="0,0" Size="26.20" Color="0,0,0,0" >
 					<Label Anchor="L,C" Offset="2,-2" Font="TwCenMT16" ID="VD_TreIcon" String="[ICON_GOLD]" ColorSet="Beige_Black_Alpha" FontStyle="Shadow" />
-				</Image>
+				</Box>
 				<TextButton Offset="0,0" Anchor="C,C" String="?" Font="TwCenMT14" NormalState="Beige_Black" MouseOver="White_Black" ButtonDown="Beige_Black_Alpha" ID="VD_TreInfo" />
 			</Stack>
 
@@ -201,21 +201,21 @@
 				<Stack Anchor="L,C" Offset="105,10" Padding="4" StackGrowth="Right" ID="InfoStack" Hidden="0">
 
 					<!--Capital-->
-					<Image Anchor="L,C" Offset="0,-13" Size="26.20" ID="CapInfoFrame" Hidden="0">
+					<Box Anchor="L,C" Offset="0,-13" Size="26.20" Color="0,0,0,0" ID="CapInfoFrame" Hidden="0">
 						<Label Anchor="L,C" Offset="2,-2" Font="TwCenMT16" ID="CapIcon" String="[ICON_CAPITAL]" Hidden="0" ColorSet="Beige_Black_Alpha" FontStyle="Shadow" />
-					</Image>
+					</Box>
 					<TextButton Offset="0,-13" Anchor="C,C" String="?"  TruncateWidth="65" Font="TwCenMT14" NormalState="Beige_Black" Hidden="0" MouseOver="White_Black" ButtonDown="Beige_Black_Alpha" ID="CapInfo"/>
 
 					<!--Cities-->
-					<Image Anchor="L,C" Offset="0,-13" Size="26.20" ID="CitiesInfoFrame" Hidden="0">
+					<Box Anchor="L,C" Offset="0,-13" Size="26.20" Color="0,0,0,0" ID="CitiesInfoFrame" Hidden="0">
 						<Label Anchor="L,C" Offset="2,-2" Font="TwCenMT16" ID="CitiesIcon" String="[ICON_CITY]" Hidden="0" ColorSet="Beige_Black_Alpha" FontStyle="Shadow" />
-					</Image>
+					</Box>
 					<TextButton Offset="0,-13" Anchor="C,C"  String="?"   Font="TwCenMT14" NormalState="Beige_Black"  MouseOver="White_Black" ButtonDown="Beige_Black_Alpha" ID="CitiesInfo"/>
 
 					<!--Population-->
-					<Image Anchor="L,C" Offset="0,-13" Size="26.20" ID="PopInfoFrame" Hidden="0">
+					<Box Anchor="L,C" Offset="0,-13" Size="26.20" Color="0,0,0,0" ID="PopInfoFrame" Hidden="0">
 						<Label Anchor="L,C" Offset="2,-2" Font="TwCenMT16" ID="PopIcon" String="[ICON_CITIZEN]" Hidden="0" ColorSet="Beige_Black_Alpha" FontStyle="Shadow" />
-					</Image>
+					</Box>
 					<TextButton Offset="0,-13" Anchor="C,C"  String="?"   Font="TwCenMT14" NormalState="Beige_Black"  MouseOver="White_Black" ButtonDown="Beige_Black_Alpha" ID="PopInfo" />
 
 					<!--Followers
@@ -225,33 +225,33 @@
 					<TextButton Offset="0,-13" Anchor="C,C"  String="?"   Font="TwCenMT14" NormalState="Beige_Black"  MouseOver="White_Black" ButtonDown="Beige_Black_Alpha" ID="FolInfo" />-->
 
 					<!--Soldiers-->
-					<Image Anchor="L,C" Offset="0,-13" Size="26.20" ID="MilInfoFrame" Hidden="0">
+					<Box Anchor="L,C" Offset="0,-13" Size="26.20" Color="0,0,0,0" ID="MilInfoFrame" Hidden="0">
 						<Label Anchor="L,C" Offset="2,-2" Font="TwCenMT16" ID="MilIcon" String="[ICON_STRENGTH]" Hidden="0" ColorSet="Beige_Black_Alpha" FontStyle="Shadow" />
-					</Image>
+					</Box>
 					<TextButton Offset="0,-13" Anchor="C,C"  String="?"   Font="TwCenMT14" NormalState="Beige_Black"  MouseOver="White_Black" ButtonDown="Beige_Black_Alpha" ID="MilInfo" />
 
 					<!--Research-->
-					<Image Anchor="L,C" Offset="0,-13" Size="26.20" ID="ResInfoFrame" Hidden="0">
+					<Box Anchor="L,C" Offset="0,-13" Size="26.20" Color="0,0,0,0" ID="ResInfoFrame" Hidden="0">
 						<Label Anchor="L,C" Offset="2,-2" Font="TwCenMT16" ID="ResIcon" String="[ICON_RESEARCH]" Hidden="0" ColorSet="Beige_Black_Alpha" FontStyle="Shadow" />
-					</Image>
+					</Box>
 					<TextButton Offset="0,-13" Anchor="C,C"  String="?"   Font="TwCenMT14" NormalState="Beige_Black"  Hidden="0"  MouseOver="White_Black" ButtonDown="Beige_Black_Alpha" ID="ResInfo" />
 
 					<!--Culture-->
-					<Image Anchor="L,C" Offset="0,-13" Size="26.20" ID="CulInfoFrame" Hidden="0">
+					<Box Anchor="L,C" Offset="0,-13" Size="26.20" Color="0,0,0,0" ID="CulInfoFrame" Hidden="0">
 						<Label Anchor="L,C" Offset="2,-2" Font="TwCenMT16" ID="CulIcon" String="[ICON_CULTURE]" Hidden="0" ColorSet="Beige_Black_Alpha" FontStyle="Shadow" />
-					</Image>
+					</Box>
 					<TextButton Offset="0,-13" Anchor="C,C"  String="?"   Font="TwCenMT14" NormalState="Beige_Black"  MouseOver="White_Black" ButtonDown="Beige_Black_Alpha" ID="CulInfo" />
 
 					<!--Treasury-->
-					<Image Anchor="L,C" Offset="0,-13" Size="26.20" ID="TreInfoFrame" Hidden="0">
+					<Box Anchor="L,C" Offset="0,-13" Size="26.20" Color="0,0,0,0" ID="TreInfoFrame" Hidden="0">
 						<Label Anchor="L,C" Offset="2,-2" Font="TwCenMT16" ID="TreIcon" String="[ICON_GOLD]" Hidden="0" ColorSet="Beige_Black_Alpha" FontStyle="Shadow" />
-					</Image>
+					</Box>
 					<TextButton Offset="0,-13" Anchor="C,C"  String="?"   Font="TwCenMT14" NormalState="Beige_Black" Hidden="0" MouseOver="White_Black" ButtonDown="Beige_Black_Alpha" ID="TreInfo" />
 
 					<!--Stability-->
-					<Image Anchor="L,C" Offset="0,-13" Size="26.20" ID="HappInfoFrame" Hidden="0">
+					<Box Anchor="L,C" Offset="0,-13" Size="26.20" Color="0,0,0,0" ID="HappInfoFrame" Hidden="0">
 						<Label Anchor="L,C" Offset="2,-2" Font="TwCenMT16" ID="HappIcon" String="[ICON_HAPPINESS_1]" Hidden="0" ColorSet="Beige_Black_Alpha" FontStyle="Shadow" />
-					</Image>
+					</Box>
 					<TextButton Offset="0,-13" Anchor="C,C"  String="?"   Font="TwCenMT14" NormalState="Beige_Black"  Hidden="0"  MouseOver="White_Black" ButtonDown="Beige_Black_Alpha" ID="HappInfo" />
 
 				</Stack>

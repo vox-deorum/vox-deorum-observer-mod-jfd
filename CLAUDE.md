@@ -64,6 +64,7 @@ This is a fork of **JFD's Utilities — AI Observer Interface (v11)**, a Civ5 mo
 - **Event system:** `Events.*` (C++ engine events) and `LuaEvents.*` (Lua-to-Lua). Use `Events.EventName.Add(handler)` to register.
 - **No print in production** — use `JFD_Log()` from `JFD_AIObserver_Utils.lua` for debug output.
 - **Prefer already-allowed tools and simple shell commands** to reduce extra permission prompts. Use Read/Edit/Write/Grep/Glob instead of Bash equivalents. When Bash is needed, use simple well-known commands (`ls`, `dotnet build`, `git`) rather than complex pipelines.
+- **Never `cd` into the repo.** The repo root is already the working directory. Run all scripts and commands directly (e.g. `python update_md5.py`, `./luacheck.exe ...`).
 
 ---
 

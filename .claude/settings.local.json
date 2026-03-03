@@ -4,7 +4,12 @@
       "WebFetch(domain:github.com)",
       "Bash(curl -s \"https://api.github.com/repos/mpeterv/luacheck/releases/latest\")",
       "Bash(python -:*)",
-      "Bash(find \"d:/Documents/My Games/Sid Meier''s Civilization 5/MODS/\\(3b\\) AI Observer Interface/Lua/UI\" -name \"*.xml\")"
+      "Bash(find \"d:/Documents/My Games/Sid Meier''s Civilization 5/MODS/\\(3b\\) AI Observer Interface/Lua/UI\" -name \"*.xml\")",
+      "Bash(wc -l \"d:\\\\Documents\\\\My Games\\\\Sid Meier''s Civilization 5\\\\MODS\\\\\\(3b\\) AI Observer Interface\\\\Lua\\\\JFD_AIObserver_Functions.lua\")",
+      "Bash(find \"d:\\\\Documents\\\\My Games\\\\Sid Meier''s Civilization 5\\\\MODS\\\\\\(3b\\) AI Observer Interface\" -name \"*.md\" -type f)",
+      "Bash(wc -l \"d:\\\\Documents\\\\My Games\\\\Sid Meier''s Civilization 5\\\\MODS\\\\\\(3b\\) AI Observer Interface\\\\Lua\\\\UI\\\\Overrides\\\\TopPanel.xml\")",
+      "Bash(./luacheck.exe Lua/UI/Overrides/TopPanel.lua)",
+      "Bash(python update_md5.py)"
     ]
   }
 }

@@ -11,6 +11,7 @@ local g_iPlayerForView = Game.GetActivePlayer()
 -- VD: Per-player state for LLM data
 local VD_Players = {}  -- [playerID] = aiLabel string
 local VD_Actions = {}  -- [playerID] = { turn=N, list={ {actionType, summary, rationale}, ... } }
+local VD_CachedRationale = {} -- [playerID] = { rationale=string, turn=number }
 local g_bWorldCivsAutoOpened = false  -- true if WorldCivsList was auto-opened (not by user)
 
 -- VD: Debug logging — filter Lua.log for "[VD]"
@@ -65,17 +66,24 @@ local function VD_GetGoldDisplay(pPlayer)
 	return icon, rateText, tooltip
 end
 
--- Returns first strategy/flavors/status-quo rationale and turn, or nil
+-- Returns first strategy/flavors/status-quo rationale and turn, or nil.
+-- Falls back to VD_CachedRationale so rationale persists across turn boundaries.
 local function VD_GetFirstRationale(playerID)
 	local actionData = VD_Actions[playerID]
-	if not actionData or #actionData.list == 0 then return nil end
-	for _, action in ipairs(actionData.list) do
-		if action.rationale and action.rationale ~= "" then
-			local t = action.actionType
-			if t == "strategy" or t == "flavors" or t == "status-quo" then
-				return action.rationale, actionData.turn
+	if actionData and #actionData.list > 0 then
+		for _, action in ipairs(actionData.list) do
+			if action.rationale and action.rationale ~= "" then
+				local t = action.actionType
+				if t == "strategy" or t == "flavors" or t == "status-quo" then
+					return action.rationale, actionData.turn
+				end
 			end
 		end
+	end
+	-- Fall back to cached rationale from a previous turn
+	local cached = VD_CachedRationale[playerID]
+	if cached then
+		return cached.rationale, cached.turn
 	end
 	return nil
 end
@@ -856,6 +864,12 @@ local function VD_OnAction(playerID, turn, actionType, summary, rationale)
 	end
 	table.insert(VD_Actions[playerID].list, { actionType = actionType, summary = summary, rationale = rationale })
 
+	-- Persist qualifying rationale in cache so it survives turn rollover
+	if (actionType == "strategy" or actionType == "flavors" or actionType == "status-quo")
+		and rationale and rationale ~= "" then
+		VD_CachedRationale[playerID] = { rationale = rationale, turn = turn }
+	end
+
 	-- Switch panel on first rationale-bearing action (strategy/flavors/status-quo)
 	-- Camera already moved in VD_OnAIProcessingStarted, so skip it here
 	local ad = VD_Actions[playerID]
@@ -957,8 +971,18 @@ local function VD_OnAIProcessingStarted(playerID)
 		UI.LookAt(pPlot)
 	end
 
-	-- LLM player — panel switch deferred to VD_OnAction on first rationale
-	if VD_Players[playerID] then return end
+	-- LLM player — close auto-opened dialog; switch immediately if cached rationale exists,
+	-- otherwise defer panel switch to VD_OnAction on first rationale
+	if VD_Players[playerID] then
+		if g_bWorldCivsAutoOpened and not Controls.WorldCivsList:IsHidden() then
+			Controls.WorldCivsList:SetHide(true)
+			g_bWorldCivsAutoOpened = false
+		end
+		if VD_CachedRationale[playerID] then
+			OnCivPlayerSelected(playerID)
+		end
+		return
+	end
 
 	-- VPAI/unknown — switch panel immediately (camera already moved above)
 	if g_bWorldCivsAutoOpened and not Controls.WorldCivsList:IsHidden() then
