@@ -936,10 +936,10 @@ function OnCivPlayerSelected(iPlayer)
 end
 -------------------------------------------------
 -- VD Stage 3: Auto-switch panel to the active AI player
--- All major civs: camera moves immediately (no delay)
 -- LLM players: panel switch deferred to VD_OnAction (first rationale action)
 -- VPAI/unknown: panel switch immediate (they won't receive actions)
 -- Minor/barbarian: auto-open WorldCivsList dialog
+-- Camera moves via OnCivPlayerSelected only when the panel actually switches
 local function VD_OnAIProcessingStarted(playerID)
 	local pPlayer = Players[playerID]
 	if not pPlayer then return end
@@ -951,13 +951,6 @@ local function VD_OnAIProcessingStarted(playerID)
 			OnWorldCivsListUpdated()
 		end
 		return
-	end
-
-	-- Move camera immediately for all major civs (before heavy UI work)
-	local pCap = pPlayer:GetCapitalCity()
-	local pPlot = pCap and Map.GetPlot(pCap:GetX(), pCap:GetY()) or pPlayer:GetStartingPlot()
-	if pPlot then
-		UI.LookAt(pPlot)
 	end
 
 	-- LLM player — close auto-opened dialog; switch immediately if cached rationale exists,
@@ -980,9 +973,7 @@ local function VD_OnAIProcessingStarted(playerID)
 		Controls.Tab:SetHide(false)
 		g_bWorldCivsAutoOpened = false
 	end
-	g_bPlayerForViewLookup = false
 	OnCivPlayerSelected(playerID)
-	g_bPlayerForViewLookup = true
 end
 Events.AIProcessingStartedForPlayer.Add(VD_OnAIProcessingStarted)
 -------------------------------------------------
