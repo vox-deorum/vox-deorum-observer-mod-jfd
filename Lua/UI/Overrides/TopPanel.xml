@@ -66,7 +66,7 @@
 			</Stack>
 
 			<!-- Row 3: Rationale (hidden when empty) -->
-			<Label Anchor="L,T" Offset="98,58" Font="TwCenMT14" ColorSet="Beige_Black_Alpha" FontStyle="Shadow" WrapWidth="780" String="" ID="VD_RationaleLabel" Hidden="1"/>
+			<Label Anchor="L,T" Offset="98,58" Font="TwCenMT16" ColorSet="Beige_Black_Alpha" FontStyle="Shadow" WrapWidth="780" String="" ID="VD_RationaleLabel" Hidden="1"/>
 		</Box>
 	</Instance>
 
@@ -480,7 +480,7 @@
 					</AlphaAnim>
 				</ShowOnMouseOver>
 				<Grid Anchor="L,T" Offset="0,0" ID="VD_RationaleBox">
-					<Label Anchor="L,T" Offset="4,4" Font="TwCenMT14" ColorSet="Beige_Black_Alpha" FontStyle="Stroke" WrapWidth="472" String="" ID="VD_RationaleText"/>
+					<Label Anchor="L,T" Offset="4,4" Font="TwCenMT16" ColorSet="Beige_Black_Alpha" FontStyle="Stroke" WrapWidth="472" String="" ID="VD_RationaleText"/>
 				</Grid>
 			</Button>
 
