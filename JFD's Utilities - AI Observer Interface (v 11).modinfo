@@ -129,8 +129,6 @@
     <File md5="291A3B60D1B06C3E0E5267E5F9292D60" import="0">Lua/UI/MiniMap/minimapfog.dds</File>
     <File md5="3BBC51F40A0FDEC2AF2BEED5DCE34E47" import="1">Lua/UI/MiniMap/MiniMapPanel.lua</File>
     <File md5="2DCDECAB26EC86096D4D81CF04446F5F" import="1">Lua/UI/MiniMap/MiniMapPanel.xml</File>
-    <File md5="CD4385EF71340D2BB986E2C591D5C377" import="1">Lua/UI/Overrides/CityBannerManager.lua</File>
-    <File md5="509B09FB0A1990B615D97BBA84290BC0" import="1">Lua/UI/Overrides/CityBannerManager.xml</File>
     <File md5="5E04567CC8C39ED4BAD328184601946D" import="1">Lua/UI/Overrides/DiploCorner.lua</File>
     <File md5="800BFB7302072D6F4277628F8A481656" import="1">Lua/UI/Overrides/DiploCorner.xml</File>
     <File md5="C70BEEFBC2603C16C88A164597049134" import="1">Lua/UI/Overrides/Governments_BannerCivicUnlocked.dds</File>
@@ -140,7 +138,7 @@
     <File md5="6D270B3848ACB913C36A6534392BA4BC" import="0">Lua/UI/Overrides/MiniMapPanel.xml</File>
     <File md5="C80B7BB2F60CA2FC37C2D389BF18B59D" import="1">Lua/UI/Overrides/NewTurn.lua</File>
     <File md5="17F59F6E9D3F22C3DCEE613F5F6FC60A" import="1">Lua/UI/Overrides/NewTurn.xml</File>
-    <File md5="6F2C67FC083750F3F4F412D72842F59A" import="1">Lua/UI/Overrides/TopPanel.lua</File>
+    <File md5="913F2F910E9721F3C84DDB681503B228" import="1">Lua/UI/Overrides/TopPanel.lua</File>
     <File md5="40C5279BE427DE2B77BB0D156526B619" import="1">Lua/UI/Overrides/TopPanel.xml</File>
     <File md5="1ACD2840B8620EE3802C3A660BA23ED9" import="1">Lua/UI/Overrides/TopPanel_Back.lua</File>
     <File md5="4CB46E99A636514752F8322D4499F37E" import="0">Lua/UI/Overrides/TurnProcessing.lua</File>

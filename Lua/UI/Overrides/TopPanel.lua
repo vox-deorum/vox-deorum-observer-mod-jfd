@@ -964,8 +964,10 @@ local function VD_OnAIProcessingStarted(playerID)
 			g_bWorldCivsAutoOpened = false
 		end
 		local cached = VD_CachedRationale[playerID]
-		if cached and cached.turn == Game.GetGameTurn() then
+		if cached and cached.turn >= Game.GetGameTurn() - 1 then
 			OnCivPlayerSelected(playerID)
+			local ad = VD_Actions[playerID]
+			if ad then ad.switched = true end
 		end
 		return
 	end
