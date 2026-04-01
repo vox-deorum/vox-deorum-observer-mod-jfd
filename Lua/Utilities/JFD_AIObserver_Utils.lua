@@ -89,40 +89,6 @@ function Game.GetRound(num, idp)
 	return math.floor(num * mult + 0.5) / mult
 end
 local g_GetRound = Game.GetRound
--------------------------------------------------------------------------------------------------------------------------
---NOTIFICATION UTILS
--------------------------------------------------------------------------------------------------------------------------
---Player:SendWorldEvent
-local notificationWorldEventID = NotificationTypes["NOTIFICATION_DIPLOMACY_DECLARATION"]
-function Player.SendWorldEvent(player, description)
-	print("Sending World Event: ", description)
-	local activePlayer = Players[Game.GetActivePlayer()]
-	local playerTeam = Teams[player:GetTeam()]
-	if (not playerTeam:IsHasMet(Game.GetActiveTeam())) then return end
-	activePlayer:AddNotification(notificationWorldEventID, description, "[COLOR_POSITIVE_TEXT]World Events[ENDCOLOR]", -1, -1)
-end 
--------------------------------------------------------------------------------------------------------------------------
---Player:SendNotification
-function Player.SendNotification(player, notificationType, description, descriptionShort, global, data1, data2, unitID, data3, metOnly, includesSerialMessage)
-	local notificationID = NotificationTypes[notificationType]
-	local teamID = player:GetTeam()
-	local data1 = data1 or -1
-	local data2 = data2 or -1
-	local unitID = unitID or -1
-	local data3 = data3 or -1
-	if global then
-		if (metOnly and Teams[Game.GetActiveTeam()]:IsHasMet(teamID) or (not metOnly)) then
-			Players[Game.GetActivePlayer()]:AddNotification(notificationID, description, descriptionShort, data1, data2, unitID, data3)
-			if (includesSerialMessage and description) then Events.GameplayAlertMessage(description) end
-		end
-	else
-		if (not player:IsHuman()) then return end
-		if (metOnly and Teams[Game.GetActiveTeam()]:IsHasMet(teamID) or (not metOnly)) then
-			player:AddNotification(notificationID, description, descriptionShort, data1, data2, unitID, data3)
-			if (includesSerialMessage and description) then Events.GameplayAlertMessage(description) end
-		end
-	end
-end  
 --=======================================================================================================================
 -- PLAYER UTILITIES
 --=======================================================================================================================
@@ -161,7 +127,7 @@ end
 JFD_AIObserver_PopulateLeaderFlavours()
 -------------------------------------------------------------------------------------------------------------------------
 --Player:GetFlavorValue
-function Player.GetFlavorValue(player, flavorType)
+function LuaTypes.Player.GetFlavorValue(player, flavorType)
 	return g_LeaderFlavours_Table[player:GetID()][flavorType] or 5
 end	
 -------------------------------------------------------------------------------------------------------------------------
@@ -181,7 +147,7 @@ end
 JFD_AIObserver_PopulateDefaultLeaderNames()
 
 --Player:GetDefaultName
-function Player.GetDefaultName(player)
+function LuaTypes.Player.GetDefaultName(player)
 	local strDefaultName = g_DefaultLeaderNames_Table[player:GetID()]
 	if (not strDefaultName) then
 		strDefaultName = GameInfo.Leaders[player:GetLeaderType()].Description
@@ -343,7 +309,7 @@ end
 --Player_GetMainReligion
 function Player_GetMainReligion(player)
 	local mainReligionID = player:GetReligionCreatedByPlayer()
-	if Player.GetCurrentStateReligion then
+	if LuaTypes.Player.GetCurrentStateReligion then
 		mainReligionID = player:GetCurrentStateReligion()
 	else
 		if mainReligionID == -1 then
@@ -480,7 +446,7 @@ for row in DB.Query("SELECT * FROM JFD_CityDescriptors;") do
 	g_JFD_CityDescriptors_Count = g_JFD_CityDescriptors_Count + 1
 end
 
-function Player.GetCityDescriptor(player, city)
+function LuaTypes.Player.GetCityDescriptor(player, city)
 	local playerID = player:GetID()
 	local playerTeamID = player:GetTeam()
 	local playerTeam = Teams[playerTeamID]

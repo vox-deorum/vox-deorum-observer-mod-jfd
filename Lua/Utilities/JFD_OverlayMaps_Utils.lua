@@ -89,7 +89,7 @@ local g_GetRound = Game.GetRound
 --==========================================================================================================================
 ----------------------------------------------------------------------------------------------------------------------------
 --Player:GetValueForRankForOverlayMap
-function Player.GetValueForRankForOverlayMap(player, overlayMapID)
+function LuaTypes.Player.GetValueForRankForOverlayMap(player, overlayMapID)
 	local playerID = player:GetID()
 	local overlayMap = GameInfo.JFD_OverlayMaps[overlayMapID]
 	local overlayMapType = overlayMap.Type
@@ -180,13 +180,13 @@ function GetOverlayMapLegend(overlayMapID, overlayMapFilterID, overlayMapFilterP
 	-----------------------------------		
 	--PLAYERS: CULTURE
 	-----------------------------------
-	elseif overlayMap.IsPlayerCultureType and Player.GetCultureType then
+	elseif overlayMap.IsPlayerCultureType and LuaTypes.Player.GetCultureType then
 		local iCultureType = pPlayer:GetCultureType()
 		if iCultureType > 0 then
 			local pCultureType = GameInfo.JFD_Cultures[iCultureType].Type
 			return GameInfo.JFD_OverlayMap_Legends("OverlayMapType='" .. overlayMapType .. "' AND IsPlayerCultureType = '" .. pCultureType .. "'")().LegendType
 		end
-	elseif overlayMap.IsPlayerSubCultureType and Player.GetCultureType then
+	elseif overlayMap.IsPlayerSubCultureType and LuaTypes.Player.GetCultureType then
 		local iCultureType, iSubCultureType = pPlayer:GetCultureType()
 		if iSubCultureType then
 			local pSubCultureType = GameInfo.JFD_CultureSubTypes[iSubCultureType].Type
@@ -198,7 +198,7 @@ function GetOverlayMapLegend(overlayMapID, overlayMapFilterID, overlayMapFilterP
 	-----------------------------------		
 	--PLAYERS: GOVERNMENT
 	-----------------------------------
-	elseif overlayMap.IsPlayerGovernmentType and Player.GetCurrentGovernment then
+	elseif overlayMap.IsPlayerGovernmentType and LuaTypes.Player.GetCurrentGovernment then
 		if (not pPlayer:IsMinorCiv()) then
 			local iGovernmentType = pPlayer:GetCurrentGovernment()
 			if iGovernmentType > -1 then
@@ -263,7 +263,7 @@ function GetOverlayMapLegend(overlayMapID, overlayMapFilterID, overlayMapFilterP
 	-----------------------------------
 	elseif overlayMap.IsPlayerIdeology then
 		local iIdeologyType
-		if Player.GetIdeology then
+		if LuaTypes.Player.GetIdeology then
 			iIdeologyType = pPlayer:GetIdeology()
 		else
 			iIdeologyType = pPlayer:GetLateGamePolicyTree()
@@ -275,7 +275,7 @@ function GetOverlayMapLegend(overlayMapID, overlayMapFilterID, overlayMapFilterP
 		end
 	elseif overlayMap.IsPlayerIdeologyType then
 		local iIdeologyType
-		if Player.GetIdeology then
+		if LuaTypes.Player.GetIdeology then
 			iIdeologyType = pPlayer:GetIdeology()
 		else
 			iIdeologyType = pPlayer:GetLateGamePolicyTree()
@@ -292,7 +292,7 @@ function GetOverlayMapLegend(overlayMapID, overlayMapFilterID, overlayMapFilterP
 	elseif overlayMap.IsPlayerReligion then
 		local iReligion = pPlayer:GetReligionCreatedByPlayer()
 		if iReligion <= 0 then
-			if Player.GetMajorityReligion then
+			if LuaTypes.Player.GetMajorityReligion then
 				return pPlayer:GetMajorityReligion()
 			else
 				for religion in GameInfo.Religions("ID > 0") do

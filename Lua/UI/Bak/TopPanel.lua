@@ -485,7 +485,7 @@ function UpdateNewData(playerID, szTag)
 				strHappShortDesc = Locale.ConvertTextKey("[COLOR_JFD_OVERLAY_GOLDEN_AGE]{1_Num}[ENDCOLOR]", pPlayer:GetGoldenAgeTurns())
 				
 				strStatusDesc = "[COLOR_JFD_OVERLAY_GOLDEN_AGE]GA![ENDCOLOR]"
-			elseif Player.IsDarkAge and pPlayer:IsDarkAge() then
+			elseif LuaTypes.Player.IsDarkAge and pPlayer:IsDarkAge() then
 				strHappFont = "[ICON_DARK_AGE]"
 				strHappDesc = "[COLOR_JFD_OVERLAY_DARK_AGE]D. Age![ENDCOLOR]"
 				strHappShortDesc = Locale.ConvertTextKey("[COLOR_JFD_OVERLAY_DARK_AGE]{1_Num}[ENDCOLOR]", pPlayer:GetGoldenAgeTurns())
@@ -569,7 +569,7 @@ function UpdateNewData(playerID, szTag)
 				-- Controls.GovInfo:SetText("[ICON_RESISTANCE]")
 				-- Controls.GovInfo:LocalizeAndSetToolTip("Government: [ICON_RESISTANCE][COLOR_JFD_OVERLAY_ANARCHY]Anarchy![ENDCOLOR]")
 			-- else
-				-- if Player.GetCurrentGovernment then		
+				-- if LuaTypes.Player.GetCurrentGovernment then		
 					-- local governmentID = pPlayer:GetCurrentGovernment()
 					-- local government = GameInfo.JFD_Governments[governmentID]
 					-- local strGovFont = "[ICON_" .. government.Type .. "]"
@@ -657,7 +657,7 @@ function UpdateNewData(playerID, szTag)
 				
 		--EPITHET
 		strLeaderName = strLeaderName
-		if Player.GetEpithetTitle then
+		if LuaTypes.Player.GetEpithetTitle then
 			local strEpithet = pPlayer:GetEpithetTitle()
 			if strEpithet then
 				strLeaderName = strLeaderName .. " " .. Locale.ConvertTextKey(strEpithet)
@@ -665,7 +665,7 @@ function UpdateNewData(playerID, szTag)
 		end
 		-- if pPlayer:IsGoldenAge() then
 			-- srCivName = "[COLOR_JFD_OVERLAY_GOLDEN_AGE][ICON_GOLDEN_AGE] " .. strCivName .. "[ENDCOLOR]"
-		-- elseif Player.IsDarkAge and pPlayer:IsDarkAge() then
+		-- elseif LuaTypes.Player.IsDarkAge and pPlayer:IsDarkAge() then
 			-- srCivName = "[COLOR_JFD_OVERLAY_DARK_AGE][ICON_JFD_DARK_AGE] " .. strCivName .. "[ENDCOLOR]"
 		-- end
 		Controls.PlayerNameText:SetText(Locale.ToUpper(srCivName));
@@ -906,7 +906,7 @@ function OnWorldCivsListUpdated()
 			if pTeam:IsHasMet(Game.GetActiveTeam()) then
 			
 				local greatPowerRank = iPlayerLoop
-				if Player.CalculateGreatPowerStats then
+				if LuaTypes.Player.CalculateGreatPowerStats then
 					greatPowerRank = pPlayer:CalculateGreatPowerStats()
 				end
 				
@@ -951,7 +951,7 @@ function OnWorldCivsListUpdated()
 		
 		--CYCLES OF POWER
 		local cyclePowerID = -1
-		if Player.GetCyclePower then
+		if LuaTypes.Player.GetCyclePower then
 			cyclePowerID = pPlayer:GetCyclePower() or -1
 		end				
 		if cyclePowerID ~= -1 then
@@ -964,7 +964,7 @@ function OnWorldCivsListUpdated()
 		
 		--SOVEREIGNTY
 		local governmentID = -1
-		if Player.GetCurrentGovernment then		
+		if LuaTypes.Player.GetCurrentGovernment then		
 			governmentID = pPlayer:GetCurrentGovernment()
 			srGovtName = pPlayer:GetGovernmentName(governmentID)	
 			strGovtStatsName = strGovtStatsName .. "[COLOR_JFD_SOVEREIGNTY][ICON_BULLET][ICON_JFD_GOVERNMENT] " .. Locale.ConvertTextKey(GameInfo.JFD_Governments[governmentID].Description) .. "[ENDCOLOR]" 
@@ -1018,7 +1018,7 @@ function OnWorldCivsListUpdated()
 			controlTable.PlayerStabilityStatsText:LocalizeAndSetText("[ICON_GOLDEN_AGE] [COLOR_GOLDEN_AGE]GOLDEN AGE![ENDCOLOR]")
 			controlTable.PlayerStabilityStatsText:LocalizeAndSetToolTip("[ICON_GOLDEN_AGE] [COLOR_GOLDEN_AGE]GOLDEN AGE![ENDCOLOR]")
 		end
-		if Player.IsDarkAge and pPlayer:IsDarkAge() then
+		if LuaTypes.Player.IsDarkAge and pPlayer:IsDarkAge() then
 			controlTable.PlayerStabilityStatsText:LocalizeAndSetText("[ICON_DARK_AGE] [COLOR_DARK_AGE]DARK AGE![ENDCOLOR]")
 			controlTable.PlayerStabilityStatsText:LocalizeAndSetToolTip("[ICON_DARK_AGE] [COLOR_DARK_AGE]DARK AGE![ENDCOLOR]")
 		end
@@ -1035,7 +1035,7 @@ function OnWorldCivsListUpdated()
 			-- controlTable.PlayerEntryAnimGridDA:SetHide(true)
 			-- controlTable.PlayerEntryAnimGridNA:SetHide(true)
 			-- controlTable.PlayerEntryAnimGridGA:SetHide(true)
-		-- elseif Player.IsDarkAge and pPlayer:IsDarkAge() then
+		-- elseif LuaTypes.Player.IsDarkAge and pPlayer:IsDarkAge() then
 			-- controlTable.AgeIcon:SetText("[ICON_DARK_AGE]")
 			-- controlTable.AgeIcon:SetHide(false)
 			-- controlTable.PlayerEntryAnim:Play()
@@ -1054,7 +1054,7 @@ function OnWorldCivsListUpdated()
 		controlTable.PlayerEntryAnimGrid:SetColor(backgroundColor)
 			
 		--GREAT POWER STATUS
-		-- if Player.GetGreatPowerStatus then
+		-- if LuaTypes.Player.GetGreatPowerStatus then
 			-- local greatPowerStatusID = pPlayer:GetGreatPowerStatus()
 			-- if greatPowerStatusID ~= -1 then
 				-- local greatPowerStatus = GameInfo.JFD_GreatPowers[greatPowerStatusID]
@@ -1067,7 +1067,7 @@ function OnWorldCivsListUpdated()
 		-- end
 		
 		--EPITHET
-		if Player.GetEpithetTitle then
+		if LuaTypes.Player.GetEpithetTitle then
 			local strEpithet = pPlayer:GetEpithetTitle()
 			if strEpithet then
 				strLeaderName = strLeaderName .. " " .. Locale.ConvertTextKey(strEpithet)

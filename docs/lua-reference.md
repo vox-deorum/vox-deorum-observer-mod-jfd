@@ -36,13 +36,6 @@ Shared helper library. Imported by all other Lua files.
 | `JFD_Round(n, decimals)` | Rounds `n` to `decimals` places. |
 | `JFD_Random(min, max)` | Returns a random integer in `[min, max]`. |
 
-#### Notification / World Events
-
-| Function | Description |
-|----------|-------------|
-| `JFD_SendNotification(playerID, notifType, summary, message, x, y)` | Sends a custom notification to a player. |
-| `JFD_SendWorldEvent(x, y, eventType)` | Fires a world event at tile coordinates. |
-
 #### Player Utilities
 
 | Function | Description |

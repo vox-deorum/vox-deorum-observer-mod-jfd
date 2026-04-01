@@ -17,7 +17,7 @@ The AI Observer Interface mod displays AI-only Civ5 games. The vox-deorum backen
 
 Existing utilities to reuse:
 - `JFD_Log()` from `Lua/Utilities/JFD_AIObserver_Utils.lua` — debug logging
-- `Player.GetDefaultName()` — leader name fallback
+- `LuaTypes.Player.GetDefaultName()` — leader name fallback
 - `JFD_GetScoreRank()` — player ranking
 - Civ5 built-in `InstanceManager` — for repeating UI rows in Stage 5 dialog
 

@@ -102,7 +102,7 @@ function JFD_GetMiniMapLegend(miniMapID, playerID, iFilterPlayer)
 		return GameInfo.JFD_MinimapOverlay_Legends("MinimapOverlayType = '" .. miniMapType .. "' AND IsPlayer = 1")()
 	else
 		local pPlayer = Players[playerID]
-		if miniMap.IsCultureTypes and Player.GetCultureType then
+		if miniMap.IsCultureTypes and LuaTypes.Player.GetCultureType then
 			local iCultureType = pPlayer:GetCultureType()
 			if iCultureType > 0 then
 				local pCultureType = GameInfo.JFD_CultureTypes[iCultureType].Type
@@ -112,7 +112,7 @@ function JFD_GetMiniMapLegend(miniMapID, playerID, iFilterPlayer)
 			local iEraType = pPlayer:GetCurrentEra()
 			local pEraType = GameInfo.Eras[iEraType].Type
 			return GameInfo.JFD_MinimapOverlay_Legends("MinimapOverlayType = '" .. miniMapType .. "' AND IsType = '" .. pEraType .. "'")()
-		elseif miniMap.IsGovernments and Player.GetCurrentGovernment then
+		elseif miniMap.IsGovernments and LuaTypes.Player.GetCurrentGovernment then
 			if pPlayer:IsMinorCiv() then
 				return GameInfo.JFD_MinimapOverlay_Legends("MinimapOverlayType = '" .. miniMapType .. "' AND IsType = 'GOVERNMENT_JFD_CITY_STATE'")()
 			else
@@ -120,7 +120,7 @@ function JFD_GetMiniMapLegend(miniMapID, playerID, iFilterPlayer)
 				local pGovType = GameInfo.JFD_Governments[iGovType].Type
 				return GameInfo.JFD_MinimapOverlay_Legends("MinimapOverlayType = '" .. miniMapType .. "' AND IsType = '" .. pGovType .. "'")()
 			end
-		elseif miniMap.IsFactions and Player.GetDominantFaction then
+		elseif miniMap.IsFactions and LuaTypes.Player.GetDominantFaction then
 			if pPlayer:IsMinorCiv() then
 				return GameInfo.JFD_MinimapOverlay_Legends("MinimapOverlayType = '" .. miniMapType .. "' AND IsType = 'FACTION_JFD_TRADITIONAL'")()
 			else
@@ -139,7 +139,7 @@ function JFD_GetMiniMapLegend(miniMapID, playerID, iFilterPlayer)
 			end
 		elseif miniMap.IsIdeologies then
 			local iIdeologyType = -1
-			if Player.GetIdeology then
+			if LuaTypes.Player.GetIdeology then
 				iIdeologyType = pPlayer:GetIdeology()
 			else
 				iIdeologyType = pPlayer:GetLateGamePolicyTree()
@@ -172,7 +172,7 @@ function JFD_GetMiniMapLegend(miniMapID, playerID, iFilterPlayer)
 				return GameInfo.JFD_MinimapOverlay_Legends("MinimapOverlayType = '" .. miniMapType .. "' AND IsType = 'RELATION_NEUTRAL'")()
 			end
 		elseif miniMap.IsStability then
-			if Player.IsDarkAge and pPlayer:IsDarkAge() then
+			if LuaTypes.Player.IsDarkAge and pPlayer:IsDarkAge() then
 				return GameInfo.JFD_MinimapOverlay_Legends("MinimapOverlayType = '" .. miniMapType .. "' AND IsType = 'STABILITY_DARK_AGE'")()
 			elseif pPlayer:IsGoldenAge() then
 				return GameInfo.JFD_MinimapOverlay_Legends("MinimapOverlayType = '" .. miniMapType .. "' AND IsType = 'STABILITY_GOLDEN_AGE'")()
