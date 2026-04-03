@@ -95,7 +95,9 @@ if Game_IsIGEActive() then
 	LuaEvents.IGE_ShowHideMainButton()
 else
 	Controls.IGEButton:SetHide(true)
-	Controls.InfoButtonStack:ReprocessAnchoring()
+	if Controls.InfoButtonStack then
+		Controls.InfoButtonStack:ReprocessAnchoring()
+	end
 end
 ----------------------------------------------------------------
 ----------------------------------------------------------------

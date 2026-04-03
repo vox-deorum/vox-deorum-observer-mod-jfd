@@ -19,6 +19,21 @@ local function VD_Log(...)
 	print("[VD]", ...)
 end
 
+-- Emits after the top panel has auto-switched to a different player.
+-- Args: newPlayerID, previousPlayerID, reason
+local function VD_AutoSwitchToPlayer(playerID, reason)
+	local previousPlayerID = g_iPlayerForView
+	if playerID == nil or previousPlayerID == playerID then
+		VD_Log("TopPanelAutoSwitchSkipped: from=" .. tostring(previousPlayerID) .. " to=" .. tostring(playerID) .. " reason=" .. tostring(reason))
+		return false
+	end
+
+	OnCivPlayerSelected(playerID)
+	VD_Log("TopPanelAutoSwitch: from=" .. tostring(previousPlayerID) .. " to=" .. tostring(playerID) .. " reason=" .. tostring(reason))
+	LuaEvents.VD_TopPanelAutoSwitchedPlayer(playerID, previousPlayerID, reason)
+	return true
+end
+
 -------------------------------------------------
 -- VD: Shared helper functions
 -------------------------------------------------
@@ -882,7 +897,7 @@ local function VD_OnAction(playerID, turn, actionType, summary, rationale)
 				Controls.WorldCivsList:SetHide(true)
 				g_bWorldCivsAutoOpened = false
 			end
-			OnCivPlayerSelected(playerID)
+			VD_AutoSwitchToPlayer(playerID, "first_rationale_action")
 		end
 	elseif playerID == g_iPlayerForView then
 		UpdateNewData(playerID)
@@ -965,7 +980,7 @@ local function VD_OnAIProcessingStarted(playerID)
 		end
 		local cached = VD_CachedRationale[playerID]
 		if cached and cached.turn >= Game.GetGameTurn() - 1 then
-			OnCivPlayerSelected(playerID)
+			VD_AutoSwitchToPlayer(playerID, "cached_rationale")
 			local ad = VD_Actions[playerID]
 			if ad then ad.switched = true end
 		end
@@ -978,7 +993,7 @@ local function VD_OnAIProcessingStarted(playerID)
 		Controls.Tab:SetHide(false)
 		g_bWorldCivsAutoOpened = false
 	end
-	OnCivPlayerSelected(playerID)
+	VD_AutoSwitchToPlayer(playerID, "ai_processing_started")
 end
 Events.AIProcessingStartedForPlayer.Add(VD_OnAIProcessingStarted)
 -------------------------------------------------

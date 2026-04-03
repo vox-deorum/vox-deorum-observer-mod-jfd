@@ -5,6 +5,10 @@ include( "IconSupport" );
 include( "SupportFunctions" );
 
 local ms_IsShowingMinorCiv = false;
+
+local function VD_Log(...)
+	print("[VD]", ...)
+end
 ------------------------------------------------------------
 ------------------------------------------------------------
 function GetPlayer (iPlayerID)
@@ -19,10 +23,34 @@ function GetPlayer (iPlayerID)
 	return Players[iPlayerID];
 end
 
+local function OnVDAIProcessingStarted(iPlayerID, szTag)
+	if(PreGame.IsMultiplayerGame()) then
+		return;
+	end
+
+	local player = GetPlayer(iPlayerID);
+	if (player == nil) then
+		return;
+	end
+
+	if (not player:IsTurnActive()) then
+		return;
+	end
+
+	if (player:IsBarbarian() and Game.IsOption(GameOptionTypes.GAMEOPTION_NO_BARBARIANS)) then
+		return;
+	end
+
+	VD_Log("TurnProcessingEvent: player=" .. tostring(iPlayerID) .. " tag=" .. tostring(szTag));
+	LuaEvents.VD_AITurnProcessingStarted(iPlayerID, szTag);
+end
+Events.AIProcessingStartedForPlayer.Add(OnVDAIProcessingStarted);
+
 -------------------------------------------------
 -- OnAITurnStart
 -------------------------------------------------
 function OnAITurnStart(iPlayerID, szTag)
+	VD_Log("TurnProcessingEvent2: player=" .. tostring(iPlayerID) .. " tag=" .. tostring(szTag));
 	
 	if(PreGame.IsMultiplayerGame()) then
 		-- Turn Queue UI (see ActionInfoPanel.lua) replaces the turn processing UI in multiplayer.  
