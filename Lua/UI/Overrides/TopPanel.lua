@@ -1105,9 +1105,6 @@ function OnWorldCivsListUpdated()
 	local wasHidden = Controls.WorldCivsList:IsHidden()
 	Controls.WorldCivsList:SetHide(false)
 	Controls.Tab:SetHide(true)
-	if wasHidden and InStrategicView() then
-		ToggleStrategicView()
-	end
 
 	g_PlayerListInstanceManager:ResetInstances();
 	
