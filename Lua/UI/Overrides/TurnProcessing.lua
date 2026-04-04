@@ -105,7 +105,6 @@ local function VD_OnShowTurnProcessing(iPlayerID, titleText, displayMode)
 
 	if displayMode == "minor" and ms_IsShowingMinorCiv and not ContextPtr:IsHidden() then
 		-- If we are already showing the Minor Civ processing, just exit. We don't show them individually because they are usually quick to process.
-		VD_Log("TurnProcessingIgnored: already showing grouped minor civs")
 		return;
 	end
 

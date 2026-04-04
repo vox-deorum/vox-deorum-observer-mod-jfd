@@ -849,10 +849,8 @@ function UpdateNewData(playerID, szTag)
 		-- VD Stage 2: show aiLabel for LLM players, "Unknown" until data arrives
 		local vdLabel = VD_Players[playerID]
 		if vdLabel then
-			VD_Log("Stage2: player=" .. tostring(playerID) .. " label=" .. vdLabel)
 			Controls.PlayerLeaderNameText:SetText(vdLabel:gsub("-strategist", ""))
 		else
-			VD_Log("Stage2: player=" .. tostring(playerID) .. " no VD data, showing Unknown")
 			Controls.PlayerLeaderNameText:SetText("Unknown")
 		end
 		-- VD Stage 4: update summary and rationale rows
@@ -991,12 +989,15 @@ function OnCivPlayerSelected(iPlayer)
 			local iPlotX = pPlayerCap:GetX()
 			local iPlotY = pPlayerCap:GetY()
 			pPlot = Map.GetPlot(iPlotX, iPlotY)
+			VD_Log("Capital plot for " .. tostring(iPlayer) .. ": " .. tostring(pPlot))
 		else
 			pPlot = pPlayer:GetStartingPlot()
+			VD_Log("Starting plot for " .. tostring(iPlayer) .. ": " .. tostring(pPlot))
 		end
-		VD_Log("pPlot: " .. tostring(pPlot))
 		if pPlot then
-			UI.LookAt(pPlot);
+			-- UI.LookAt(pPlot);
+		else
+			VD_Log("Didn't look at a plot for " .. tostring(iPlayer))
 		end
 	end
 	UpdateNewData(iPlayer)
