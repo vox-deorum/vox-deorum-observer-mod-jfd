@@ -81,6 +81,60 @@ local function VD_GetGoldDisplay(pPlayer)
 	return icon, rateText, tooltip
 end
 
+local function VD_GetThinkingTitle(aiLabel)
+	if not aiLabel or aiLabel == "" then
+		return "Thinking"
+	end
+
+	local modelLabel = aiLabel:match("^%s*([^/]+)") or aiLabel
+	modelLabel = modelLabel:gsub("^%s+", ""):gsub("%s+$", "")
+	if modelLabel == "" then
+		modelLabel = aiLabel
+	end
+	return modelLabel .. " Is Still Thinking"
+end
+
+local function VD_GetTurnProcessingDisplayMode(playerID)
+	local pPlayer = Players[playerID]
+	if not pPlayer then
+		return nil
+	end
+
+	if pPlayer:IsBarbarian() then
+		if Game.IsOption(GameOptionTypes.GAMEOPTION_NO_BARBARIANS) then
+			return nil
+		end
+		return "known"
+	end
+
+	if pPlayer:IsMinorCiv() then
+		return "minor"
+	end
+
+	local pLocalTeam = Teams[Players[Game.GetActivePlayer()]:GetTeam()]
+	if pLocalTeam:IsHasMet(pPlayer:GetTeam()) then
+		return "known"
+	end
+
+	return "unmet"
+end
+
+local function VD_ShowTurnProcessing(playerID, titleText)
+	local displayMode = VD_GetTurnProcessingDisplayMode(playerID)
+	if displayMode then
+		LuaEvents.VD_ShowTurnProcessing(playerID, titleText, displayMode)
+	end
+	return displayMode
+end
+
+local function VD_CloseAutoOpenedWorldCivsList()
+	if g_bWorldCivsAutoOpened and not Controls.WorldCivsList:IsHidden() then
+		Controls.WorldCivsList:SetHide(true)
+		Controls.Tab:SetHide(false)
+		g_bWorldCivsAutoOpened = false
+	end
+end
+
 -- Returns first strategy/flavors/status-quo rationale and turn, or nil.
 -- Falls back to VD_CachedRationale so rationale persists across turn boundaries.
 local function VD_GetFirstRationale(playerID)
@@ -893,11 +947,9 @@ local function VD_OnAction(playerID, turn, actionType, summary, rationale)
 		if pPlayer and pPlayer:IsAlive() and pPlayer:IsTurnActive()
 			and not pPlayer:IsBarbarian() and not pPlayer:IsMinorCiv() then
 			ad.switched = true
-			if g_bWorldCivsAutoOpened and not Controls.WorldCivsList:IsHidden() then
-				Controls.WorldCivsList:SetHide(true)
-				g_bWorldCivsAutoOpened = false
-			end
+			VD_CloseAutoOpenedWorldCivsList()
 			VD_AutoSwitchToPlayer(playerID, "first_rationale_action")
+			VD_ShowTurnProcessing(playerID)
 		end
 	elseif playerID == g_iPlayerForView then
 		UpdateNewData(playerID)
@@ -954,14 +1006,17 @@ end
 -- VD Stage 3: Auto-switch panel to the active AI player
 -- LLM players: panel switch deferred to VD_OnAction (first rationale action)
 -- VPAI/unknown: panel switch immediate (they won't receive actions)
--- Minor/barbarian: auto-open WorldCivsList dialog
+-- Minor civs: auto-open WorldCivsList dialog; barbarians keep the standard turn-processing popup
 -- Camera moves via OnCivPlayerSelected only when the panel actually switches
 local function VD_OnAIProcessingStarted(playerID)
 	local pPlayer = Players[playerID]
 	if not pPlayer then return end
 	if not pPlayer:IsAlive() then return end
+	local displayMode = VD_GetTurnProcessingDisplayMode(playerID)
+	if not displayMode then return end
 
-	if pPlayer:IsBarbarian() or pPlayer:IsMinorCiv() then
+	if pPlayer:IsMinorCiv() then
+		VD_ShowTurnProcessing(playerID)
 		if Controls.WorldCivsList:IsHidden() then
 			g_bWorldCivsAutoOpened = true
 			OnWorldCivsListUpdated()
@@ -969,30 +1024,36 @@ local function VD_OnAIProcessingStarted(playerID)
 		return
 	end
 
+	if pPlayer:IsBarbarian() then
+		VD_CloseAutoOpenedWorldCivsList()
+		VD_ShowTurnProcessing(playerID)
+		return
+	end
+
 	-- LLM player — close auto-opened dialog; switch immediately if current-turn rationale exists,
 	-- otherwise defer panel switch to VD_OnAction on first rationale
 	local vdLabel = VD_Players[playerID]
 	if vdLabel and vdLabel ~= "VPAI / none-strategist" then
-		if g_bWorldCivsAutoOpened and not Controls.WorldCivsList:IsHidden() then
-			Controls.WorldCivsList:SetHide(true)
-			Controls.Tab:SetHide(false)
-			g_bWorldCivsAutoOpened = false
-		end
+		VD_CloseAutoOpenedWorldCivsList()
 		local cached = VD_CachedRationale[playerID]
 		if cached and cached.turn >= Game.GetGameTurn() - 1 then
+			VD_ShowTurnProcessing(playerID)
 			VD_AutoSwitchToPlayer(playerID, "cached_rationale")
 			local ad = VD_Actions[playerID]
 			if ad then ad.switched = true end
+		else
+			if displayMode == "known" then
+				VD_ShowTurnProcessing(playerID, VD_GetThinkingTitle(vdLabel))
+			else
+				VD_ShowTurnProcessing(playerID)
+			end
 		end
 		return
 	end
 
 	-- VPAI/unknown — switch panel immediately (camera already moved above)
-	if g_bWorldCivsAutoOpened and not Controls.WorldCivsList:IsHidden() then
-		Controls.WorldCivsList:SetHide(true)
-		Controls.Tab:SetHide(false)
-		g_bWorldCivsAutoOpened = false
-	end
+	VD_CloseAutoOpenedWorldCivsList()
+	VD_ShowTurnProcessing(playerID)
 	VD_AutoSwitchToPlayer(playerID, "ai_processing_started")
 end
 Events.AIProcessingStartedForPlayer.Add(VD_OnAIProcessingStarted)

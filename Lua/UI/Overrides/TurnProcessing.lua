@@ -4,11 +4,15 @@
 include( "IconSupport" );
 include( "SupportFunctions" );
 
-local ms_IsShowingMinorCiv = false;
+-- VD: Debug logging — filter Lua.log for "[VD]"
+local function VD_Log(...)
+	print("[VD]", ...)
+end
 
+local ms_IsShowingMinorCiv = false;
 ------------------------------------------------------------
 ------------------------------------------------------------
-function GetPlayer (iPlayerID)
+local function GetPlayer(iPlayerID)
 	if (iPlayerID < 0) then
 		return nil;
 	end
@@ -21,88 +25,106 @@ function GetPlayer (iPlayerID)
 end
 
 -------------------------------------------------
--- OnAITurnStart
+-- VD manual popup API
 -------------------------------------------------
-function OnAITurnStart(iPlayerID, szTag)
+local function VD_ShowTurnProcessingPopup()
 	if(PreGame.IsMultiplayerGame()) then
 		-- Turn Queue UI (see ActionInfoPanel.lua) replaces the turn processing UI in multiplayer.  
-		return;
+		return false;
 	end
 
 	if( ContextPtr:IsHidden() ) then
-		--ContextPtr:SetHide( false );
+		ContextPtr:SetHide( false );
 		Controls.Anim:SetHide( true );
 		ms_IsShowingMinorCiv = false;
 	end
-	
-	local player = GetPlayer(iPlayerID);
-	if (player == nil) then
-		return;	
-	end
 
-	if (not player:IsTurnActive()) then
-		return;
-	end
-
-	-- Determine if the local player has met this player, else we will just a generic processing message
-	
-	local pLocalTeam = Teams[ Players[ Game.GetActivePlayer() ]:GetTeam() ];
-    local bMet = pLocalTeam:IsHasMet( player:GetTeam() );
-
-	local bIsMinorCiv = player:IsMinorCiv();
-	
-	if (bIsMinorCiv and ms_IsShowingMinorCiv) then
-		-- If we are already showing the Minor Civ processing, just exit.  We don't show them individually because they are usually quick to process
-		return;
-	end
-
-	local civDescription;
-	local bIsBarbarian = player:IsBarbarian();
-	if (bIsBarbarian and Game.IsOption(GameOptionTypes.GAMEOPTION_NO_BARBARIANS)) then
-		-- Even if there are no barbarians, we will get this call, just skip out if they are turned off
-		return;
-	end
-	-- If we have met them, or it is a minor civ or it is the barbarians, show it.
-	if (bMet or bIsMinorCiv or bIsBarbarian) then
-		-- Set Civ Icon
-        Controls.CivIconBG:SetHide( false );
-        Controls.CivIconShadow:SetHide( false );
-		CivIconHookup(iPlayerID, 64, Controls.CivIcon, Controls.CivIconBG, Controls.CivIconShadow, false, true); 
-			
-		if (player:IsMinorCiv()) then
-			civDescription = Locale.ConvertTextKey( "TXT_KEY_PROCESSING_MINOR_CIVS" );
-			ms_IsShowingMinorCiv = true;
-		else
-			local civType = player:GetCivilizationType();
-			local civInfo = GameInfo.Civilizations[civType];
-			local strCiv = Locale.ConvertTextKey(player:GetCivilizationDescription());
-			ms_IsShowingMinorCiv = false;
-			if(strCiv and #strCiv > 0) then
-				civDescription = Locale.ConvertTextKey(strCiv);
-			else	
-				civDescription = Locale.ConvertTextKey( "TXT_KEY_MULTIPLAYER_DEFAULT_PLAYER_NAME", iPlayerID + 1 );
-			end
-				
-			civDescription = Locale.ConvertTextKey( "TXT_KEY_PROCESSING_TURN_FOR", civDescription );
-		end
-	else
-		civDescription = Locale.ConvertTextKey( "TXT_KEY_PROCESSING_TURN_FOR_UNMET_PLAYER", iPlayerID + 1 );
-		Controls.CivIcon:SetTexture("CivSymbolsColor512.dds");
-        Controls.CivIcon:SetTextureOffsetVal( 448 + 7, 128 + 7 );
-        Controls.CivIcon:SetColor( Vector4( 1.0, 1.0, 1.0, 1.0 ) );
-        Controls.CivIcon:SetHide( false );
-        Controls.CivIconBG:SetHide( true );
-        Controls.CivIconShadow:SetHide( true );
-        ms_IsShowingMinorCiv = false;
-	end		
 	if (Controls.Anim:IsHidden()) then
 		Controls.Anim:SetHide( false );
 		Controls.Anim:BranchResetAnimation();
 	end
-	Controls.TurnProcessingTitle:SetText(civDescription);
 
+	return true;
 end
---Events.AIProcessingStartedForPlayer.Add( OnAITurnStart );
+
+local function VD_GetProcessingTitle(player, iPlayerID)
+	local civType = player:GetCivilizationType();
+	local civInfo = GameInfo.Civilizations[civType];
+	local strCiv = Locale.ConvertTextKey(civInfo.ShortDescription);
+	if(strCiv and #strCiv > 0) then
+		return Locale.ConvertTextKey("TXT_KEY_PROCESSING_TURN_FOR", Locale.ConvertTextKey(strCiv));
+	end
+	return Locale.ConvertTextKey("TXT_KEY_PROCESSING_TURN_FOR", Locale.ConvertTextKey("TXT_KEY_MULTIPLAYER_DEFAULT_PLAYER_NAME", iPlayerID + 1));
+end
+
+local function VD_SetKnownPlayerDisplay(iPlayerID, titleText)
+	Controls.CivIconBG:SetHide( false );
+	Controls.CivIconShadow:SetHide( false );
+	CivIconHookup(iPlayerID, 64, Controls.CivIcon, Controls.CivIconBG, Controls.CivIconShadow, false, true);
+	ms_IsShowingMinorCiv = false;
+	Controls.TurnProcessingTitle:SetText(titleText);
+end
+
+local function VD_SetUnmetPlayerDisplay(iPlayerID)
+	Controls.TurnProcessingTitle:SetText(Locale.ConvertTextKey("TXT_KEY_PROCESSING_TURN_FOR_UNMET_PLAYER", iPlayerID + 1));
+	Controls.CivIcon:SetTexture("CivSymbolsColor512.dds");
+	Controls.CivIcon:SetTextureOffsetVal( 448 + 7, 128 + 7 );
+	Controls.CivIcon:SetColor( Vector4( 1.0, 1.0, 1.0, 1.0 ) );
+	Controls.CivIcon:SetHide( false );
+	Controls.CivIconBG:SetHide( true );
+	Controls.CivIconShadow:SetHide( true );
+	ms_IsShowingMinorCiv = false;
+end
+
+local function VD_SetMinorDisplay(iPlayerID)
+	Controls.CivIconBG:SetHide( false );
+	Controls.CivIconShadow:SetHide( false );
+	CivIconHookup(iPlayerID, 64, Controls.CivIcon, Controls.CivIconBG, Controls.CivIconShadow, false, true);
+	ms_IsShowingMinorCiv = true;
+	Controls.TurnProcessingTitle:SetText(Locale.ConvertTextKey("TXT_KEY_PROCESSING_MINOR_CIVS"));
+end
+
+local function VD_OnShowTurnProcessing(iPlayerID, titleText, displayMode)
+	VD_Log("TurnProcessingEvent: player=" .. tostring(iPlayerID) .. " mode=" .. tostring(displayMode) .. " title=" .. tostring(titleText))
+
+	local player = GetPlayer(iPlayerID);
+	if (player == nil) then
+		VD_Log("TurnProcessingIgnored: invalid player=" .. tostring(iPlayerID))
+		return;
+	end
+
+	if (not player:IsTurnActive()) then
+		VD_Log("TurnProcessingIgnored: inactive player=" .. tostring(iPlayerID))
+		return;
+	end
+
+	if player:IsBarbarian() and Game.IsOption(GameOptionTypes.GAMEOPTION_NO_BARBARIANS) then
+		VD_Log("TurnProcessingIgnored: barbarians disabled player=" .. tostring(iPlayerID))
+		return;
+	end
+
+	if displayMode == "minor" and ms_IsShowingMinorCiv and not ContextPtr:IsHidden() then
+		-- If we are already showing the Minor Civ processing, just exit. We don't show them individually because they are usually quick to process.
+		VD_Log("TurnProcessingIgnored: already showing grouped minor civs")
+		return;
+	end
+
+	if not VD_ShowTurnProcessingPopup() then
+		VD_Log("TurnProcessingIgnored: popup unavailable")
+		return;
+	end
+
+	if displayMode == "minor" then
+		VD_SetMinorDisplay(iPlayerID)
+	elseif displayMode == "unmet" then
+		VD_SetUnmetPlayerDisplay(iPlayerID)
+	else
+		VD_SetKnownPlayerDisplay(iPlayerID, titleText or VD_GetProcessingTitle(player, iPlayerID))
+	end
+
+	VD_Log("TurnProcessingApplied: player=" .. tostring(iPlayerID) .. " mode=" .. tostring(displayMode) .. " finalTitle=" .. tostring(Controls.TurnProcessingTitle:GetText()))
+end
+LuaEvents.VD_ShowTurnProcessing.Add(VD_OnShowTurnProcessing)
 -------------------------------------------------------------------------
 -- OnPlayerTurnStart
 -- Human player's turn, hide the UI
@@ -113,8 +135,8 @@ function OnPlayerTurnStart()
 		Controls.Anim:Play();
 	end
 end
---Events.ActivePlayerTurnStart.Add( OnPlayerTurnStart );
---Events.RemotePlayerTurnStart.Add( OnPlayerTurnStart );
+Events.ActivePlayerTurnStart.Add( OnPlayerTurnStart );
+Events.RemotePlayerTurnStart.Add( OnPlayerTurnStart );
 
 -------------------------------------------------------------------------
 -- Callback while the alpha animation is playing.
