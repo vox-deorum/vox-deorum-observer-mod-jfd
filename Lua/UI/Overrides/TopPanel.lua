@@ -16,7 +16,8 @@ local g_bWorldCivsAutoOpened = false  -- true if WorldCivsList was auto-opened (
 
 -- VD: Combat-gate state for delaying auto-switch until animations finish
 local VD_CombatInFlight = 0       -- count of active combat animations
-local VD_PendingSwitch = nil      -- { playerID, reason, preWork } or nil
+local VD_PendingSwitch = nil      -- { playerID, reason, preWork, eventOnly } or nil
+local VD_MinorDialogShownTurn = -1 -- last game turn on which the minor civ dialog was opened
 
 -- VD: Debug logging — filter Lua.log for "[VD]"
 local function VD_Log(...)
@@ -25,15 +26,19 @@ end
 
 -- Emits after the top panel has auto-switched to a different player.
 -- Args: newPlayerID, previousPlayerID, reason
-local function VD_AutoSwitchToPlayer(playerID, reason)
+-- When eventOnly is true, emits the switch event without actually changing g_iPlayerForView
+-- (used for the minor civ dialog path, where the top panel stays pinned to the last major civ).
+local function VD_AutoSwitchToPlayer(playerID, reason, eventOnly)
 	local previousPlayerID = g_iPlayerForView
 	if playerID == nil or previousPlayerID == playerID then
 		VD_Log("TopPanelAutoSwitchSkipped: from=" .. tostring(previousPlayerID) .. " to=" .. tostring(playerID) .. " reason=" .. tostring(reason))
 		return false
 	end
 
-	OnCivPlayerSelected(playerID)
-	VD_Log("TopPanelAutoSwitch: from=" .. tostring(previousPlayerID) .. " to=" .. tostring(playerID) .. " reason=" .. tostring(reason))
+	if not eventOnly then
+		OnCivPlayerSelected(playerID)
+	end
+	VD_Log("TopPanelAutoSwitch" .. (eventOnly and "(eventOnly)" or "") .. ": from=" .. tostring(previousPlayerID) .. " to=" .. tostring(playerID) .. " reason=" .. tostring(reason))
 	LuaEvents.VD_TopPanelAutoSwitchedPlayer(playerID, previousPlayerID, reason)
 	return true
 end
@@ -43,7 +48,7 @@ local function VD_FlushPendingSwitch()
 		local ps = VD_PendingSwitch
 		VD_PendingSwitch = nil
 		if ps.preWork then ps.preWork() end
-		VD_AutoSwitchToPlayer(ps.playerID, ps.reason)
+		VD_AutoSwitchToPlayer(ps.playerID, ps.reason, ps.eventOnly)
 	end
 end
 
@@ -525,88 +530,6 @@ function UpdateNewData(playerID, szTag)
 			Controls.InfoStack:SetHide(false)
 			Controls.InfoStack:ReprocessAnchoring()
 
-			--FOL.
-			-- local iFReli = pPlayer:GetReligionCreatedByPlayer()
-			-- local iReli = iFReli
-			-- local strReliFont
-			-- local strReliName
-			-- if iReli == 0 then
-				-- local iReliPop = 0
-				-- for city in pPlayer:Cities() do
-					-- iReliPop = iReliPop + city:GetNumFollowers(iReli)
-				-- end
-				-- local strReliPop = tostring(iReliPop)
-				-- if iReliPop >= 1000 then
-					-- iReliPop = Game.GetRound(iPop/1000)
-					-- strReliPop = tostring(iReliPop) .. "k"
-				-- end
-				-- strReliFont = "[ICON_RELIGION_PANTHEON]"
-				-- strReliName = Game.GetReligionName(iReli)
-				-- local strReliPopShortDesc = Locale.ConvertTextKey("{1_Desc}", strReliPop)
-				-- local strReliPopTT = Locale.ConvertTextKey("{2_Font} Followers ({3_Desc}): {1_Desc}", strReliPop, strReliFont, strReliName)	
-				-- Controls.FolIcon:SetText(strReliFont)
-				-- Controls.FolIcon:SetToolTipString(strReliPopTT)
-				-- Controls.FolInfo:SetText(strReliPopShortDesc)
-				-- Controls.FolInfo:SetToolTipString(strReliPopTT)	
-			-- elseif iReli == -1 then
-				-- for row in GameInfo.Religions("ID > 0") do
-					-- if pPlayer:HasReligionInMostCities(row.ID) then
-						-- iReli = row.ID
-						-- strReliFont = row.IconString
-						-- break
-					-- end
-				-- end
-				-- if iReli > 0 then
-					-- local iReliPop = 0
-					-- for city in pPlayer:Cities() do
-						-- iReliPop = iReliPop + city:GetNumFollowers(iReli)
-					-- end
-					-- local strReliPop = tostring(iReliPop)
-					-- if iReliPop >= 1000 then
-						-- iReliPop = Game.GetRound(iPop/1000)
-						-- strReliPop = tostring(iReliPop) .. "k"
-					-- end
-					-- strReliName = Game.GetReligionName(iReli)
-					-- local strReliPopShortDesc = Locale.ConvertTextKey("{1_Desc}", strReliPop)
-					-- local strReliPopTT = Locale.ConvertTextKey("{2_Font} Followers ({3_Desc}): {1_Desc}", strReliPop, strReliFont, strReliName)
-					-- Controls.FolIcon:SetText(strReliFont)
-					-- Controls.FolIcon:SetToolTipString(strReliPopTT)
-					-- Controls.FolInfo:SetText(strReliPopShortDesc)
-					-- Controls.FolInfo:SetToolTipString(strReliPopTT)
-				-- else
-					-- Controls.FolInfo:SetHide(true)
-					-- Controls.FolDivider:SetHide(true)
-				-- end
-			-- elseif iReli > 0 then
-				-- local iReliPop = 0
-				-- for city in pPlayer:Cities() do
-					-- iReliPop = iReliPop + city:GetNumFollowers(iReli)
-				-- end
-				-- local strReliFont = GameInfo.Religions[iReli].IconString
-				-- local strReliPop = tostring(iReliPop)
-				-- if iReliPop >= 1000 then
-					-- iReliPop = Game.GetRound(iPop/1000)
-					-- strReliPop = tostring(iReliPop) .. "k"
-				-- end
-				-- strReliName = Game.GetReligionName(iReli)
-				-- local strReliPopShortDesc = Locale.ConvertTextKey("{1_Desc}", strReliPop)
-				-- local strReliPopTT = Locale.ConvertTextKey("{2_Font} Followers ({3_Desc}): {1_Desc}", strReliPop, strReliFont, strReliName)
-				-- Controls.FolIcon:SetText(strReliFont)
-				-- Controls.FolIcon:SetToolTipString(strReliPopTT)
-				-- Controls.FolInfo:SetText(strReliPopShortDesc)
-				-- Controls.FolInfo:SetToolTipString(strReliPopTT)
-			-- end
-			
-			-- Controls.InfoStack:SetHide(false)
-			-- Controls.InfoStack:ReprocessAnchoring()
-			
-			--ERA
-			-- local iCurrentEra = player:GetCurrentEra() + 1
-			-- local strEraFont = "[ICON_LEGEND_ERA_" .. tostring(iCurrentEra) .. "]"
-			-- Controls.EraInfoFrame:SetHide(false)
-			-- Controls.EraInfo:LocalizeAndSetText(strEraFont)
-			-- Controls.EraInfo:LocalizeAndSetToolTip("Era: {1_Font} {2_Desc}", strEraFont, GameInfo.Eras[iCurrentEra].Description)	
-			
 			--RELIGION
 			local iReli = pPlayer:GetReligionCreatedByPlayer()
 			if iReli == 0 then
@@ -749,53 +672,6 @@ function UpdateNewData(playerID, szTag)
 			Controls.InfoStack:SetHide(false)
 			Controls.InfoStack:ReprocessAnchoring()
 			
-			--GOVERNMENT
-			-- if pPlayer:IsAnarchy() then
-				-- Controls.GovInfoFrame:SetHide(false)
-				-- Controls.GovInfo:SetText("[ICON_RESISTANCE]")
-				-- Controls.GovInfo:LocalizeAndSetToolTip("Government: [ICON_RESISTANCE][COLOR_JFD_OVERLAY_ANARCHY]Anarchy![ENDCOLOR]")
-			-- else
-				-- if LuaTypes.Player.GetCurrentGovernment then		
-					-- local governmentID = pPlayer:GetCurrentGovernment()
-					-- local government = GameInfo.JFD_Governments[governmentID]
-					-- local strGovFont = "[ICON_" .. government.Type .. "]"
-					-- local strGovShortDesc = GameInfo.JFD_Governments[governmentID].Description
-					-- local strGovDesc = Locale.ConvertTextKey("{2_Font} {1_Desc}", strGovShortDesc, strGovFont)
-					
-					-- Controls.GovInfoFrame:SetHide(false)
-					-- Controls.GovInfo:SetText(strGovFont)
-					-- Controls.GovInfo:LocalizeAndSetToolTip(strGovTT)
-					
-					-- Controls.GovInfo:SetText(strGovDesc)
-					-- Controls.GovInfo:SetHide(false)
-							
-					-- local factionID = pPlayer:GetDominantFaction()
-					-- if factionID ~= -1 then
-						-- local faction = GameInfo.JFD_Factions[factionID]
-						-- local strFactFont = faction.IconString
-						-- local strFactDesc = Locale.ConvertTextKey("{1_Font} {2_Desc}", strFactFont, faction.Description)
-						-- Controls.FactInfoFrame:SetHide(false)
-						-- Controls.FactInfo:SetText(strFactFont)
-						-- Controls.FactInfo:SetHide(false)
-					-- else
-						-- Controls.FactInfoFrame:SetHide(true)
-					-- end
-				-- else
-					-- local strGovFakeDesc, strGovFakeFont = Player_GetFakeGovernment(pPlayer)
-					-- if strGovFakeDesc and strGovFakeFont then
-						-- local strGovFakeDesc = Locale.ConvertTextKey("{1_Font} {2_Desc}", strGovFakeFont, strGovFakeDesc)
-						-- Controls.GovInfoFrame:SetHide(false)
-						-- Controls.GovInfo:SetText(strGovFakeDesc)
-						-- Controls.GovInfo:SetHide(false)
-					-- else
-						-- Controls.GovInfoFrame:SetHide(false)
-						-- Controls.GovInfo:SetText("[ICON_GOVERNMENT_A]")
-						-- Controls.GovInfo:LocalizeAndSetToolTip("[ICON_GOVERNMENT_A] No Government")
-					-- end
-					-- Controls.FactInfoFrame:SetHide(true)
-				-- end
-			-- end
-		
 			--IDEOLOGY
 			local ideologyID = Player_GetIdeology(pPlayer)
 			if ideologyID ~= -1 then
@@ -943,10 +819,11 @@ Events.RunCombatSim.Add(function(m_AttackerPlayerID,
 		.. " continuation=" .. tostring(m_bContinuation)
 		.. " inflight=" .. VD_CombatInFlight)
 	-- Move camera to first combat in this batch (avoid ping-pong across multiple combats)
-	if VD_CombatInFlight == 1 then
+	if VD_CombatInFlight == 1 and m_AttackerPlayerID == g_iPlayerForView then
 		local unit = Players[m_AttackerPlayerID]:GetUnitByID(m_AttackerUnitID)
-		if unit and not unit:IsDead() then
+		if unit and unit:GetPlot() then
 			UI.LookAt(unit:GetPlot(), 1)
+			LuaEvents.VD_AnimationStarted(m_AttackerPlayerID)
 		end
 	end
 end)
@@ -1059,11 +936,15 @@ function OnCivPlayerSelected(iPlayer)
 end
 -------------------------------------------------
 -- VD Stage 3: Auto-switch panel to the active AI player
--- All major-civ switches are DEFERRED (saved as VD_PendingSwitch) so combat animations
--- from the previous player can finish first. Pending switch is flushed by EndCombatSim
--- (when combat ends) or by the next AIProcessingStartedForPlayer (no-combat fallback).
+-- LLM major-civ switches are DEFERRED via VD_PendingSwitch so combat animations from the
+-- previous player can finish first. Minor civs use the same deferral (eventOnly = true):
+-- on the first minor civ of each game turn, the WorldCivsList dialog auto-opens and
+-- VD_TopPanelAutoSwitchedPlayer fires, but g_iPlayerForView stays pinned to the last LLM
+-- major civ. If the user closes the dialog, it stays closed for the rest of that turn.
+-- Barbarians keep their immediate close-dialog + thinking-popup path (no deferral, no
+-- event). Pending switch is flushed by EndCombatSim, by AIProcessingEndedForPlayer, or by
+-- the next AIProcessingStartedForPlayer (no-combat fallback).
 -- LLM players without cached rationale: switch deferred to VD_OnAction instead.
--- Minor civs: auto-open WorldCivsList dialog; barbarians: standard turn-processing popup.
 local function VD_OnAIProcessingStarted(playerID)
 	local pPlayer = Players[playerID]
 	if not pPlayer then return end
@@ -1076,10 +957,25 @@ local function VD_OnAIProcessingStarted(playerID)
 
 	if pPlayer:IsMinorCiv() then
 		VD_ShowTurnProcessing(playerID)
-		if Controls.WorldCivsList:IsHidden() then
-			g_bWorldCivsAutoOpened = true
-			OnWorldCivsListUpdated()
+		local currentTurn = Game.GetGameTurn()
+		if VD_MinorDialogShownTurn == currentTurn then
+			-- Already shown (and possibly closed by user) on this turn: do not restage.
+			return
 		end
+		VD_MinorDialogShownTurn = currentTurn
+		VD_PendingSwitch = {
+			playerID  = playerID,
+			reason    = "minor_civ_turn_started",
+			eventOnly = true,
+			preWork = function()
+				if Controls.WorldCivsList:IsHidden() then
+					g_bWorldCivsAutoOpened = true
+					OnWorldCivsListUpdated()
+				end
+			end,
+		}
+		VD_Log("DeferredSwitch: player=" .. tostring(playerID)
+			.. " reason=minor_civ_turn_started")
 		return
 	end
 

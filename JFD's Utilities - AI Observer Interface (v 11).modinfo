@@ -137,10 +137,10 @@
     <File md5="6D270B3848ACB913C36A6534392BA4BC" import="0">Lua/UI/Overrides/MiniMapPanel.xml</File>
     <File md5="C80B7BB2F60CA2FC37C2D389BF18B59D" import="1">Lua/UI/Overrides/NewTurn.lua</File>
     <File md5="17F59F6E9D3F22C3DCEE613F5F6FC60A" import="1">Lua/UI/Overrides/NewTurn.xml</File>
-    <File md5="C4196B1A1F1B2DD0F6859D92E66C4530" import="1">Lua/UI/Overrides/TopPanel.lua</File>
+    <File md5="C9989443C091C55E234833BBA3988513" import="1">Lua/UI/Overrides/TopPanel.lua</File>
     <File md5="3C635E0583B89D5AEC307C56D5F96354" import="1">Lua/UI/Overrides/TopPanel.xml</File>
     <File md5="1ACD2840B8620EE3802C3A660BA23ED9" import="1">Lua/UI/Overrides/TopPanel_Back.lua</File>
-    <File md5="BDE957D1E4A5F074984D3397B0D2A7EF" import="1">Lua/UI/Overrides/TurnProcessing.lua</File>
+    <File md5="26688FF33888E6E1270A5888BD3E6100" import="1">Lua/UI/Overrides/TurnProcessing.lua</File>
     <File md5="7A6397F6DE772C5A0111D536D655C6D0" import="1">Lua/UI/Overrides/TurnProcessing.xml</File>
     <File md5="C2251CDC72146BC980468F5A6C3C1D8D" import="0">Lua/UI/WC Stuff/DiploVotePopup.lua</File>
     <File md5="23829728CD23F37A45090861BC9FE631" import="0">Lua/UI/WC Stuff/DiploVotePopup.xml</File>
