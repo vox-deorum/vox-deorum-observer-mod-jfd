@@ -14,6 +14,10 @@ local VD_Actions = {}  -- [playerID] = { turn=N, list={ {actionType, summary, ra
 local VD_CachedRationale = {} -- [playerID] = { rationale=string, turn=number }
 local g_bWorldCivsAutoOpened = false  -- true if WorldCivsList was auto-opened (not by user)
 
+-- VD: Combat-gate state for delaying auto-switch until animations finish
+local VD_CombatInFlight = 0       -- count of active combat animations
+local VD_PendingSwitch = nil      -- { playerID, reason, preWork } or nil
+
 -- VD: Debug logging — filter Lua.log for "[VD]"
 local function VD_Log(...)
 	print("[VD]", ...)
@@ -32,6 +36,15 @@ local function VD_AutoSwitchToPlayer(playerID, reason)
 	VD_Log("TopPanelAutoSwitch: from=" .. tostring(previousPlayerID) .. " to=" .. tostring(playerID) .. " reason=" .. tostring(reason))
 	LuaEvents.VD_TopPanelAutoSwitchedPlayer(playerID, previousPlayerID, reason)
 	return true
+end
+
+local function VD_FlushPendingSwitch()
+	if VD_PendingSwitch and VD_CombatInFlight == 0 then
+		local ps = VD_PendingSwitch
+		VD_PendingSwitch = nil
+		if ps.preWork then ps.preWork() end
+		VD_AutoSwitchToPlayer(ps.playerID, ps.reason)
+	end
 end
 
 -------------------------------------------------
@@ -900,10 +913,63 @@ end
 GameEvents.PlayerDoTurn.Add(UpdateNewData)
 Events.LoadScreenClose.Add(UpdateNewData);
 Events.AIProcessingStartedForPlayer.Add(UpdateNewData)
+-- Also flush when the processing is completed - another sanity check
+Events.AIProcessingEndedForPlayer.Add(function(playerID)
+	VD_Log("FlushAttempt: player=" .. tostring(playerID) .. ", combatinflight=" .. VD_CombatInFlight)
+	if VD_CombatInFlight == 0 then
+		VD_FlushPendingSwitch()
+	end
+end)
 Events.SerialEventGameDataDirty.Add(UpdateNewData);
 Events.SerialEventTurnTimerDirty.Add(UpdateNewData);
 Events.SerialEventCityInfoDirty.Add(UpdateNewData);
 Events.SequenceGameInitComplete.Add(UpdateNewData);
+
+-- VD: Move camera to combat scenes & gate auto-switch until animation finishes
+Events.RunCombatSim.Add(function(m_AttackerPlayerID,
+		m_AttackerUnitID,
+		m_AttackerUnitDamage,
+		m_AttackerFinalUnitDamage,
+		m_AttackerMaxHitPoints,
+		m_DefenderPlayerID,
+		m_DefenderUnitID,
+		m_DefenderUnitDamage,
+		m_DefenderFinalUnitDamage,
+		m_DefenderMaxHitPoints,
+		m_bContinuation)
+	VD_CombatInFlight = VD_CombatInFlight + 1
+	VD_Log("RunCombatSim: attacker=" .. m_AttackerPlayerID
+		.. " defender=" .. m_DefenderPlayerID
+		.. " continuation=" .. tostring(m_bContinuation)
+		.. " inflight=" .. VD_CombatInFlight)
+	-- Move camera to first combat in this batch (avoid ping-pong across multiple combats)
+	if VD_CombatInFlight == 1 then
+		local unit = Players[m_AttackerPlayerID]:GetUnitByID(m_AttackerUnitID)
+		if unit and not unit:IsDead() then
+			UI.LookAt(unit:GetPlot(), 1)
+		end
+	end
+end)
+
+Events.EndCombatSim.Add(function(m_AttackerPlayerID,
+		m_AttackerUnitID,
+		m_AttackerUnitDamage,
+		m_AttackerFinalUnitDamage,
+		m_AttackerMaxHitPoints,
+		m_DefenderPlayerID,
+		m_DefenderUnitID,
+		m_DefenderUnitDamage,
+		m_DefenderFinalUnitDamage,
+		m_DefenderMaxHitPoints,
+		m_bContinuation)
+	VD_CombatInFlight = math.max(0, VD_CombatInFlight - 1)
+	VD_Log("EndCombatSim: attacker=" .. m_AttackerPlayerID
+		.. " continuation=" .. tostring(m_bContinuation)
+		.. " inflight=" .. VD_CombatInFlight)
+	if VD_CombatInFlight == 0 then
+		VD_FlushPendingSwitch()
+	end
+end)
 
 -------------------------------------------------
 -- VD Stage 1: Accumulate per-player LLM state
@@ -921,14 +987,14 @@ end
 LuaEvents.VoxDeorumPlayerInfo.Add(VD_OnPlayerInfo)
 
 local function VD_OnAction(playerID, turn, actionType, summary, rationale)
-	VD_Log("Action: player=" .. tostring(playerID) .. " turn=" .. tostring(turn) .. " type=" .. tostring(actionType) .. " summary=" .. tostring(summary))
 	local existing = VD_Actions[playerID]
 	if existing == nil or existing.turn ~= turn then
-		if existing then
-			VD_Log("Action: turn rollover for player=" .. tostring(playerID) .. " old=" .. tostring(existing.turn) .. " new=" .. tostring(turn) .. " — clearing list")
-		end
-		VD_Actions[playerID] = { turn = turn, list = {}, switched = false }
+		-- if existing then
+			-- VD_Log("Action: turn rollover for player=" .. tostring(playerID) .. " old=" .. tostring(existing.turn) .. " new=" .. tostring(turn) .. " — clearing list")
+		-- end
+		VD_Actions[playerID] = { turn = turn, list = {} }
 	end
+	VD_Log("Action: player=" .. tostring(playerID) .. " turn=" .. tostring(turn) .. " type=" .. tostring(actionType) .. " summary=" .. tostring(summary))
 	table.insert(VD_Actions[playerID].list, { actionType = actionType, summary = summary, rationale = rationale })
 
 	-- Persist qualifying rationale in cache so it survives turn rollover
@@ -937,19 +1003,7 @@ local function VD_OnAction(playerID, turn, actionType, summary, rationale)
 		VD_CachedRationale[playerID] = { rationale = rationale, turn = turn }
 	end
 
-	-- Switch panel on first rationale-bearing action (strategy/flavors/status-quo)
-	local ad = VD_Actions[playerID]
-	if not ad.switched
-		and (actionType == "strategy" or actionType == "flavors" or actionType == "status-quo") then
-		local pPlayer = Players[playerID]
-		if pPlayer and pPlayer:IsAlive() and pPlayer:IsTurnActive()
-			and not pPlayer:IsBarbarian() and not pPlayer:IsMinorCiv() then
-			ad.switched = true
-			VD_CloseAutoOpenedWorldCivsList()
-			VD_AutoSwitchToPlayer(playerID, "first_rationale_action")
-			VD_ShowTurnProcessing(playerID)
-		end
-	elseif playerID == g_iPlayerForView then
+	if playerID == g_iPlayerForView then
 		UpdateNewData(playerID)
 	end
 
@@ -989,13 +1043,13 @@ function OnCivPlayerSelected(iPlayer)
 			local iPlotX = pPlayerCap:GetX()
 			local iPlotY = pPlayerCap:GetY()
 			pPlot = Map.GetPlot(iPlotX, iPlotY)
-			VD_Log("Capital plot for " .. tostring(iPlayer) .. ": " .. tostring(pPlot))
+			-- VD_Log("Capital plot for " .. tostring(iPlayer) .. ": " .. tostring(pPlot))
 		else
 			pPlot = pPlayer:GetStartingPlot()
-			VD_Log("Starting plot for " .. tostring(iPlayer) .. ": " .. tostring(pPlot))
+			-- VD_Log("Starting plot for " .. tostring(iPlayer) .. ": " .. tostring(pPlot))
 		end
 		if pPlot then
-			-- UI.LookAt(pPlot);
+			UI.LookAt(pPlot, 1);
 		else
 			VD_Log("Didn't look at a plot for " .. tostring(iPlayer))
 		end
@@ -1005,16 +1059,20 @@ function OnCivPlayerSelected(iPlayer)
 end
 -------------------------------------------------
 -- VD Stage 3: Auto-switch panel to the active AI player
--- LLM players: panel switch deferred to VD_OnAction (first rationale action)
--- VPAI/unknown: panel switch immediate (they won't receive actions)
--- Minor civs: auto-open WorldCivsList dialog; barbarians keep the standard turn-processing popup
--- Camera moves via OnCivPlayerSelected only when the panel actually switches
+-- All major-civ switches are DEFERRED (saved as VD_PendingSwitch) so combat animations
+-- from the previous player can finish first. Pending switch is flushed by EndCombatSim
+-- (when combat ends) or by the next AIProcessingStartedForPlayer (no-combat fallback).
+-- LLM players without cached rationale: switch deferred to VD_OnAction instead.
+-- Minor civs: auto-open WorldCivsList dialog; barbarians: standard turn-processing popup.
 local function VD_OnAIProcessingStarted(playerID)
 	local pPlayer = Players[playerID]
 	if not pPlayer then return end
 	if not pPlayer:IsAlive() then return end
 	local displayMode = VD_GetTurnProcessingDisplayMode(playerID)
 	if not displayMode then return end
+
+	-- Flush any deferred switch from the previous player's cycle
+	VD_FlushPendingSwitch()
 
 	if pPlayer:IsMinorCiv() then
 		VD_ShowTurnProcessing(playerID)
@@ -1039,9 +1097,6 @@ local function VD_OnAIProcessingStarted(playerID)
 		local cached = VD_CachedRationale[playerID]
 		if cached and cached.turn >= Game.GetGameTurn() - 1 then
 			VD_ShowTurnProcessing(playerID)
-			VD_AutoSwitchToPlayer(playerID, "cached_rationale")
-			local ad = VD_Actions[playerID]
-			if ad then ad.switched = true end
 		else
 			if displayMode == "known" then
 				VD_ShowTurnProcessing(playerID, VD_GetThinkingTitle(vdLabel))
@@ -1049,13 +1104,16 @@ local function VD_OnAIProcessingStarted(playerID)
 				VD_ShowTurnProcessing(playerID)
 			end
 		end
+		VD_PendingSwitch = { playerID = playerID, reason = "llm_turn_started" }
+		VD_Log("DeferredSwitch: player=" .. tostring(playerID) .. " reason=llm_turn_started")
 		return
 	end
 
 	-- VPAI/unknown — switch panel immediately (camera already moved above)
 	VD_CloseAutoOpenedWorldCivsList()
 	VD_ShowTurnProcessing(playerID)
-	VD_AutoSwitchToPlayer(playerID, "ai_processing_started")
+	VD_PendingSwitch = { playerID = playerID, reason = "ai_processing_started" }
+	VD_Log("DeferredSwitch: player=" .. tostring(playerID) .. " reason=ai_processing_started")
 end
 Events.AIProcessingStartedForPlayer.Add(VD_OnAIProcessingStarted)
 -------------------------------------------------
