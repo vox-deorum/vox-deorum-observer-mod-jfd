@@ -86,9 +86,9 @@ end
 
 local function VD_OnShowTurnProcessing(iPlayerID, titleText, displayMode)
 	if (displayMode ~= "minor") then
-		VD_Log("TurnProcessingEvent: player=" .. tostring(iPlayerID) .. " mode=" .. tostring(displayMode) .. " title=" .. tostring(titleText))
+		-- VD_Log("TurnProcessingEvent: player=" .. tostring(iPlayerID) .. " mode=" .. tostring(displayMode) .. " title=" .. tostring(titleText))
 	end
-	
+
 	local player = GetPlayer(iPlayerID);
 	if (player == nil) then
 		VD_Log("TurnProcessingIgnored: invalid player=" .. tostring(iPlayerID))

@@ -19,9 +19,70 @@ local VD_CombatInFlight = 0       -- count of active combat animations
 local VD_PendingSwitch = nil      -- { playerID, reason, preWork, eventOnly } or nil
 local VD_MinorDialogShownTurn = -1 -- last game turn on which the minor civ dialog was opened
 
+-- VD: Shared camera-focus debounce (applies across combat + ambient events)
+local VD_FOCUS_DEBOUNCE_SECONDS = 5.0
+local VD_LastFocusTime = -math.huge -- os.clock() timestamp of last camera move
+
 -- VD: Debug logging — filter Lua.log for "[VD]"
 local function VD_Log(...)
 	print("[VD]", ...)
+end
+
+-- VD: Unconditionally moves the camera to `plot`, stamps the debounce clock,
+-- and emits VD_AnimationStarted. Use for high-priority events (combat) whose
+-- caller has already done its own gating.
+local function VD_FocusPlot(plot, playerID, sourceLabel)
+	if plot == nil then
+		VD_Log("Focus skipped: nil plot (" .. tostring(sourceLabel) .. ")")
+		return false
+	end
+	UI.LookAt(plot, 1)
+	VD_LastFocusTime = os.clock()
+	if playerID ~= nil then
+		LuaEvents.VD_AnimationStarted(playerID)
+	end
+	VD_Log("Focus: " .. tostring(sourceLabel) .. " player=" .. tostring(playerID))
+	return true
+end
+
+-- VD: Guarded focus for ambient "interesting moment" events. Skips if the
+-- event is not for the currently viewed player, any combat sim is in flight,
+-- or another focus fired within VD_FOCUS_DEBOUNCE_SECONDS.
+local function VD_TryFocusPlot(plot, playerID, sourceLabel)
+	if playerID ~= g_iPlayerForView then
+		VD_Log("TryFocus skipped: not viewed player (" .. tostring(sourceLabel)
+			.. ") player=" .. tostring(playerID))
+		return false
+	end
+	if VD_CombatInFlight > 0 then
+		VD_Log("TryFocus skipped: combat in flight (" .. tostring(sourceLabel) .. ")")
+		return false
+	end
+	local dt = os.clock() - VD_LastFocusTime
+	if dt < VD_FOCUS_DEBOUNCE_SECONDS then
+		VD_Log("TryFocus skipped: debounced (" .. tostring(sourceLabel)
+			.. ") dt=" .. string.format("%.2f", dt))
+		return false
+	end
+	return VD_FocusPlot(plot, playerID, sourceLabel)
+end
+
+-- VD: Resolves a plot for a SerialEventCity* payload. Prefers lookup by cityID
+-- (reliable for live cities); falls back to hexPos for destroyed cities.
+local function VD_ResolveCityPlot(hexPos, playerID, cityID)
+	local pPlayer = Players and Players[playerID] or nil
+	if pPlayer then
+		local pCity = pPlayer:GetCityByID(cityID)
+		if pCity then
+			local plot = pCity:Plot()
+			if plot then return plot end
+		end
+	end
+	if hexPos and hexPos.x ~= nil and hexPos.y ~= nil then
+		local gridX, gridY = ToGridFromHex(hexPos.x, hexPos.y)
+		return Map.GetPlot(gridX, gridY)
+	end
+	return nil
 end
 
 -- Emits after the top panel has auto-switched to a different player.
@@ -821,9 +882,8 @@ Events.RunCombatSim.Add(function(m_AttackerPlayerID,
 	-- Move camera to first combat in this batch (avoid ping-pong across multiple combats)
 	if VD_CombatInFlight == 1 and m_AttackerPlayerID == g_iPlayerForView then
 		local unit = Players[m_AttackerPlayerID]:GetUnitByID(m_AttackerUnitID)
-		if unit and unit:GetPlot() then
-			UI.LookAt(unit:GetPlot(), 1)
-			LuaEvents.VD_AnimationStarted(m_AttackerPlayerID)
+		if unit then
+			VD_FocusPlot(unit:GetPlot(), m_AttackerPlayerID, "combat")
 		end
 	end
 end)
@@ -846,6 +906,36 @@ Events.EndCombatSim.Add(function(m_AttackerPlayerID,
 	if VD_CombatInFlight == 0 then
 		VD_FlushPendingSwitch()
 	end
+end)
+
+-- VD: City events worth focusing the camera on. Guarded by VD_TryFocusPlot
+-- (viewed-player + combat gate + 5s debounce).
+Events.SerialEventCityCaptured.Add(function(hexPos, playerID, cityID)
+	VD_TryFocusPlot(VD_ResolveCityPlot(hexPos, playerID, cityID), playerID, "city_captured")
+end)
+Events.SerialEventCityCreated.Add(function(hexPos, playerID, cityID)
+	VD_TryFocusPlot(VD_ResolveCityPlot(hexPos, playerID, cityID), playerID, "city_created")
+end)
+Events.SerialEventCityDestroyed.Add(function(hexPos, playerID, cityID)
+	VD_TryFocusPlot(VD_ResolveCityPlot(hexPos, playerID, cityID), playerID, "city_destroyed")
+end)
+
+-- VD: Probe CameraViewChanged to discover its parameters
+Events.CameraViewChanged.Add(function(...)
+	local parts = {}
+	for i = 1, select("#", ...) do
+		local v = select(i, ...)
+		if type(v) == "table" then
+			local kv = {}
+			for k, val in pairs(v) do
+				kv[#kv + 1] = tostring(k) .. "=" .. tostring(val)
+			end
+			parts[i] = "{" .. table.concat(kv, ", ") .. "}"
+		else
+			parts[i] = tostring(v)
+		end
+	end
+	VD_Log("CameraViewChanged: [" .. table.concat(parts, ", ") .. "]")
 end)
 
 -------------------------------------------------
@@ -871,7 +961,7 @@ local function VD_OnAction(playerID, turn, actionType, summary, rationale)
 		-- end
 		VD_Actions[playerID] = { turn = turn, list = {} }
 	end
-	VD_Log("Action: player=" .. tostring(playerID) .. " turn=" .. tostring(turn) .. " type=" .. tostring(actionType) .. " summary=" .. tostring(summary))
+	-- VD_Log("Action: player=" .. tostring(playerID) .. " turn=" .. tostring(turn) .. " type=" .. tostring(actionType) .. " summary=" .. tostring(summary))
 	table.insert(VD_Actions[playerID].list, { actionType = actionType, summary = summary, rationale = rationale })
 
 	-- Persist qualifying rationale in cache so it survives turn rollover
@@ -920,13 +1010,15 @@ function OnCivPlayerSelected(iPlayer)
 			local iPlotX = pPlayerCap:GetX()
 			local iPlotY = pPlayerCap:GetY()
 			pPlot = Map.GetPlot(iPlotX, iPlotY)
-			-- VD_Log("Capital plot for " .. tostring(iPlayer) .. ": " .. tostring(pPlot))
 		else
 			pPlot = pPlayer:GetStartingPlot()
-			-- VD_Log("Starting plot for " .. tostring(iPlayer) .. ": " .. tostring(pPlot))
 		end
 		if pPlot then
-			UI.LookAt(pPlot, 1);
+			UI.LookAt(pPlot);
+			local capitalLabel = pPlayerCap and pPlayerCap:GetName() or "<starting-plot>"
+			VD_Log("Looked a plot for " .. tostring(iPlayer)
+				.. " plot=(" .. tostring(pPlot:GetX()) .. "," .. tostring(pPlot:GetY()) .. ")"
+				.. " capital=" .. tostring(capitalLabel))
 		else
 			VD_Log("Didn't look at a plot for " .. tostring(iPlayer))
 		end
@@ -944,7 +1036,6 @@ end
 -- Barbarians keep their immediate close-dialog + thinking-popup path (no deferral, no
 -- event). Pending switch is flushed by EndCombatSim, by AIProcessingEndedForPlayer, or by
 -- the next AIProcessingStartedForPlayer (no-combat fallback).
--- LLM players without cached rationale: switch deferred to VD_OnAction instead.
 local function VD_OnAIProcessingStarted(playerID)
 	local pPlayer = Players[playerID]
 	if not pPlayer then return end
