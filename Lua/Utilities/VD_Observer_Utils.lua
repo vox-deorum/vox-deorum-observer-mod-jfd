@@ -4,7 +4,8 @@
 -- file that calls include("VD_Observer_Utils.lua").
 --
 -- These helpers depend ONLY on Civ5 engine globals (Players, Map, Game, etc.)
--- and their own arguments — they hold no mutable state.
+-- and their own arguments. The session-results cache is the one exception:
+-- each Lua context that include()s this file gets its own independent copy.
 
 -------------------------------------------------
 -- Logging
@@ -76,6 +77,32 @@ function VD_BuildEventInfo(plot, eventType, description)
 		nearestCityDist = nearestCityDist or -1,
 		description     = description or "",
 	}
+end
+
+-------------------------------------------------
+-- World Congress session results
+-------------------------------------------------
+
+local VD_SessionResults = {}
+local VD_SessionResultsTurn = -1
+
+GameEvents.ResolutionResult.Add(function(iResolution, iProposer, iChoice, bEnact, bPassed)
+	local turn = Game.GetGameTurn()
+	if turn ~= VD_SessionResultsTurn then
+		VD_SessionResults = {}
+		VD_SessionResultsTurn = turn
+	end
+	table.insert(VD_SessionResults, {
+		Type           = iResolution,
+		ProposalPlayer = iProposer,
+		Choice         = iChoice,
+		IsEnact        = bEnact,
+		Passed         = bPassed,
+	})
+end)
+
+function VD_GetSessionResults()
+	return VD_SessionResults
 end
 
 -------------------------------------------------

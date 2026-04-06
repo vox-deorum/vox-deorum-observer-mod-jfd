@@ -131,15 +131,15 @@
     <File md5="6D270B3848ACB913C36A6534392BA4BC" import="0">Lua/UI/Overrides/MiniMapPanel.xml</File>
     <File md5="C80B7BB2F60CA2FC37C2D389BF18B59D" import="1">Lua/UI/Overrides/NewTurn.lua</File>
     <File md5="17F59F6E9D3F22C3DCEE613F5F6FC60A" import="1">Lua/UI/Overrides/NewTurn.xml</File>
-    <File md5="773EDBC231C5F64B94207CDCA71BF706" import="1">Lua/UI/Overrides/TopPanel.lua</File>
+    <File md5="6841ADC1625C3D3C5FF07F91DE96574B" import="1">Lua/UI/Overrides/TopPanel.lua</File>
     <File md5="3C635E0583B89D5AEC307C56D5F96354" import="1">Lua/UI/Overrides/TopPanel.xml</File>
-    <File md5="F54337FAFC1F455399B86A77A8F6B551" import="1">Lua/UI/Overrides/LeagueOverview.lua</File>
+    <File md5="2BC5CC1BC55D7B5D257132715E5D5B66" import="1">Lua/UI/Overrides/LeagueOverview.lua</File>
     <File md5="0AF9C7321A3A17044509E43A13EC3ED0" import="1">Lua/UI/Overrides/TurnProcessing.lua</File>
     <File md5="7A6397F6DE772C5A0111D536D655C6D0" import="1">Lua/UI/Overrides/TurnProcessing.xml</File>
     <File md5="542B586AFE1582CDC32E78C31EC85398" import="1">Lua/Utilities/JFD_AIObserver_Minimap_Utils.lua</File>
     <File md5="EC3E419C81B9417EF20BD721142C3321" import="1">Lua/Utilities/JFD_OverlayMaps_Utils.lua</File>
     <File md5="8E8F37EB73CCE76EBAEE703B265621AC" import="1">Lua/Utilities/JFD_AIObserver_Utils.lua</File>
-    <File md5="DF85010E7FBB79C89F9E797BF9C14938" import="1">Lua/Utilities/VD_Observer_Utils.lua</File>
+    <File md5="3DCB46B97242223158A18F67D5867C03" import="1">Lua/Utilities/VD_Observer_Utils.lua</File>
   </Files>
   <Actions>
     <OnModActivated>

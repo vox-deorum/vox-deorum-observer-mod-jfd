@@ -116,7 +116,31 @@ end
 local function VD_AutoOpenSidePanel()
 	if VD_IsLeagueSessionClose(3) then
 		VD_AutoOpenedPanel = "league_overview"
-		VD_CombatInFlight = VD_CombatInFlight + 1
+		local pLeague = Game.GetActiveLeague()
+		local hostID = pLeague:GetHostMember()
+		local hostCiv = Players[hostID] and Players[hostID]:GetCivilizationShortDescription() or "unknown"
+		local inSession = pLeague:IsInSession()
+		local results = VD_GetSessionResults()
+		local showingResults = not inSession and #results > 0
+		local desc
+		if showingResults then
+			local parts = {}
+			for _, r in ipairs(results) do
+				parts[#parts + 1] = (r.Passed and "PASSED" or "FAILED") .. ": "
+					.. (r.IsEnact and "Enact" or "Repeal") .. " "
+					.. pLeague:GetResolutionName(r.Type, -1, r.Choice, false)
+			end
+			desc = "World Congress results — " .. table.concat(parts, "; ")
+		elseif inSession then
+			desc = "World Congress in session (host: " .. hostCiv .. ")"
+		else
+			desc = "World Congress session in " .. pLeague:GetTurnsUntilSession()
+				.. " turns (host: " .. hostCiv .. ")"
+		end
+		local eventInfo = VD_BuildEventInfo(nil, "world_congress", desc)
+		eventInfo.showingResults = showingResults
+		if showingResults then eventInfo.results = results end
+		LuaEvents.VD_AnimationStarted(hostID, eventInfo)
 		Events.SerialEventGameMessagePopup({ Type = ButtonPopupTypes.BUTTONPOPUP_LEAGUE_OVERVIEW })
 		VD_Log("AutoOpen: league_overview (inflight=" .. VD_CombatInFlight .. ")")
 	else
@@ -137,11 +161,7 @@ local function VD_CloseAutoOpenedPanel()
 	elseif VD_AutoOpenedPanel == "league_overview" then
 		Events.SerialEventGameMessagePopupProcessed.CallImmediate(
 			ButtonPopupTypes.BUTTONPOPUP_LEAGUE_OVERVIEW, 0)
-		VD_CombatInFlight = math.max(0, VD_CombatInFlight - 1)
 		VD_Log("AutoClose: league_overview (inflight=" .. VD_CombatInFlight .. ")")
-		if VD_CombatInFlight == 0 then
-			VD_FlushPendingSwitch()
-		end
 	end
 	VD_AutoOpenedPanel = nil
 end

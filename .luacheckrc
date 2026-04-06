@@ -18,7 +18,7 @@ globals = {
     "InstanceManager", "TTManager",
 
     -- Event systems
-    "Events", "LuaEvents",
+    "Events", "LuaEvents", "GameEvents",
 
     -- Engine utilities
     "Modding",
@@ -51,6 +51,7 @@ globals = {
     "VD_GetThinkingTitle",
     "VD_GetTurnProcessingDisplayMode",
     "VD_ShowTurnProcessing",
+    "VD_GetSessionResults",
     "VD_SetStatControl",
     "VD_ResizeEntryBox",
     "VD_ENTRY_BASE_HEIGHT",
