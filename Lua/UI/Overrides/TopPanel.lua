@@ -13,7 +13,24 @@ local g_iPlayerForView = Game.GetActivePlayer()
 local VD_Players = {}  -- [playerID] = aiLabel string
 local VD_Actions = {}  -- [playerID] = { turn=N, list={ {actionType, summary, rationale}, ... } }
 local VD_CachedRationale = {} -- [playerID] = { rationale=string, turn=number }
-local g_bWorldCivsAutoOpened = false  -- true if WorldCivsList was auto-opened (not by user)
+local VD_AutoOpenedPanel = nil  -- nil | "civs_list" | "league_overview"
+
+-- Returns true when a World Congress / UN session is within `threshold` turns.
+local function VD_IsLeagueSessionClose(threshold)
+	if Game.GetNumActiveLeagues == nil or Game.GetNumActiveLeagues() <= 0 then
+		return false
+	end
+	local pLeague = Game.GetActiveLeague()
+	if pLeague == nil then return false end
+	if pLeague:IsInSession() then return true end
+	local turns = pLeague:GetTurnsUntilSession()
+	if turns > 0 and turns <= threshold then return true end
+	if Game.IsUnitedNationsActive and Game.IsUnitedNationsActive() then
+		local vTurns = pLeague:GetTurnsUntilVictorySession()
+		if vTurns > 0 and vTurns <= threshold then return true end
+	end
+	return false
+end
 
 -- VD: Combat-gate state for delaying auto-switch until animations finish
 local VD_CombatInFlight = 0       -- count of active combat animations
@@ -94,12 +111,39 @@ local function VD_FlushPendingSwitch()
 	end
 end
 
-local function VD_CloseAutoOpenedWorldCivsList()
-	if g_bWorldCivsAutoOpened and not Controls.WorldCivsList:IsHidden() then
-		Controls.WorldCivsList:SetHide(true)
-		Controls.Tab:SetHide(false)
-		g_bWorldCivsAutoOpened = false
+-- Opens League Overview (if session ≤ 3 turns) or WorldCivsList as an auto-opened panel.
+-- League Overview is treated as an animation (increments VD_CombatInFlight).
+local function VD_AutoOpenSidePanel()
+	if VD_IsLeagueSessionClose(3) then
+		VD_AutoOpenedPanel = "league_overview"
+		VD_CombatInFlight = VD_CombatInFlight + 1
+		Events.SerialEventGameMessagePopup({ Type = ButtonPopupTypes.BUTTONPOPUP_LEAGUE_OVERVIEW })
+		VD_Log("AutoOpen: league_overview (inflight=" .. VD_CombatInFlight .. ")")
+	else
+		if Controls.WorldCivsList:IsHidden() then
+			VD_AutoOpenedPanel = "civs_list"
+			OnWorldCivsListUpdated()
+			VD_Log("AutoOpen: civs_list")
+		end
 	end
+end
+
+local function VD_CloseAutoOpenedPanel()
+	if VD_AutoOpenedPanel == "civs_list" then
+		if not Controls.WorldCivsList:IsHidden() then
+			Controls.WorldCivsList:SetHide(true)
+			Controls.Tab:SetHide(false)
+		end
+	elseif VD_AutoOpenedPanel == "league_overview" then
+		Events.SerialEventGameMessagePopupProcessed.CallImmediate(
+			ButtonPopupTypes.BUTTONPOPUP_LEAGUE_OVERVIEW, 0)
+		VD_CombatInFlight = math.max(0, VD_CombatInFlight - 1)
+		VD_Log("AutoClose: league_overview (inflight=" .. VD_CombatInFlight .. ")")
+		if VD_CombatInFlight == 0 then
+			VD_FlushPendingSwitch()
+		end
+	end
+	VD_AutoOpenedPanel = nil
 end
 
 -- Returns first strategy/flavors/status-quo rationale and turn, or nil.
@@ -642,11 +686,6 @@ function UpdateNewData(playerID, szTag)
 							instance.RelationsIcon:SetToolTipString("[COLOR_NEGATIVE_TEXT]WAR![ENDCOLOR]")
 							
 							civRelationsCount = civRelationsCount + 1
-							
-							--if civRelationsCount == 10 then
-							--	instance.RelationsIconPlus:SetHide(false)
-							--	instance.RelationsIconPlus:LocalizeAndSetText("[ICON_PLUS}{1_Num}", iWarCount)
-							--end
 						end
 					end
 				end
@@ -662,12 +701,54 @@ end
 GameEvents.PlayerDoTurn.Add(UpdateNewData)
 Events.LoadScreenClose.Add(UpdateNewData);
 Events.AIProcessingStartedForPlayer.Add(UpdateNewData)
--- Also flush when the processing is completed - another sanity check
+-- VD: Switch logic lives here — AIProcessingEnded fires after the previous
+-- player's combat animations have resolved, so setting VD_PendingSwitch here
+-- avoids the premature-flush bug that occurred when it was set in Started.
 Events.AIProcessingEndedForPlayer.Add(function(playerID)
-	VD_Log("FlushAttempt: player=" .. tostring(playerID) .. ", combatinflight=" .. VD_CombatInFlight)
-	if VD_CombatInFlight == 0 then
+	local pPlayer = Players[playerID]
+	if not pPlayer then return end
+	if not pPlayer:IsAlive() then return end
+
+	VD_Log("AIProcessingEnded: player=" .. tostring(playerID)
+		.. " combatinflight=" .. VD_CombatInFlight)
+
+	-- Flush any stale pending switch from a previous cycle
+	VD_FlushPendingSwitch()
+
+	if pPlayer:IsMinorCiv() then
+		local currentTurn = Game.GetGameTurn()
+		if VD_MinorDialogShownTurn == currentTurn then
+			-- Already shown (and possibly closed by user) on this turn: do not restage.
+			return
+		end
+		VD_MinorDialogShownTurn = currentTurn
+		VD_PendingSwitch = {
+			playerID  = playerID,
+			reason    = "minor_civ_turn_ended",
+			eventOnly = true,
+			preWork = VD_AutoOpenSidePanel,
+		}
+		VD_Log("DeferredSwitch: player=" .. tostring(playerID)
+			.. " reason=minor_civ_turn_ended")
 		VD_FlushPendingSwitch()
+		return
 	end
+
+	if pPlayer:IsBarbarian() then return end
+
+	-- LLM player
+	local vdLabel = VD_Players[playerID]
+	if vdLabel and vdLabel ~= "VPAI / none-strategist" then
+		VD_PendingSwitch = { playerID = playerID, reason = "llm_turn_ended" }
+		VD_Log("DeferredSwitch: player=" .. tostring(playerID) .. " reason=llm_turn_ended")
+		VD_FlushPendingSwitch()
+		return
+	end
+
+	-- VPAI/unknown
+	VD_PendingSwitch = { playerID = playerID, reason = "vpai_turn_ended" }
+	VD_Log("DeferredSwitch: player=" .. tostring(playerID) .. " reason=vpai_turn_ended")
+	VD_FlushPendingSwitch()
 end)
 Events.SerialEventGameDataDirty.Add(UpdateNewData);
 Events.SerialEventTurnTimerDirty.Add(UpdateNewData);
@@ -867,14 +948,9 @@ function OnCivPlayerSelected(iPlayer)
 end
 -------------------------------------------------
 -- VD Stage 3: Auto-switch panel to the active AI player
--- LLM major-civ switches are DEFERRED via VD_PendingSwitch so combat animations from the
--- previous player can finish first. Minor civs use the same deferral (eventOnly = true):
--- on the first minor civ of each game turn, the WorldCivsList dialog auto-opens and
--- VD_TopPanelAutoSwitchedPlayer fires, but g_iPlayerForView stays pinned to the last LLM
--- major civ. If the user closes the dialog, it stays closed for the rest of that turn.
--- Barbarians keep their immediate close-dialog + thinking-popup path (no deferral, no
--- event). Pending switch is flushed by EndCombatSim, by AIProcessingEndedForPlayer, or by
--- the next AIProcessingStartedForPlayer (no-combat fallback).
+-- Early UI feedback only — the actual player switch (VD_PendingSwitch) is set
+-- in AIProcessingEndedForPlayer, which fires after the previous player's combat
+-- animations have resolved.
 local function VD_OnAIProcessingStarted(playerID)
 	local pPlayer = Players[playerID]
 	if not pPlayer then return end
@@ -882,44 +958,21 @@ local function VD_OnAIProcessingStarted(playerID)
 	local displayMode = VD_GetTurnProcessingDisplayMode(playerID)
 	if not displayMode then return end
 
-	-- Flush any deferred switch from the previous player's cycle
-	VD_FlushPendingSwitch()
-
 	if pPlayer:IsMinorCiv() then
 		VD_ShowTurnProcessing(playerID)
-		local currentTurn = Game.GetGameTurn()
-		if VD_MinorDialogShownTurn == currentTurn then
-			-- Already shown (and possibly closed by user) on this turn: do not restage.
-			return
-		end
-		VD_MinorDialogShownTurn = currentTurn
-		VD_PendingSwitch = {
-			playerID  = playerID,
-			reason    = "minor_civ_turn_started",
-			eventOnly = true,
-			preWork = function()
-				if Controls.WorldCivsList:IsHidden() then
-					g_bWorldCivsAutoOpened = true
-					OnWorldCivsListUpdated()
-				end
-			end,
-		}
-		VD_Log("DeferredSwitch: player=" .. tostring(playerID)
-			.. " reason=minor_civ_turn_started")
 		return
 	end
 
 	if pPlayer:IsBarbarian() then
-		VD_CloseAutoOpenedWorldCivsList()
+		VD_CloseAutoOpenedPanel()
 		VD_ShowTurnProcessing(playerID)
 		return
 	end
 
-	-- LLM player — close auto-opened dialog; switch immediately if current-turn rationale exists,
-	-- otherwise defer panel switch to VD_OnAction on first rationale
+	-- LLM player — close auto-opened dialog, show thinking indicator
 	local vdLabel = VD_Players[playerID]
 	if vdLabel and vdLabel ~= "VPAI / none-strategist" then
-		VD_CloseAutoOpenedWorldCivsList()
+		VD_CloseAutoOpenedPanel()
 		local cached = VD_CachedRationale[playerID]
 		if cached and cached.turn >= Game.GetGameTurn() - 1 then
 			VD_ShowTurnProcessing(playerID)
@@ -930,16 +983,12 @@ local function VD_OnAIProcessingStarted(playerID)
 				VD_ShowTurnProcessing(playerID)
 			end
 		end
-		VD_PendingSwitch = { playerID = playerID, reason = "llm_turn_started" }
-		VD_Log("DeferredSwitch: player=" .. tostring(playerID) .. " reason=llm_turn_started")
 		return
 	end
 
-	-- VPAI/unknown — switch panel immediately (camera already moved above)
-	VD_CloseAutoOpenedWorldCivsList()
+	-- VPAI/unknown
+	VD_CloseAutoOpenedPanel()
 	VD_ShowTurnProcessing(playerID)
-	VD_PendingSwitch = { playerID = playerID, reason = "ai_processing_started" }
-	VD_Log("DeferredSwitch: player=" .. tostring(playerID) .. " reason=ai_processing_started")
 end
 Events.AIProcessingStartedForPlayer.Add(VD_OnAIProcessingStarted)
 -------------------------------------------------
@@ -1194,7 +1243,7 @@ function OnWorldCivsListUpdated()
 	Controls.PlayerListScrollPanel:CalculateInternalSize();
 end
 Controls.WorldCivsButton:RegisterCallback(Mouse.eLClick, function()
-	g_bWorldCivsAutoOpened = false
+	VD_AutoOpenedPanel = nil
 	OnWorldCivsListUpdated()
 end);
 
@@ -1203,7 +1252,7 @@ end);
 function OnWorldCivsListClose()
 	Controls.WorldCivsList:SetHide(true)
 	Controls.Tab:SetHide(false)
-	g_bWorldCivsAutoOpened = false
+	VD_AutoOpenedPanel = nil
 end
 Controls.CloseButton:RegisterCallback( Mouse.eLClick, OnWorldCivsListClose );
 -------------------------------
