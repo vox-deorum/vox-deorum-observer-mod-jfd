@@ -6,7 +6,8 @@
       "Bash(python -:*)",
       "Bash(./luacheck.exe Lua/UI/Overrides/TopPanel.lua)",
       "Bash(python update_md5.py)",
-      "Bash(wc -l:*)"
+      "Bash(wc -l:*)",
+      "Bash(./luacheck.exe Lua/**/*.lua)"
     ]
   }
 }

@@ -37,7 +37,24 @@ globals = {
     "IconHookup", "CivIconHookup", "SimpleCivIconHookup",
 
     -- Civ5 coordinate helpers
-    "HexToWorld", "ToHexFromGrid",
+    "HexToWorld", "ToHexFromGrid", "ToGridFromHex",
+
+    -- VD globals (defined in VD_Observer_Utils.lua)
+    "VD_Log",
+    "VD_ResolveCityPlot",
+    "VD_FindNearestCity",
+    "VD_BuildEventInfo",
+    "VD_BuildCombatDescription",
+    "VD_GetGrandStrategy",
+    "VD_FormatPopulation",
+    "VD_GetGoldDisplay",
+    "VD_GetThinkingTitle",
+    "VD_GetTurnProcessingDisplayMode",
+    "VD_ShowTurnProcessing",
+    "VD_SetStatControl",
+    "VD_ResizeEntryBox",
+    "VD_ENTRY_BASE_HEIGHT",
+    "VD_ENTRY_NO_RATIONALE_HEIGHT",
 
     -- JFD mod globals (defined across multiple files)
     "JFD_Log",
@@ -52,8 +69,3 @@ globals = {
     "getStackTrace",
 }
 
--- Exclude backup/reference files not part of the active mod
-exclude_files = {
-    "Lua/UI/Bak/**",
-    "Lua/UI/WC Stuff/**",
-}

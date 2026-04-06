@@ -48,9 +48,7 @@ This is a fork of **JFD's Utilities — AI Observer Interface (v11)**, a Civ5 mo
     │   └── JFD_OverlayMaps_Utils.lua       # Overlay map helpers
     └── UI/
         ├── MiniMap/              # Custom minimap panel (imported)
-        ├── Overrides/            # Base-game UI file overrides
-        ├── WC Stuff/             # World Congress UI (reference/backup)
-        └── Bak/                  # Backup copies of overridden files
+        └── Overrides/            # Base-game UI file overrides
 ```
 
 ---

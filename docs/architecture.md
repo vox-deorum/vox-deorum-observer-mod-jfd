@@ -57,9 +57,7 @@ The AI Observer Interface is a Civ5 mod that enhances the spectator experience f
     │   └── JFD_OverlayMaps_Utils.lua       # Overlay map helpers
     └── UI/
         ├── MiniMap/        # Custom minimap panel (imported, overrides base)
-        ├── Overrides/      # Base-game UI overrides (TopPanel, DiploCorner, etc.)
-        ├── WC Stuff/       # World Congress UI files (reference copies)
-        └── Bak/            # Backup copies before override
+        └── Overrides/      # Base-game UI overrides (TopPanel, DiploCorner, etc.)
 ```
 
 ---

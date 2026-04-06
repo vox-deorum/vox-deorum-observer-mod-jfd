@@ -5,6 +5,7 @@
 include("IconSupport");
 include("InstanceManager");
 include("JFD_AIObserver_Utils.lua");
+include("VD_Observer_Utils.lua");
 
 local g_iPlayerForView = Game.GetActivePlayer()
 
@@ -22,16 +23,12 @@ local VD_MinorDialogShownTurn = -1 -- last game turn on which the minor civ dial
 -- VD: Shared camera-focus debounce (applies across combat + ambient events)
 local VD_FOCUS_DEBOUNCE_SECONDS = 5.0
 local VD_LastFocusTime = -math.huge -- os.clock() timestamp of last camera move
-
--- VD: Debug logging — filter Lua.log for "[VD]"
-local function VD_Log(...)
-	print("[VD]", ...)
-end
+local VD_PendingLookAt = nil        -- { plot, player, label } or nil; retried until CameraViewChanged
 
 -- VD: Unconditionally moves the camera to `plot`, stamps the debounce clock,
 -- and emits VD_AnimationStarted. Use for high-priority events (combat) whose
 -- caller has already done its own gating.
-local function VD_FocusPlot(plot, playerID, sourceLabel)
+local function VD_FocusPlot(plot, playerID, sourceLabel, description)
 	if plot == nil then
 		VD_Log("Focus skipped: nil plot (" .. tostring(sourceLabel) .. ")")
 		return false
@@ -39,7 +36,8 @@ local function VD_FocusPlot(plot, playerID, sourceLabel)
 	UI.LookAt(plot, 1)
 	VD_LastFocusTime = os.clock()
 	if playerID ~= nil then
-		LuaEvents.VD_AnimationStarted(playerID)
+		local eventInfo = VD_BuildEventInfo(plot, sourceLabel, description)
+		LuaEvents.VD_AnimationStarted(playerID, eventInfo)
 	end
 	VD_Log("Focus: " .. tostring(sourceLabel) .. " player=" .. tostring(playerID))
 	return true
@@ -48,7 +46,7 @@ end
 -- VD: Guarded focus for ambient "interesting moment" events. Skips if the
 -- event is not for the currently viewed player, any combat sim is in flight,
 -- or another focus fired within VD_FOCUS_DEBOUNCE_SECONDS.
-local function VD_TryFocusPlot(plot, playerID, sourceLabel)
+local function VD_TryFocusPlot(plot, playerID, sourceLabel, description)
 	if playerID ~= g_iPlayerForView then
 		VD_Log("TryFocus skipped: not viewed player (" .. tostring(sourceLabel)
 			.. ") player=" .. tostring(playerID))
@@ -64,25 +62,7 @@ local function VD_TryFocusPlot(plot, playerID, sourceLabel)
 			.. ") dt=" .. string.format("%.2f", dt))
 		return false
 	end
-	return VD_FocusPlot(plot, playerID, sourceLabel)
-end
-
--- VD: Resolves a plot for a SerialEventCity* payload. Prefers lookup by cityID
--- (reliable for live cities); falls back to hexPos for destroyed cities.
-local function VD_ResolveCityPlot(hexPos, playerID, cityID)
-	local pPlayer = Players and Players[playerID] or nil
-	if pPlayer then
-		local pCity = pPlayer:GetCityByID(cityID)
-		if pCity then
-			local plot = pCity:Plot()
-			if plot then return plot end
-		end
-	end
-	if hexPos and hexPos.x ~= nil and hexPos.y ~= nil then
-		local gridX, gridY = ToGridFromHex(hexPos.x, hexPos.y)
-		return Map.GetPlot(gridX, gridY)
-	end
-	return nil
+	return VD_FocusPlot(plot, playerID, sourceLabel, description)
 end
 
 -- Emits after the top panel has auto-switched to a different player.
@@ -97,6 +77,7 @@ local function VD_AutoSwitchToPlayer(playerID, reason, eventOnly)
 	end
 
 	if not eventOnly then
+		VD_LastFocusTime = -math.huge
 		OnCivPlayerSelected(playerID)
 	end
 	VD_Log("TopPanelAutoSwitch" .. (eventOnly and "(eventOnly)" or "") .. ": from=" .. tostring(previousPlayerID) .. " to=" .. tostring(playerID) .. " reason=" .. tostring(reason))
@@ -111,99 +92,6 @@ local function VD_FlushPendingSwitch()
 		if ps.preWork then ps.preWork() end
 		VD_AutoSwitchToPlayer(ps.playerID, ps.reason, ps.eventOnly)
 	end
-end
-
--------------------------------------------------
--- VD: Shared helper functions
--------------------------------------------------
-
--- Returns icon, shortLabel, description for a player's grand strategy
-local function VD_GetGrandStrategy(pPlayer)
-	if not pPlayer:GetCapitalCity() then
-		return "[ICON_CAPITAL]", "-", "Undecided"
-	end
-	local iGS = pPlayer:GetGrandStrategy()
-	if iGS == 0 then     return "[ICON_CULTURE]",    "Culture",    "Culture Victory"
-	elseif iGS == 1 then return "[ICON_INFLUENCE]",   "Diplomacy",  "Diplomacy Victory"
-	elseif iGS == 2 then return "[ICON_RESEARCH]",    "Science",    "Science Victory"
-	elseif iGS == 3 then return "[ICON_WAR]",         "Conquest",   "Conquest Victory"
-	else                  return "[ICON_CAPITAL]",     "-",          "Undecided"
-	end
-end
-
--- Returns formatted population string with "k" suffix for large values
-local function VD_FormatPopulation(pPlayer)
-	local iPop = pPlayer:GetTotalPopulation()
-	if iPop >= 1000 then
-		return tostring(Game.GetRound(iPop / 1000)) .. "k"
-	end
-	return tostring(iPop)
-end
-
--- Returns icon, rateText, tooltip for a player's gold/treasury display
-local function VD_GetGoldDisplay(pPlayer)
-	local iGold = pPlayer:GetGold()
-	local iGoldRate = pPlayer:CalculateGoldRate()
-	local icon
-	if iGold == 0 and iGoldRate < 0 then     icon = "[ICON_GOLD_EMP]"
-	elseif iGoldRate == 0 then                icon = "[ICON_GOLD_NEU]"
-	elseif iGoldRate < 0 then                 icon = "[ICON_GOLD_NEG]"
-	else                                      icon = "[ICON_GOLD_POS]"
-	end
-	local rateText
-	if iGoldRate >= 0 then
-		rateText = Locale.ConvertTextKey("[COLOR_JFD_OVERLAY_YIELD_GOLD]+{1_Num}[ENDCOLOR]", iGoldRate)
-	else
-		rateText = Locale.ConvertTextKey("[COLOR_WARNING_TEXT]{1_Num}[ENDCOLOR]", iGoldRate)
-	end
-	local tooltip = Locale.ConvertTextKey("{1_Desc} Treasury: {2_Num} gold | Net: {3_Num}/turn", icon, iGold, iGoldRate)
-	return icon, rateText, tooltip
-end
-
-local function VD_GetThinkingTitle(aiLabel)
-	if not aiLabel or aiLabel == "" then
-		return "Thinking"
-	end
-
-	local modelLabel = aiLabel:match("^%s*([^/]+)") or aiLabel
-	modelLabel = modelLabel:gsub("^%s+", ""):gsub("%s+$", "")
-	if modelLabel == "" then
-		modelLabel = aiLabel
-	end
-	return modelLabel .. " Is Still Thinking"
-end
-
-local function VD_GetTurnProcessingDisplayMode(playerID)
-	local pPlayer = Players[playerID]
-	if not pPlayer then
-		return nil
-	end
-
-	if pPlayer:IsBarbarian() then
-		if Game.IsOption(GameOptionTypes.GAMEOPTION_NO_BARBARIANS) then
-			return nil
-		end
-		return "known"
-	end
-
-	if pPlayer:IsMinorCiv() then
-		return "minor"
-	end
-
-	local pLocalTeam = Teams[Players[Game.GetActivePlayer()]:GetTeam()]
-	if pLocalTeam:IsHasMet(pPlayer:GetTeam()) then
-		return "known"
-	end
-
-	return "unmet"
-end
-
-local function VD_ShowTurnProcessing(playerID, titleText)
-	local displayMode = VD_GetTurnProcessingDisplayMode(playerID)
-	if displayMode then
-		LuaEvents.VD_ShowTurnProcessing(playerID, titleText, displayMode)
-	end
-	return displayMode
 end
 
 local function VD_CloseAutoOpenedWorldCivsList()
@@ -236,30 +124,6 @@ local function VD_GetFirstRationale(playerID)
 	return nil
 end
 
--- Sets an icon+value stat control pair with shared tooltip
-local function VD_SetStatControl(iconCtrl, infoCtrl, iconStr, valueStr, tooltip)
-	if iconStr then iconCtrl:SetText(iconStr) end
-	iconCtrl:SetToolTipString(tooltip)
-	infoCtrl:SetText(valueStr)
-	infoCtrl:SetToolTipString(tooltip)
-end
-
--- Constants for popup entry dynamic height
-local VD_ENTRY_BASE_HEIGHT = 67   -- rationale label Y offset (58) + 4px padding + 5px breathing room
-local VD_ENTRY_NO_RATIONALE_HEIGHT = 63  -- header + stats rows only + 5px breathing room
-
--- Resizes a popup entry box and its background anim grids to a given height
-local function VD_ResizeEntryBox(controlTable, height)
-	controlTable.PlayerEntryBox:SetSizeY(height)
-	controlTable.PlayerEntryAnimGrid:SetSizeY(height - 3)
-	local animH = height
-	controlTable.PlayerEntryAnim:SetSizeY(animH)
-	controlTable.PlayerEntryAnimGrid2:SetSizeY(animH)
-	controlTable.PlayerEntryAnimGridGA:SetSizeY(animH)
-	controlTable.PlayerEntryAnimGridDA:SetSizeY(animH)
-	controlTable.PlayerEntryAnimGridNA:SetSizeY(animH)
-end
-
 -------------------------------------------------
 
 local function VD_UpdatePanelExtras(playerID)
@@ -289,58 +153,6 @@ local function VD_UpdatePanelExtras(playerID)
 		Controls.VD_InfoBox:SetHide(true)
 	end
 end
-
-local eraNumerals = {}
-eraNumerals[0] = "I"
-eraNumerals[1] = "II"
-eraNumerals[2] = "III"
-eraNumerals[3] = "IV"
-eraNumerals[4] = "V"
-eraNumerals[5] = "VI"
-eraNumerals[6] = "VII"
-eraNumerals[7] = "VIII"
-eraNumerals[8] = "IX"
-eraNumerals[9] = "X"
-eraNumerals[10] = "XI"
-
-local g_PolicyBranchIcons = {}
-g_PolicyBranchIcons["POLICY_BRANCH_TRADITION"] = "[ICON_FOOD]"
-g_PolicyBranchIcons["POLICY_BRANCH_LIBERTY"] = "[ICON_HAPPINESS_1]"
-g_PolicyBranchIcons["POLICY_BRANCH_PIETY"] = "[ICON_PEACE]"
-g_PolicyBranchIcons["POLICY_BRANCH_HONOR"] = "[ICON_STRENGTH]"
-g_PolicyBranchIcons["POLICY_BRANCH_COMMERCE"] = "[ICON_GOLD]"
-g_PolicyBranchIcons["POLICY_BRANCH_AESTHETICS"] = "[ICON_GREAT_WORK]"
-g_PolicyBranchIcons["POLICY_BRANCH_PATRONAGE"] = "[ICON_INFLUENCE]"
-g_PolicyBranchIcons["POLICY_BRANCH_EXPLORATION"] = "[ICON_MOVES]"
-g_PolicyBranchIcons["POLICY_BRANCH_RATIONALISM"] = "[ICON_RESEARCH]"
-g_PolicyBranchIcons["POLICY_BRANCH_JFD_INTRIGUE"] = "[ICON_SPY]"
-g_PolicyBranchIcons["POLICY_BRANCH_JFD_CONSERVATION"] = "[ICON_TOURISM]"
-g_PolicyBranchIcons["POLICY_BRANCH_JFD_INDUSTRY"] = "[ICON_PRODUCTION]"
-g_PolicyBranchIcons["POLICY_BRANCH_FREEDOM"] = "[ICON_GREAT_PEOPLE]"
-g_PolicyBranchIcons["POLICY_BRANCH_AUTOCRACY"] = "[ICON_WAR]"
-g_PolicyBranchIcons["POLICY_BRANCH_ORDER"] = "[ICON_WORKER]"
-g_PolicyBranchIcons["POLICY_BRANCH_JFD_SPIRIT"] = "[ICON_TEAM_1]"
-g_PolicyBranchIcons["POLICY_BRANCH_JFD_NEUTRALITY"] = "[ICON_FLOWER]"
-
-local g_PolicyBranchFakeGovDescs = {}
-g_PolicyBranchFakeGovDescs["POLICY_BRANCH_TRADITION"] = "Monarchy"
-g_PolicyBranchFakeGovDescs["POLICY_BRANCH_LIBERTY"] = "Republic"
-g_PolicyBranchFakeGovDescs["POLICY_BRANCH_PIETY"] = "Theocracy"
-g_PolicyBranchFakeGovDescs["POLICY_BRANCH_HONOR"] = "Horde"
-g_PolicyBranchFakeGovDescs["POLICY_BRANCH_COMMERCE"] = "Merchant Republic"
-g_PolicyBranchFakeGovDescs["POLICY_BRANCH_AESTHETICS"] = "Republic of Letters"
-g_PolicyBranchFakeGovDescs["POLICY_BRANCH_PATRONAGE"] = "Principality"
-g_PolicyBranchFakeGovDescs["POLICY_BRANCH_EXPLORATION"] = "Empire"
-g_PolicyBranchFakeGovDescs["POLICY_BRANCH_RATIONALISM"] = "Absolute Monarchy"
-g_PolicyBranchFakeGovDescs["POLICY_BRANCH_JFD_INTRIGUE"] = "Sneaky Republic"
-g_PolicyBranchFakeGovDescs["POLICY_BRANCH_JFD_CONSERVATION"] = "Hippy Republic"
-g_PolicyBranchFakeGovDescs["POLICY_BRANCH_JFD_INDUSTRY"] = "Socialist Republic"
-g_PolicyBranchFakeGovDescs["POLICY_BRANCH_FREEDOM"] = "Constitutional Monarchy (cope!)"
-g_PolicyBranchFakeGovDescs["POLICY_BRANCH_AUTOCRACY"] = "Presidential Republic"
-g_PolicyBranchFakeGovDescs["POLICY_BRANCH_ORDER"] = "Totally Normal Democratic Peaceocracy Here"
-g_PolicyBranchFakeGovDescs["POLICY_BRANCH_JFD_SPIRIT"] = "French Republic"
-g_PolicyBranchFakeGovDescs["POLICY_BRANCH_JFD_NEUTRALITY"] = "Swiss Cheese"
-			
 
 local gridX = 635
 local gridY = 235
@@ -883,7 +695,13 @@ Events.RunCombatSim.Add(function(m_AttackerPlayerID,
 	if VD_CombatInFlight == 1 and m_AttackerPlayerID == g_iPlayerForView then
 		local unit = Players[m_AttackerPlayerID]:GetUnitByID(m_AttackerUnitID)
 		if unit then
-			VD_FocusPlot(unit:GetPlot(), m_AttackerPlayerID, "combat")
+			local defUnit = Players[m_DefenderPlayerID]:GetUnitByID(m_DefenderUnitID)
+			local desc = VD_BuildCombatDescription(
+				m_AttackerPlayerID, m_DefenderPlayerID,
+				unit, defUnit,
+				m_AttackerUnitDamage, m_AttackerFinalUnitDamage, m_AttackerMaxHitPoints,
+				m_DefenderUnitDamage, m_DefenderFinalUnitDamage, m_DefenderMaxHitPoints)
+			VD_FocusPlot(unit:GetPlot(), m_AttackerPlayerID, "combat", desc)
 		end
 	end
 end)
@@ -911,31 +729,50 @@ end)
 -- VD: City events worth focusing the camera on. Guarded by VD_TryFocusPlot
 -- (viewed-player + combat gate + 5s debounce).
 Events.SerialEventCityCaptured.Add(function(hexPos, playerID, cityID)
-	VD_TryFocusPlot(VD_ResolveCityPlot(hexPos, playerID, cityID), playerID, "city_captured")
+	local plot = VD_ResolveCityPlot(hexPos, playerID, cityID)
+	local civName = Players[playerID] and Players[playerID]:GetCivilizationShortDescription() or "unknown"
+	local pCity = Players[playerID] and Players[playerID]:GetCityByID(cityID)
+	local cityName = pCity and pCity:GetName() or "a city"
+	VD_TryFocusPlot(plot, playerID, "city_captured", civName .. " captured " .. cityName)
 end)
 Events.SerialEventCityCreated.Add(function(hexPos, playerID, cityID)
-	VD_TryFocusPlot(VD_ResolveCityPlot(hexPos, playerID, cityID), playerID, "city_created")
+	local plot = VD_ResolveCityPlot(hexPos, playerID, cityID)
+	local civName = Players[playerID] and Players[playerID]:GetCivilizationShortDescription() or "unknown"
+	local pCity = Players[playerID] and Players[playerID]:GetCityByID(cityID)
+	local cityName = pCity and pCity:GetName() or "a new city"
+	VD_TryFocusPlot(plot, playerID, "city_created", civName .. " founded " .. cityName)
 end)
 Events.SerialEventCityDestroyed.Add(function(hexPos, playerID, cityID)
-	VD_TryFocusPlot(VD_ResolveCityPlot(hexPos, playerID, cityID), playerID, "city_destroyed")
+	local plot = VD_ResolveCityPlot(hexPos, playerID, cityID)
+	local civName = Players[playerID] and Players[playerID]:GetCivilizationShortDescription() or "unknown"
+	local pCity = Players[playerID] and Players[playerID]:GetCityByID(cityID)
+	local cityName = pCity and pCity:GetName() or "a city"
+	VD_TryFocusPlot(plot, playerID, "city_destroyed", civName .. " destroyed " .. cityName)
 end)
 
--- VD: Probe CameraViewChanged to discover its parameters
-Events.CameraViewChanged.Add(function(...)
-	local parts = {}
-	for i = 1, select("#", ...) do
-		local v = select(i, ...)
-		if type(v) == "table" then
-			local kv = {}
-			for k, val in pairs(v) do
-				kv[#kv + 1] = tostring(k) .. "=" .. tostring(val)
-			end
-			parts[i] = "{" .. table.concat(kv, ", ") .. "}"
-		else
-			parts[i] = tostring(v)
+-- VD: CameraViewChanged confirms the engine actually moved the camera.
+-- Clear any pending retry so we stop re-issuing UI.LookAt.
+Events.CameraViewChanged.Add(function()
+	if VD_PendingLookAt then
+		VD_Log("CameraViewChanged: cleared pending LookAt for player=" .. tostring(VD_PendingLookAt.player))
+		VD_PendingLookAt = nil
+	end
+end)
+
+-- VD: Per-frame retry — if UI.LookAt was dropped (no CameraViewChanged), re-issue it.
+-- Log and retry at most once per second to avoid flooding.
+local VD_LastRetryLogTime = -math.huge
+ContextPtr:SetUpdate(function()
+	if VD_PendingLookAt then
+		local now = os.clock()
+		if now - VD_LastRetryLogTime >= 1.0 then
+			UI.LookAt(VD_PendingLookAt.plot)
+			VD_LastRetryLogTime = now
+			VD_Log("LookAtRetry: player=" .. tostring(VD_PendingLookAt.player)
+				.. " plot=(" .. tostring(VD_PendingLookAt.plot:GetX()) .. "," .. tostring(VD_PendingLookAt.plot:GetY()) .. ")"
+				.. " capital=" .. tostring(VD_PendingLookAt.label))
 		end
 	end
-	VD_Log("CameraViewChanged: [" .. table.concat(parts, ", ") .. "]")
 end)
 
 -------------------------------------------------
@@ -1014,9 +851,11 @@ function OnCivPlayerSelected(iPlayer)
 			pPlot = pPlayer:GetStartingPlot()
 		end
 		if pPlot then
-			UI.LookAt(pPlot);
 			local capitalLabel = pPlayerCap and pPlayerCap:GetName() or "<starting-plot>"
-			VD_Log("Looked a plot for " .. tostring(iPlayer)
+			VD_PendingLookAt = { plot = pPlot, player = iPlayer, label = capitalLabel }
+			VD_LastRetryLogTime = -math.huge
+			UI.LookAt(pPlot)
+			VD_Log("LookAt: player=" .. tostring(iPlayer)
 				.. " plot=(" .. tostring(pPlot:GetX()) .. "," .. tostring(pPlot:GetY()) .. ")"
 				.. " capital=" .. tostring(capitalLabel))
 		else
@@ -1359,10 +1198,6 @@ Controls.WorldCivsButton:RegisterCallback(Mouse.eLClick, function()
 	OnWorldCivsListUpdated()
 end);
 
--- function OnWorldCivsRClicked()
-	-- LuaEvents.UI_ShowGovernmentOverview()
--- end
--- Controls.WorldCivsButton:RegisterCallback( Mouse.eRClick, OnWorldCivsRClicked );
 -------------------------------------------------
 -------------------------------------------------
 function OnWorldCivsListClose()
