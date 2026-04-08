@@ -123,6 +123,7 @@ function OnClose()
     UIManager:DequeuePopup( ContextPtr );
 end
 Controls.CloseButton:RegisterCallback( Mouse.eLClick, OnClose );
+LuaEvents.VD_CloseLeagueOverview.Add(OnClose);
 
 -- 'Active' (local human) player has changed
 Events.GameplaySetActivePlayer.Add(OnClose);

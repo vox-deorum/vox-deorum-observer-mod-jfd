@@ -15,6 +15,10 @@ local VD_Actions = {}  -- [playerID] = { turn=N, list={ {actionType, summary, ra
 local VD_CachedRationale = {} -- [playerID] = { rationale=string, turn=number }
 local VD_AutoOpenedPanel = nil  -- nil | "civs_list" | "league_overview"
 
+-- VD: Per-player event message cache for playback on panel switch
+local VD_EventMessages = {}          -- [playerID] = { turn=N, messages={string, ...} }
+local VD_EVENT_MESSAGE_LIMIT = 12
+
 -- Returns true when a World Congress / UN session is within `threshold` turns.
 local function VD_IsLeagueSessionClose(threshold)
 	if Game.GetNumActiveLeagues == nil or Game.GetNumActiveLeagues() <= 0 then
@@ -41,6 +45,45 @@ local VD_MinorDialogShownTurn = -1 -- last game turn on which the minor civ dial
 local VD_FOCUS_DEBOUNCE_SECONDS = 5.0
 local VD_LastFocusTime = -math.huge -- os.clock() timestamp of last camera move
 local VD_PendingLookAt = nil        -- { plot, player, label } or nil; retried until CameraViewChanged
+
+-- VD: Record a game event message for later playback (major civs only).
+local function VD_RecordEventMessage(iPlayer, message)
+	if iPlayer == nil then return end
+	local pPlayer = Players[iPlayer]
+	if not pPlayer or not pPlayer:IsAlive() then return end
+	if pPlayer:IsMinorCiv() or pPlayer:IsBarbarian() then return end
+
+	local currentTurn = Game.GetGameTurn()
+	local cache = VD_EventMessages[iPlayer]
+	if cache == nil or cache.turn ~= currentTurn then
+		VD_EventMessages[iPlayer] = { turn = currentTurn, messages = {} }
+		cache = VD_EventMessages[iPlayer]
+	end
+
+	if #cache.messages >= VD_EVENT_MESSAGE_LIMIT then return end
+	table.insert(cache.messages, message)
+	VD_Log("EventRecord: player=" .. tostring(iPlayer) .. " msg=" .. message)
+end
+
+-- VD: Play back cached event messages for a player via AddMessage, then clear.
+local function VD_PlaybackEventMessages(playerID)
+	local cache = VD_EventMessages[playerID]
+	if cache == nil or #cache.messages == 0 then return end
+
+	local pActivePlayer = Players[Game.GetActivePlayer()]
+	if not pActivePlayer or not pActivePlayer.AddMessage then
+		VD_Log("EventPlayback: AddMessage not available, skipping " .. #cache.messages .. " messages")
+		VD_EventMessages[playerID] = nil
+		return
+	end
+
+	VD_Log("EventPlayback: player=" .. tostring(playerID) .. " count=" .. #cache.messages)
+	for _, msg in ipairs(cache.messages) do
+		pActivePlayer:AddMessage(msg)
+	end
+
+	VD_EventMessages[playerID] = nil
+end
 
 -- VD: Unconditionally moves the camera to `plot`, stamps the debounce clock,
 -- and emits VD_AnimationStarted. Use for high-priority events (combat) whose
@@ -99,6 +142,12 @@ local function VD_AutoSwitchToPlayer(playerID, reason, eventOnly)
 	end
 	VD_Log("TopPanelAutoSwitch" .. (eventOnly and "(eventOnly)" or "") .. ": from=" .. tostring(previousPlayerID) .. " to=" .. tostring(playerID) .. " reason=" .. tostring(reason))
 	LuaEvents.VD_TopPanelAutoSwitchedPlayer(playerID, previousPlayerID, reason)
+
+	-- Play back cached event messages for the player we just switched to
+	if not eventOnly then
+		VD_PlaybackEventMessages(playerID)
+	end
+
 	return true
 end
 
@@ -159,8 +208,7 @@ local function VD_CloseAutoOpenedPanel()
 			Controls.Tab:SetHide(false)
 		end
 	elseif VD_AutoOpenedPanel == "league_overview" then
-		Events.SerialEventGameMessagePopupProcessed.CallImmediate(
-			ButtonPopupTypes.BUTTONPOPUP_LEAGUE_OVERVIEW, 0)
+		LuaEvents.VD_CloseLeagueOverview()
 		VD_Log("AutoClose: league_overview (inflight=" .. VD_CombatInFlight .. ")")
 	end
 	VD_AutoOpenedPanel = nil
@@ -849,6 +897,55 @@ Events.SerialEventCityDestroyed.Add(function(hexPos, playerID, cityID)
 	local pCity = Players[playerID] and Players[playerID]:GetCityByID(cityID)
 	local cityName = pCity and pCity:GetName() or "a city"
 	VD_TryFocusPlot(plot, playerID, "city_destroyed", civName .. " destroyed " .. cityName)
+end)
+
+-- VD: Record production / goody-hut events for playback on panel switch
+GameEvents.CityTrained.Add(function(iPlayer, iCity, iUnit, bGold, bFaith)
+	local pPlayer = Players[iPlayer]
+	if not pPlayer then return end
+	local pCity = pPlayer:GetCityByID(iCity)
+	local cityName = pCity and pCity:GetName() or "a city"
+	local civName = pPlayer:GetCivilizationShortDescription()
+	local unitInfo = GameInfo.Units[iUnit]
+	local unitName = unitInfo and Locale.ConvertTextKey(unitInfo.Description) or "a unit"
+	local suffix = ""
+	if bGold then suffix = " (purchased with Gold)"
+	elseif bFaith then suffix = " (purchased with Faith)" end
+	VD_RecordEventMessage(iPlayer, civName .. " trained " .. unitName .. " in " .. cityName .. suffix)
+end)
+GameEvents.CityConstructed.Add(function(iPlayer, iCity, iBuilding, bGold, bFaith)
+	local pPlayer = Players[iPlayer]
+	if not pPlayer then return end
+	local pCity = pPlayer:GetCityByID(iCity)
+	local cityName = pCity and pCity:GetName() or "a city"
+	local civName = pPlayer:GetCivilizationShortDescription()
+	local buildingInfo = GameInfo.Buildings[iBuilding]
+	local buildingName = buildingInfo and Locale.ConvertTextKey(buildingInfo.Description) or "a building"
+	local suffix = ""
+	if bGold then suffix = " (purchased with Gold)"
+	elseif bFaith then suffix = " (purchased with Faith)" end
+	VD_RecordEventMessage(iPlayer, civName .. " constructed " .. buildingName .. " in " .. cityName .. suffix)
+end)
+GameEvents.CityCreated.Add(function(iPlayer, iCity, iProject, bGold, bFaith)
+	local pPlayer = Players[iPlayer]
+	if not pPlayer then return end
+	local pCity = pPlayer:GetCityByID(iCity)
+	local cityName = pCity and pCity:GetName() or "a city"
+	local civName = pPlayer:GetCivilizationShortDescription()
+	local projectInfo = GameInfo.Projects[iProject]
+	local projectName = projectInfo and Locale.ConvertTextKey(projectInfo.Description) or "a project"
+	local suffix = ""
+	if bGold then suffix = " (purchased with Gold)"
+	elseif bFaith then suffix = " (purchased with Faith)" end
+	VD_RecordEventMessage(iPlayer, civName .. " completed " .. projectName .. " in " .. cityName .. suffix)
+end)
+GameEvents.GoodyHutReceivedBonus.Add(function(iPlayer, _, eGoody)
+	local pPlayer = Players[iPlayer]
+	if not pPlayer then return end
+	local civName = pPlayer:GetCivilizationShortDescription()
+	local goodyInfo = GameInfo.GoodyHuts[eGoody]
+	local rewardDesc = goodyInfo and Locale.ConvertTextKey(goodyInfo.Description) or "unknown reward"
+	VD_RecordEventMessage(iPlayer, civName .. " received rewards from Ancient Ruins: " .. rewardDesc)
 end)
 
 -- VD: CameraViewChanged confirms the engine actually moved the camera.
