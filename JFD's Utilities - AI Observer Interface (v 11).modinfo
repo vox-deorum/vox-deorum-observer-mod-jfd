@@ -131,7 +131,7 @@
     <File md5="6D270B3848ACB913C36A6534392BA4BC" import="0">Lua/UI/Overrides/MiniMapPanel.xml</File>
     <File md5="C80B7BB2F60CA2FC37C2D389BF18B59D" import="1">Lua/UI/Overrides/NewTurn.lua</File>
     <File md5="17F59F6E9D3F22C3DCEE613F5F6FC60A" import="1">Lua/UI/Overrides/NewTurn.xml</File>
-    <File md5="9B4AD8D8D2369A213A46B79D660EE3E4" import="1">Lua/UI/Overrides/TopPanel.lua</File>
+    <File md5="2AECD9C92508AE0EC3D0E30BF207BD09" import="1">Lua/UI/Overrides/TopPanel.lua</File>
     <File md5="3C635E0583B89D5AEC307C56D5F96354" import="1">Lua/UI/Overrides/TopPanel.xml</File>
     <File md5="20E8B05F35E9C9CBE9A0C6CC068A25F1" import="1">Lua/UI/Overrides/LeagueOverview.lua</File>
     <File md5="0AF9C7321A3A17044509E43A13EC3ED0" import="1">Lua/UI/Overrides/TurnProcessing.lua</File>

@@ -840,17 +840,23 @@ Events.RunCombatSim.Add(function(m_AttackerPlayerID,
 		.. " defender=" .. m_DefenderPlayerID
 		.. " continuation=" .. tostring(m_bContinuation)
 		.. " inflight=" .. VD_CombatInFlight)
-	-- Move camera to first combat in this batch (avoid ping-pong across multiple combats)
-	if VD_CombatInFlight == 1 and m_AttackerPlayerID == g_iPlayerForView then
+	-- Notify downstream of every combat involving the viewed player.
+	-- Camera moves only on the first combat (avoid ping-pong); subsequent
+	-- combats emit VD_AnimationStarted without a camera move.
+	if m_AttackerPlayerID == g_iPlayerForView or m_DefenderPlayerID == g_iPlayerForView then
 		local unit = Players[m_AttackerPlayerID]:GetUnitByID(m_AttackerUnitID)
-		if unit then
-			local defUnit = Players[m_DefenderPlayerID]:GetUnitByID(m_DefenderUnitID)
-			local desc = VD_BuildCombatDescription(
-				m_AttackerPlayerID, m_DefenderPlayerID,
-				unit, defUnit,
-				m_AttackerUnitDamage, m_AttackerFinalUnitDamage, m_AttackerMaxHitPoints,
-				m_DefenderUnitDamage, m_DefenderFinalUnitDamage, m_DefenderMaxHitPoints)
-			VD_FocusPlot(unit:GetPlot(), m_AttackerPlayerID, "combat", desc)
+		local defUnit = Players[m_DefenderPlayerID]:GetUnitByID(m_DefenderUnitID)
+		local desc = VD_BuildCombatDescription(
+			m_AttackerPlayerID, m_DefenderPlayerID,
+			unit, defUnit,
+			m_AttackerUnitDamage, m_AttackerFinalUnitDamage, m_AttackerMaxHitPoints,
+			m_DefenderUnitDamage, m_DefenderFinalUnitDamage, m_DefenderMaxHitPoints)
+		if VD_CombatInFlight == 1 and unit and m_AttackerPlayerID == g_iPlayerForView then
+			VD_FocusPlot(defUnit:GetPlot(), m_AttackerPlayerID, "combat", desc)
+		else
+			local plot = unit and unit:GetPlot() or (defUnit and defUnit:GetPlot() or nil)
+			local eventInfo = VD_BuildEventInfo(plot, "combat", desc)
+			LuaEvents.VD_AnimationStarted(g_iPlayerForView, eventInfo)
 		end
 	end
 end)
