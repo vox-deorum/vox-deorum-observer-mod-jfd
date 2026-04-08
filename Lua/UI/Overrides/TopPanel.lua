@@ -912,7 +912,8 @@ GameEvents.CityTrained.Add(function(iPlayer, iCity, iUnit, bGold, bFaith)
 	local pCity = pPlayer:GetCityByID(iCity)
 	local cityName = pCity and pCity:GetName() or "a city"
 	local civName = pPlayer:GetCivilizationShortDescription()
-	local unitInfo = GameInfo.Units[iUnit]
+	local pUnit = pPlayer:GetUnitByID(iUnit)
+	local unitInfo = pUnit and GameInfo.Units[pUnit:GetUnitType()]
 	local unitName = unitInfo and Locale.ConvertTextKey(unitInfo.Description) or "a unit"
 	local suffix = ""
 	if bGold then suffix = " (purchased with Gold)"
