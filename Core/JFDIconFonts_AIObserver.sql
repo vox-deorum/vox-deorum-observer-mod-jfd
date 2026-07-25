@@ -6,8 +6,7 @@
 ----------------------------------------------------------------------------------------------------------------------------
 INSERT OR REPLACE INTO IconFontTextures 
 		(IconFontTexture, 							IconFontTextureFile)
-VALUES	('ICON_FONT_TEXTURE_JFD_AIOBSERVER',		'JFDFontIcons_AIObserver_22'),
-		('ICON_FONT_TEXTURE_JFD_AIOBSERVER_SOV',	'JFDFontIcons_AIObserver_SovGovs_22');	
+VALUES	('ICON_FONT_TEXTURE_JFD_AIOBSERVER',		'JFDFontIcons_AIObserver_22');
 --------------------------------------------------------------------------------------------------------------------------
 -- IconFontMapping
 --------------------------------------------------------------------------------------------------------------------------
@@ -66,26 +65,6 @@ VALUES	('ICON_RELATION_AFRAID',						'ICON_FONT_TEXTURE_JFD_AIOBSERVER',					33)
 		('ICON_SCIENCE_EMP',							'ICON_FONT_TEXTURE_JFD_AIOBSERVER',					6),
 		('ICON_STRENGTH_NOT',							'ICON_FONT_TEXTURE_JFD_AIOBSERVER',					38),
 		('ICON_TROPHY_IRON',							'ICON_FONT_TEXTURE_JFD_AIOBSERVER',					21),
-		('ICON_TROPHY_GRAPHITE',						'ICON_FONT_TEXTURE_JFD_AIOBSERVER',					22),
-		--SOV GOVS
-		('ICON_GOVERNMENT_JFD_MONARCHY',				'ICON_FONT_TEXTURE_JFD_AIOBSERVER_SOV',				1),
-		('ICON_GOVERNMENT_JFD_PRINCIPALITY',			'ICON_FONT_TEXTURE_JFD_AIOBSERVER_SOV',				3),
-		('ICON_GOVERNMENT_JFD_REPUBLIC',				'ICON_FONT_TEXTURE_JFD_AIOBSERVER_SOV',				12),
-		('ICON_GOVERNMENT_JFD_IMPERIAL',				'ICON_FONT_TEXTURE_JFD_AIOBSERVER_SOV',				22),
-		('ICON_GOVERNMENT_JFD_MERCHANT',				'ICON_FONT_TEXTURE_JFD_AIOBSERVER_SOV',				17),
-		('ICON_GOVERNMENT_JFD_MILITARY',				'ICON_FONT_TEXTURE_JFD_AIOBSERVER_SOV',				19),
-		('ICON_GOVERNMENT_JFD_NOMADIC',					'ICON_FONT_TEXTURE_JFD_AIOBSERVER_SOV',				21),
-		('ICON_GOVERNMENT_JFD_MONASTIC',				'ICON_FONT_TEXTURE_JFD_AIOBSERVER_SOV',				18),
-		('ICON_GOVERNMENT_JFD_REVOLUTIONARY',			'ICON_FONT_TEXTURE_JFD_AIOBSERVER_SOV',				19),
-		('ICON_GOVERNMENT_JFD_THEOCRATIC',				'ICON_FONT_TEXTURE_JFD_AIOBSERVER_SOV',				15),
-		('ICON_GOVERNMENT_JFD_TOTALITARIAN',			'ICON_FONT_TEXTURE_JFD_AIOBSERVER_SOV',				7),
-		('ICON_GOVERNMENT_JFD_TRIBAL',					'ICON_FONT_TEXTURE_JFD_AIOBSERVER_SOV',				11),
-		('ICON_GOVERNMENT_JFD_TRIBE',					'ICON_FONT_TEXTURE_JFD_AIOBSERVER_SOV',				4),
-		('ICON_GOVERNMENT_JFD_CALIPHATE',				'ICON_FONT_TEXTURE_JFD_AIOBSERVER_SOV',				14),
-		('ICON_GOVERNMENT_JFD_HOLY_ROMAN',				'ICON_FONT_TEXTURE_JFD_AIOBSERVER_SOV',				8),
-		('ICON_GOVERNMENT_JFD_MANDATE',					'ICON_FONT_TEXTURE_JFD_AIOBSERVER_SOV',				9),
-		('ICON_GOVERNMENT_JFD_MAMLUKE',					'ICON_FONT_TEXTURE_JFD_AIOBSERVER_SOV',				23),
-		('ICON_GOVERNMENT_JFD_PAPACY',					'ICON_FONT_TEXTURE_JFD_AIOBSERVER_SOV',				7),
-		('ICON_GOVERNMENT_JFD_SHOGUNATE',				'ICON_FONT_TEXTURE_JFD_AIOBSERVER_SOV',				16);
+		('ICON_TROPHY_GRAPHITE',						'ICON_FONT_TEXTURE_JFD_AIOBSERVER',					22);
 --==========================================================================================================================
 --==========================================================================================================================

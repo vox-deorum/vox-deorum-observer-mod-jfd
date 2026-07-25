@@ -26,30 +26,39 @@ This is a fork of **JFD's Utilities — AI Observer Interface (v11)**, a Civ5 mo
 ├── CLAUDE.md                                                 # This file
 ├── docs/                                                     # Extended documentation
 │   ├── architecture.md
+│   ├── art-reference.md
+│   ├── dead-code.md                                          # Stage-2 cleanup work list
 │   ├── lua-reference.md
-│   └── overlay-maps.md
+│   └── observer-api.md
 │
 ├── Art/                          # DDS textures, font icons, UI images
 ├── Core/                         # SQL schema + XML game text
-│   └── Overlay Maps/             # Overlay map data tables
+│   └── Overlay Maps/             # Only JFDIconFonts_OverlayMaps.sql — must load FIRST
 │
 └── Lua/
-    ├── JFD_AIObserver_Functions.lua        # Entry point; event hooks
+    ├── JFD_AIObserver_Functions.lua        # InGameUIAddin; popup/notification suppression
     ├── JFD_AIObserver_Functions.xml        # UI layout for Functions
-    ├── JFD_UI_BigMiniMapOverview.lua       # Full-screen minimap popup
+    ├── JFD_UI_BigMiniMapOverview.lua       # Full-screen minimap popup (InGameUIAddin)
     ├── JFD_UI_BigMiniMapOverview.xml
-    ├── JFD_UI_MiniMapOverview.lua          # Simple minimap popup
-    ├── JFD_UI_MiniMapOverview.xml
-    ├── JFD_UI_OverlayMapsOverview.lua      # Overlay maps popup
-    ├── JFD_UI_OverlayMapsOverview.xml
     ├── Utilities/
-    │   ├── JFD_AIObserver_Utils.lua        # Shared helpers (ranking, cities, religion)
-    │   ├── JFD_AIObserver_Minimap_Utils.lua # Minimap-specific helpers
-    │   └── JFD_OverlayMaps_Utils.lua       # Overlay map helpers
+    │   ├── JFD_AIObserver_Utils.lua        # JFD shared helpers (ranking, cities, religion)
+    │   └── VD_Observer_Utils.lua           # vox-deorum stateless helpers
     └── UI/
-        ├── MiniMap/              # Custom minimap panel (imported)
-        └── Overrides/            # Base-game UI file overrides
+        ├── MiniMap/              # Custom minimap panel (imported, overrides base)
+        └── Overrides/            # Base-game UI file overrides:
+                                  #   TopPanel.*      — top panel AND the civ list
+                                  #   TurnProcessing.* — "<model> is thinking" popup
+                                  #   LeagueOverview.lua — World Congress (no .xml)
+                                  #   DiploCorner.*   — hides vanilla top-right cluster
+                                  #   NewTurn.*       — suppresses turn-start banner
 ```
+
+**Footprint policy:** the mod was reduced from 116 shipped files / 9.0 MB to 53 / 1.65 MB by
+dropping everything not needed for vox-deorum (Overlay Maps, minimap overlay modes, city
+descriptors, religion/government map colouring). Don't reintroduce a file without adding it to
+the modinfo `<Files>` list — and note that `import="0"` on a `.dds` means the engine can never
+resolve it, which is how 4.2 MB of dead texture accumulated. Remaining in-file dead code is
+catalogued in [docs/dead-code.md](docs/dead-code.md).
 
 ---
 
@@ -107,4 +116,5 @@ Run this as the final step before handing work back to the user, even if you thi
 
 - The vox-deorum TypeScript backend communicates with the Civ5 Lua layer via named pipes or file I/O (see vox-deorum repo for protocol details).
 - New UI panels for LLM action display should follow the existing popup pattern: `.lua` controller + `.xml` layout, registered as `InGameUIAddin` in the `.modinfo`.
-- Overlay map entries for LLM actions can be added via new SQL rows in `Core/Overlay Maps/` following the existing schema — see [docs/overlay-maps.md](docs/overlay-maps.md).
+- LLM decisions reach the UI over `LuaEvents` — `VoxDeorumPlayerInfo` and `VoxDeorumAction` are consumed by `TopPanel.lua`, which drives both the rationale box and the civ list. See [docs/observer-api.md](docs/observer-api.md).
+- The Overlay Maps subsystem has been **removed** — it was never loaded (its SQL was absent from `<OnModActivated>` for the mod's entire history). Don't plan LLM-action visualisation around it; extend the civ list or add a new `InGameUIAddin` popup instead.
