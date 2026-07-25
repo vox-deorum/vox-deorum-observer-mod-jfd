@@ -7,6 +7,8 @@ include("InstanceManager");
 include("JFD_AIObserver_Utils.lua");
 include("VD_Observer_Utils.lua");
 
+print("Vox Deorum DEBUG: This is TopPanel from (3b) AI Observer");
+
 local g_iPlayerForView = Game.GetActivePlayer()
 
 -- VD: Per-player state for LLM data
