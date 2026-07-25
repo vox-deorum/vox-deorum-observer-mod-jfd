@@ -9,21 +9,4 @@ CREATE TABLE IF NOT EXISTS CustomModOptions(Name Text, Value INTEGER, Class INTE
 INSERT OR REPLACE INTO CustomModOptions(Name, Value) VALUES('API_EXTENSIONS', 1);
 INSERT OR REPLACE INTO CustomModOptions(Name, Value) VALUES('API_LUA_EXTENSIONS', 1);
 --==========================================================================================================================
--- CITY DESCRIPTIONS
---==========================================================================================================================
-----------------------------------------------------------------------------------------------------------------------------
--- JFD_CityDescriptors
-----------------------------------------------------------------------------------------------------------------------------		  
-CREATE TABLE IF NOT EXISTS 
-	JFD_CityDescriptors (
-	Description								text 												default null,
-	Adjective								text 												default null,
-	MinPop									integer												default 0,
-	MaxPop									integer												default 0,
-	IsResistance							boolean												default 0,
-	IsColony								boolean												default 0,
-	IsPuppet								boolean												default 0,
-	IsOccupied								boolean												default 0,
-	PrereqCiv								text												default null);
---==========================================================================================================================
 --==========================================================================================================================

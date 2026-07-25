@@ -2,7 +2,6 @@
 -- Turn Processing Popup
 -------------------------------------------------
 include( "IconSupport" );
-include( "SupportFunctions" );
 
 -- VD: Debug logging — filter Lua.log for "[VD]"
 local function VD_Log(...)
@@ -85,10 +84,6 @@ local function VD_SetMinorDisplay(iPlayerID)
 end
 
 local function VD_OnShowTurnProcessing(iPlayerID, titleText, displayMode)
-	if (displayMode ~= "minor") then
-		-- VD_Log("TurnProcessingEvent: player=" .. tostring(iPlayerID) .. " mode=" .. tostring(displayMode) .. " title=" .. tostring(titleText))
-	end
-
 	local player = GetPlayer(iPlayerID);
 	if (player == nil) then
 		VD_Log("TurnProcessingIgnored: invalid player=" .. tostring(iPlayerID))
@@ -101,7 +96,6 @@ local function VD_OnShowTurnProcessing(iPlayerID, titleText, displayMode)
 	end
 
 	if player:IsBarbarian() and Game.IsOption(GameOptionTypes.GAMEOPTION_NO_BARBARIANS) then
-		-- VD_Log("TurnProcessingIgnored: barbarians disabled player=" .. tostring(iPlayerID))
 		return;
 	end
 
@@ -123,7 +117,6 @@ local function VD_OnShowTurnProcessing(iPlayerID, titleText, displayMode)
 		VD_SetKnownPlayerDisplay(iPlayerID, titleText or VD_GetProcessingTitle(player, iPlayerID))
 	end
 
-	-- VD_Log("TurnProcessingApplied: player=" .. tostring(iPlayerID) .. " mode=" .. tostring(displayMode) .. " finalTitle=" .. tostring(Controls.TurnProcessingTitle:GetText()))
 end
 LuaEvents.VD_ShowTurnProcessing.Add(VD_OnShowTurnProcessing)
 -------------------------------------------------------------------------
@@ -146,7 +139,6 @@ function OnAlphaAnim()
 	if (Controls.Anim:IsStopped() and Controls.Anim:GetAlpha() == 0.0) then
 		Controls.Anim:SetHide( true );
 		ContextPtr:SetHide( true );
-		--print("Hiding TurnProcessing");
 	end
 end
 Controls.Anim:RegisterAnimCallback( OnAlphaAnim );

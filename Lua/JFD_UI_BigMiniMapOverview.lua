@@ -1,145 +1,69 @@
--------------------------------------------------
--- MiniMap Overview Popup
--------------------------------------------------
-include( "IconSupport" );
-include( "InstanceManager" );
+local configWidth, configHeight = 320, 190
+local width, height = 320, 190
+local scale = 1
 
--------------------------------------------------
--- Global Constants
--------------------------------------------------
-
-local mapWidth, mapHeight = Map.GetGridSize()
-
--- local iCBRXWidth, iCBRXHeight = 180,94
--- local iMainGridCBRX, iMainGridCBRY = 1250,677
-local configWidth, configHeight = 320,190
--- local g_width, g_height = 960,570
-local g_width, g_height = 320,190
-local multipleVal = 1
-
--- if mapWidth == iCBRXWidth and mapHeight == iCBRXHeight then
-	-- g_width, g_height = 1280,760
-	-- Controls.MainGrid:SetSizeVal(iMainGridCBRX+35, iMainGridCBRY+87)
--- end
-----------------------------------------------------------------
-----------------------------------------------------------------
-Events.MinimapTextureBroadcastEvent.Add(
-function( uiHandle, width, height )--, paddingX )
-	if width ~= configWidth or height ~= configHeight then
-		configWidth = width
-		configHeight = height
-
-		g_width, g_height = width, height
-		Controls.MainGrid:SetSizeVal(g_width+35, g_height+102)
-		
-		multipleVal = configWidth/g_width
+Events.MinimapTextureBroadcastEvent.Add(function(uiHandle, newWidth, newHeight)
+	if newWidth ~= configWidth or newHeight ~= configHeight then
+		configWidth = newWidth
+		configHeight = newHeight
+		width = newWidth
+		height = newHeight
+		Controls.MainGrid:SetSizeVal(width + 35, height + 102)
+		scale = configWidth / width
 	end
-	Controls.Minimap:SetTextureHandle( uiHandle );
-	Controls.Minimap:SetSizeVal( g_width, g_height );
+	Controls.Minimap:SetTextureHandle(uiHandle)
+	Controls.Minimap:SetSizeVal(width, height)
 end)
-UI:RequestMinimapBroadcast();
+UI:RequestMinimapBroadcast()
 
-----------------------------------------------------------------
-----------------------------------------------------------------
-Controls.Minimap:RegisterCallback( Mouse.eLClick,
-function( _, _, _, x, y )
-	Events.MinimapClickedEvent( x/multipleVal, y/multipleVal );
+Controls.Minimap:RegisterCallback(Mouse.eLClick, function(_, _, _, x, y)
+	Events.MinimapClickedEvent(x / scale, y / scale)
 end)
--------------------------------------------------------------------------------
--------------------------------------------------------------------------------
-function IgnoreLeftClick( Id )
-	-- just swallow it
-end
--------------------------------------------------------------------------------
--------------------------------------------------------------------------------
-function InputHandler( uiMsg, wParam, lParam )
-    ----------------------------------------------------------------        
-    -- Key Down Processing
-    ----------------------------------------------------------------        
-    if(uiMsg == KeyEvents.KeyDown) then
-        if (wParam == Keys.VK_ESCAPE) then
-			OnClose();
-			return true;
-        end
-        
-        -- Do Nothing.
-        if(wParam == Keys.VK_RETURN) then
-			return true;
-        end
-    end
-end
-ContextPtr:SetInputHandler( InputHandler );
--------------------------------------------------------------------------------
--------------------------------------------------------------------------------
-function OnClose()
-	UIManager:DequeuePopup(ContextPtr);
-end
-Controls.CloseButton:RegisterCallback(Mouse.eLClick, OnClose);
-------------------------------------------------------------------------------
-function RefreshMiniMapOverview()	
-	
-end
-RefreshMiniMapOverview()	
--------------------------------------------------------------------------------
--------------------------------------------------------------------------------
-function ShowHideHandler( bIsHide, bInitState )
-    if( not bInitState ) then
-        if( not bIsHide ) then
-        	UI.incTurnTimerSemaphore();  
-        	--Events.SerialEventGameMessagePopupShown(g_PopupInfo);
-        	
-           RefreshMiniMapOverview()
-			 -- MODS END
-        else
-			if(g_PopupInfo ~= nil) then
-				--Events.SerialEventGameMessagePopupProcessed.CallImmediate(g_PopupInfo.Type, 0);
-            end
-            UI.decTurnTimerSemaphore();
-        end
-    end
-end
-ContextPtr:SetShowHideHandler( ShowHideHandler );
 
-----------------------------------------------------------------
--- 'Active' (local human) player has changed
-----------------------------------------------------------------
-function OnActivePlayerChanged()
-	--if (not Controls.ChooseConfirm:IsHidden()) then
-	--	Controls.ChooseConfirm:SetHide(true);
-	--end
+local function OnClose()
+	UIManager:DequeuePopup(ContextPtr)
 end
-Events.GameplaySetActivePlayer.Add(OnActivePlayerChanged);
+Controls.CloseButton:RegisterCallback(Mouse.eLClick, OnClose)
 
------------------------------------------------------------------
--- Add Religion Overview to Dropdown (if enabled)
------------------------------------------------------------------
+ContextPtr:SetInputHandler(function(uiMsg, wParam)
+	if uiMsg == KeyEvents.KeyDown then
+		if wParam == Keys.VK_ESCAPE then
+			OnClose()
+			return true
+		elseif wParam == Keys.VK_RETURN then
+			return true
+		end
+	end
+end)
+
+ContextPtr:SetShowHideHandler(function(isHidden, isInit)
+	if not isInit then
+		if isHidden then
+			UI.decTurnTimerSemaphore()
+		else
+			UI.incTurnTimerSemaphore()
+		end
+	end
+end)
+
 LuaEvents.AdditionalInformationDropdownGatherEntries.Add(function(entries)
 	table.insert(entries, {
-		text=Locale.Lookup("TXT_KEY_JFD_MINIMAP_OVERVIEW"),
-		call=function()
+		text = Locale.Lookup("TXT_KEY_JFD_MINIMAP_OVERVIEW"),
+		call = function()
 			UIManager:QueuePopup(ContextPtr, PopupPriority.SocialPolicy)
 		end,
-	});
-	-- table.insert(entries, {
-		-- text=Locale.Lookup("Open Civilopedia"),
-		-- call=function()
-			-- Events.SearchForPediaEntry("");
-		-- end,
-	-- });
-end);
+	})
+end)
+LuaEvents.RequestRefreshAdditionalInformationDropdownEntries()
 
--- Just in case :)
-LuaEvents.RequestRefreshAdditionalInformationDropdownEntries();
-
-function JFD_UI_ShowMiniMapOverview()
+local function ToggleMiniMapOverview()
 	if ContextPtr:IsHidden() then
 		UIManager:QueuePopup(ContextPtr, PopupPriority.SocialPolicy)
 	else
 		UIManager:DequeuePopup(ContextPtr)
 	end
 end
-LuaEvents.JFD_UI_ShowBigMiniMapOverview.Add(JFD_UI_ShowMiniMapOverview);
-
+LuaEvents.JFD_UI_ShowBigMiniMapOverview.Add(ToggleMiniMapOverview)
 
 UIManager:QueuePopup(ContextPtr, PopupPriority.SocialPolicy)
 UIManager:DequeuePopup(ContextPtr)

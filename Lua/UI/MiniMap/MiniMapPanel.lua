@@ -3,10 +3,9 @@
 ----------------------------------------------------------------
 ----------------------------------------------------------------
 include("JFD_AIObserver_Utils.lua");
-include( "InstanceManager" ); local GenerationalInstanceManager = GenerationalInstanceManager
+include( "InstanceManager" );
 local GenerationalInstanceManager = GenerationalInstanceManager
 
-local gk_mode = Game.GetReligionName ~= nil;
 local bnw_mode = Game.GetActiveLeague ~= nil;
 local pairs = pairs
 
@@ -95,9 +94,6 @@ if Game_IsIGEActive() then
 	LuaEvents.IGE_ShowHideMainButton()
 else
 	Controls.IGEButton:SetHide(true)
-	if Controls.InfoButtonStack then
-		Controls.InfoButtonStack:ReprocessAnchoring()
-	end
 end
 ----------------------------------------------------------------
 ----------------------------------------------------------------
@@ -167,9 +163,6 @@ function ToggleMapOptions()
 		CloseMapOptions()
 	end
 end
---TODO open on mouseover / close on mouseexit
---Controls.MapOptionsButton:RegisterCallback( Mouse.eMouseEnter, OpenMapOptions );
---Controls.MapOptionsButton:RegisterCallback( Mouse.eMouseExit, CloseMapOptions );
 Controls.MapOptionsButton:RegisterCallback( Mouse.eLClick, ToggleMapOptions );
 
 ----------------------------------------------------------------
@@ -351,7 +344,7 @@ function SetLegend(index)
 	end
 
 	if info and InStrategicView() then
-		for i, v in pairs(info) do
+		for _, v in pairs(info) do
 			local controlTable = g_LegendIM:GetInstance();
 
 			local keyColor = { x = v.Color.R, y = v.Color.G, z = v.Color.B, w = 1 };

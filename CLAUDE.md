@@ -27,21 +27,21 @@ This is a fork of **JFD's Utilities — AI Observer Interface (v11)**, a Civ5 mo
 ├── docs/                                                     # Extended documentation
 │   ├── architecture.md
 │   ├── art-reference.md
-│   ├── dead-code.md                                          # Stage-2 cleanup work list
+│   ├── dead-code.md                                          # Completed footprint cleanup record
 │   ├── lua-reference.md
 │   └── observer-api.md
 │
 ├── Art/                          # DDS textures, font icons, UI images
 ├── Core/                         # SQL schema + XML game text
-│   └── Overlay Maps/             # Only JFDIconFonts_OverlayMaps.sql — must load FIRST
+│   └── Overlay Maps/             # Legacy ANARCHY legend glyph mapping
 │
 └── Lua/
     ├── JFD_AIObserver_Functions.lua        # InGameUIAddin; popup/notification suppression
-    ├── JFD_AIObserver_Functions.xml        # UI layout for Functions
+    ├── JFD_AIObserver_Functions.xml        # Empty host context for Functions
     ├── JFD_UI_BigMiniMapOverview.lua       # Full-screen minimap popup (InGameUIAddin)
     ├── JFD_UI_BigMiniMapOverview.xml
     ├── Utilities/
-    │   ├── JFD_AIObserver_Utils.lua        # JFD shared helpers (ranking, cities, religion)
+    │   ├── JFD_AIObserver_Utils.lua        # Minimal helpers (IGE, rounding, ideology)
     │   └── VD_Observer_Utils.lua           # vox-deorum stateless helpers
     └── UI/
         ├── MiniMap/              # Custom minimap panel (imported, overrides base)
@@ -49,27 +49,29 @@ This is a fork of **JFD's Utilities — AI Observer Interface (v11)**, a Civ5 mo
                                   #   TopPanel.*      — top panel AND the civ list
                                   #   TurnProcessing.* — "<model> is thinking" popup
                                   #   LeagueOverview.lua — World Congress (no .xml)
-                                  #   DiploCorner.*   — hides vanilla top-right cluster
+                                  #   DiploCorner.*   — multiplayer chat only
                                   #   NewTurn.*       — suppresses turn-start banner
 ```
 
-**Footprint policy:** the mod was reduced from 116 shipped files / 9.0 MB to 53 / 1.65 MB by
-dropping everything not needed for vox-deorum (Overlay Maps, minimap overlay modes, city
-descriptors, religion/government map colouring). Don't reintroduce a file without adding it to
-the modinfo `<Files>` list — and note that `import="0"` on a `.dds` means the engine can never
-resolve it, which is how 4.2 MB of dead texture accumulated. Remaining in-file dead code is
-catalogued in [docs/dead-code.md](docs/dead-code.md).
+**Footprint policy:** the mod drops everything not needed for vox-deorum, including minimap
+overlay modes, city descriptors, score ranking, and religion/government map colouring. The
+otherwise-legacy Overlay Maps font sheet remains because the live `ICON_LEGEND_ANARCHY` glyph is
+stored in it.
+Don't reintroduce a file without adding it to the modinfo `<Files>` list — and note that
+`import="0"` on a `.dds` means the engine can never resolve it. The completed cleanup is recorded
+in [docs/dead-code.md](docs/dead-code.md).
 
 ---
 
 ## Coding Conventions
 
-- **Naming:** All mod-specific globals use `JFD_` prefix (e.g. `JFD_GetPlayerRank`, `JFD_AIObserver_NotificationAdded`). New vox-deorum additions should use a distinct prefix — suggest `VD_` — to avoid collisions.
+- **Naming:** Preserve the names of retained legacy helpers. New vox-deorum globals use the
+  `VD_` prefix (for example, `VD_Log` and `VD_ShowTurnProcessing`) to avoid collisions.
 - **Language:** Lua 5.1 (Civ5 embedded interpreter). No external libraries.
 - **UI:** Civ5 uses XML layout files paired with `.lua` controllers. Each UI popup has a `.lua` + `.xml` pair.
 - **Database access:** Runtime SQL queries via `DB.Query()` and `DB.SelectWhere()`. Schema defined in `Core/*.sql`, loaded `OnModActivated`.
 - **Event system:** `Events.*` (C++ engine events) and `LuaEvents.*` (Lua-to-Lua). Use `Events.EventName.Add(handler)` to register.
-- **No print in production** — use `JFD_Log()` from `JFD_AIObserver_Utils.lua` for debug output.
+- **No unconditional print in production** — use `VD_Log()` from `VD_Observer_Utils.lua`.
 - **Prefer already-allowed tools and simple shell commands** to reduce extra permission prompts. Use Read/Edit/Write/Grep/Glob TOOL instead of Bash commands. When Bash is needed, use simple well-known commands (`ls`, `dotnet build`, `git`) rather than complex pipelines.
 - **Never `cd` into the repo.** The repo root is already the working directory. Run all scripts and commands directly (e.g. `python update_md5.py`, `./luacheck.exe ...`).
 
@@ -117,4 +119,6 @@ Run this as the final step before handing work back to the user, even if you thi
 - The vox-deorum TypeScript backend communicates with the Civ5 Lua layer via named pipes or file I/O (see vox-deorum repo for protocol details).
 - New UI panels for LLM action display should follow the existing popup pattern: `.lua` controller + `.xml` layout, registered as `InGameUIAddin` in the `.modinfo`.
 - LLM decisions reach the UI over `LuaEvents` — `VoxDeorumPlayerInfo` and `VoxDeorumAction` are consumed by `TopPanel.lua`, which drives both the rationale box and the civ list. See [docs/observer-api.md](docs/observer-api.md).
-- The Overlay Maps subsystem has been **removed** — it was never loaded (its SQL was absent from `<OnModActivated>` for the mod's entire history). Don't plan LLM-action visualisation around it; extend the civ list or add a new `InGameUIAddin` popup instead.
+- The Overlay Maps subsystem has been **removed**. Its legacy font sheet and SQL registration
+  remain only for the live `ICON_LEGEND_ANARCHY` glyph. Don't plan LLM-action visualisation around
+  it; extend the civ list or add a new `InGameUIAddin` popup instead.

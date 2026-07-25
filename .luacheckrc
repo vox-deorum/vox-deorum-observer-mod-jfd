@@ -10,34 +10,29 @@ globals = {
     "GameInfo", "GameDefines", "GameOptionTypes",
     "PreGame",
 
-    -- Database
-    "DB",
-
     -- UI framework
-    "UIManager", "ContextPtr", "Controls",
-    "InstanceManager", "TTManager",
+    "UI", "UIManager", "ContextPtr", "Controls",
+    "InstanceManager",
 
     -- Event systems
     "Events", "LuaEvents", "GameEvents",
 
     -- Engine utilities
-    "Modding",
+    "Modding", "LuaTypes",
     "include",
-    "Player",   -- Civ5 Player API table (used for method-existence checks)
-    "Path",     -- Civ5 file path utility
 
     -- Civ5 input/mouse
     "Mouse", "KeyEvents", "Keys",
 
     -- Civ5 enum/type tables
-    "GameInfoTypes", "NotificationTypes", "YieldTypes", "Type",
+    "GameInfoTypes", "NotificationTypes",
     "ButtonPopupTypes",
 
     -- Civ5 icon helpers
-    "IconHookup", "CivIconHookup", "SimpleCivIconHookup",
+    "IconHookup", "CivIconHookup",
 
     -- Civ5 coordinate helpers
-    "HexToWorld", "ToHexFromGrid", "ToGridFromHex",
+    "ToGridFromHex",
 
     -- VD globals (defined in VD_Observer_Utils.lua)
     "VD_Log",
@@ -57,16 +52,8 @@ globals = {
     "VD_ENTRY_BASE_HEIGHT",
     "VD_ENTRY_NO_RATIONALE_HEIGHT",
 
-    -- JFD mod globals (defined across multiple files)
-    "JFD_Log",
-    "JFD_GetPlayerRank",
-    "JFD_AIObserver_NotificationAdded",
-    "JFD_AIObserver_TurnBegin",
-    "JFD_AIObserver_PopulateDefaultLeaderNames",
-    "JFD_AIObserver_PopulateLeaderFlavours",
-    "JFD_GetNumResearchAgreements",
-    "Game_IsModActive",
+    -- JFD helpers retained by the observer
+    "Game_IsIGEActive",
     "Player_GetIdeology",
-    "getStackTrace",
 }
 

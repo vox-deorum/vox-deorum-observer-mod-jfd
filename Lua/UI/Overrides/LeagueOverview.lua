@@ -1,4 +1,3 @@
-print("This is the modded LeagueOverview from CBP")
 --------------------------------------------------------------
 -- LeagueOverview.lua
 -- Author: Anton Strenger
@@ -33,19 +32,11 @@ local m_DisabledResolutionManager = InstanceManager:new( "ResolutionInstance", "
 local m_ResolutionChoiceManager = InstanceManager:new( "ResolutionChoiceInstance", "ResolutionChoiceButton", Controls.ResolutionChoiceStack );
 
 local m_iCurrentLeague = -1;
-local m_tResolutionChoices = {};
 
 -- Constants
-local kDebug = false;
-local kStateVoteEnact = 100;
-local kStateVoteRepeal = 101;
-local kStateProposeEnact = 102;
-local kStateProposeRepeal = 103;
 local kChoiceNone = -1;
 local kChoiceNo = 0;
 local kChoiceYes = 1;
-local kRepealDecision = "RESOLUTION_DECISION_REPEAL";
-local kNoDecision = "RESOLUTION_DECISION_NONE";
 local kNoPlayer = -1;
 
 -- Vox Deorum: Session results cached in VD_Observer_Utils.lua (VD_GetSessionResults)
@@ -84,7 +75,7 @@ function OnPopup( popupInfo )
 end
 Events.SerialEventGameMessagePopup.Add( OnPopup );
 
-function InputHandler( uiMsg, wParam, lParam )
+function InputHandler( uiMsg, wParam )
     if uiMsg == KeyEvents.KeyDown then
         if wParam == Keys.VK_ESCAPE or wParam == Keys.VK_RETURN then
         
@@ -458,7 +449,7 @@ function GetProposals(league, activePlayerId)
 	end
 	
 	local proposals = {}
-	for i,v in ipairs(enactProposals) do
+	for _,v in ipairs(enactProposals) do
 		
 		local mainIcon = GetLeaderIcon(v.ProposalPlayer);
 		local choice = v.ProposerDecision or kChoiceNone;
@@ -477,7 +468,7 @@ function GetProposals(league, activePlayerId)
 		table.insert(proposals, proposal);
 	end
 	
-	for i,v in ipairs(repealProposals) do
+	for _,v in ipairs(repealProposals) do
 		
 		local mainIcon = GetLeaderIcon(v.ProposalPlayer);
 		local choice = v.ProposerDecision or kChoiceNone;
@@ -496,7 +487,7 @@ function GetProposals(league, activePlayerId)
 		table.insert(proposals, proposal);
 	end
 	
-	for i,v in ipairs(enactProposalsOnHold) do
+	for _,v in ipairs(enactProposalsOnHold) do
 		
 		local mainIcon = GetLeaderIcon(v.ProposalPlayer);
 		local choice = v.ProposerDecision or kChoiceNone;
@@ -515,7 +506,7 @@ function GetProposals(league, activePlayerId)
 		table.insert(proposals, proposal);
 	end
 	
-	for i,v in ipairs(repealProposalsOnHold) do
+	for _,v in ipairs(repealProposalsOnHold) do
 		
 		local mainIcon = GetLeaderIcon(v.ProposalPlayer);
 		local choice = v.ProposerDecision or kChoiceNone;
@@ -543,7 +534,6 @@ function GatherAdditionalChoiceInfoBasedOnDecisionType(decisionType, choice)
 	if(decisionType == "RESOLUTION_DECISION_MAJOR_CIV_MEMBER" or decisionType == "RESOLUTION_DECISION_OTHER_MAJOR_CIV_MEMBER") then
 		local player = Players[choice.Id];
 		local leader = GameInfo.Leaders[player:GetLeaderType()];
-		local civ = GameInfo.Civilizations[player:GetCivilizationType()];
 		
 		choice.MainIcon = {
 			PortraitIndex = leader.PortraitIndex,
@@ -579,8 +569,8 @@ end
 function View(model)
 	Controls.TurnsUntilVoteFrame:SetDisabled(true);
 	Controls.TurnsUntilVote:SetText(model.TurnString);
-	local frameW, frameH = Controls.TurnsUntilVoteFrame:GetSizeVal();
-	local labelW, labelH = Controls.TurnsUntilVote:GetSizeVal();
+	local _, frameH = Controls.TurnsUntilVoteFrame:GetSizeVal();
+	local labelW = Controls.TurnsUntilVote:GetSizeVal();
 	Controls.TurnsUntilVoteFrame:SetSizeVal(labelW + 100, frameH);
 	Controls.TurnsUntilVoteFrame:ReprocessAnchoring();
 	
@@ -634,12 +624,12 @@ function ViewCurrentProposals(model)
 	
 	local voteEntries = {};
 	
-	for i,v in ipairs(model.Proposals) do
+	for _,v in ipairs(model.Proposals) do
 		local instance = m_ProposalManager:GetInstance();
 		
 		instance.ResolutionButton:ClearCallback(Mouse.eLClick);
 		
-		local prefix = "";
+		local prefix;
 		if(v.Direction == "Enact") then
 			prefix = g_strEnactPrefix;
 		else
@@ -879,7 +869,7 @@ function ViewLeagueMembers(members)
 	Controls.MemberStack:ReprocessAnchoring();
 end
 
-function PopulateProposeResolutionPopup(activeResolutions, inactiveResolutions, currentProposals, selectFunction)
+function PopulateProposeResolutionPopup(activeResolutions, inactiveResolutions, selectFunction)
 
 	m_ActiveResolutionManager:ResetInstances();
 	m_InactiveResolutionManager:ResetInstances();
@@ -1567,7 +1557,7 @@ function VoteMajorCivController:UpdateVoteInstance()
 	if(choice ~= nil) then
 		local mainIcon = nil;
 		local choicePlayerId;
-		for i,v in ipairs(self.Entry.VoterChoices) do
+		for _,v in ipairs(self.Entry.VoterChoices) do
 			if(v.Id == choice) then
 				mainIcon = v.MainIcon;
 				choicePlayerId = v.PlayerId;
@@ -1649,7 +1639,7 @@ function ProposalController:UpdatePendingProposalInstance(pendingProposal)
 	instance.ResolutionButton:ClearCallback(Mouse.eLClick);
 	instance.ResolutionButton:SetDisabled(false);
 	instance.ResolutionButton:RegisterCallback(Mouse.eLClick, function()
-		PopulateProposeResolutionPopup(self.ActiveResolutions, self.InactiveResolutions, self.PendingProposals, function(proposal)
+		PopulateProposeResolutionPopup(self.ActiveResolutions, self.InactiveResolutions, function(proposal)
 			
 			local SelectProposal = function(choiceId)
 				
@@ -1658,7 +1648,7 @@ function ProposalController:UpdatePendingProposalInstance(pendingProposal)
 				local text;
 				local toolTip;
 				
-				local prefix = "";
+				local prefix;
 				if(proposal.Direction == "Enact") then
 					prefix = g_strEnactPrefix;
 					text = league:GetResolutionName(proposal.Type, -1, choiceId, false);
@@ -1681,7 +1671,7 @@ function ProposalController:UpdatePendingProposalInstance(pendingProposal)
 				
 				local canCommit = true;
 			
-				for i,v in ipairs(controller.PendingProposals) do
+				for _,v in ipairs(controller.PendingProposals) do
 					if(v.SelectedProposal == nil) then
 						canCommit = false;
 						break;
@@ -1733,7 +1723,7 @@ function ProposalController:UpdatePendingProposalInstance(pendingProposal)
 end
 
 function ProposalController:ResetProposals()
-	for i, proposal in ipairs(self.PendingProposals) do
+	for _, proposal in ipairs(self.PendingProposals) do
 		proposal.SelectedProposal = nil;
 		self:UpdatePendingProposalInstance(proposal);
 	end
@@ -1746,7 +1736,7 @@ function ProposalController:CommitProposals()
 
 	local controller = self;
 	local confirmAction = function()
-		for i, pendingProposal in ipairs(controller.PendingProposals) do
+		for _, pendingProposal in ipairs(controller.PendingProposals) do
 			local proposal = pendingProposal.SelectedProposal;
 			if(proposal.Direction == "Enact") then
 				local choice = proposal.ChoiceId or kChoiceNone;		
