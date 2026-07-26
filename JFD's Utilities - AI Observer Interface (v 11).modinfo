@@ -6,7 +6,7 @@
     <Description>[COLOR_POSITIVE_TEXT]AI Observer Interface[ENDCOLOR] mod for CBR/AI games.</Description>
     <Authors>JFD</Authors>
     <HideSetupGame>0</HideSetupGame>
-    <AffectsSavedGames>1</AffectsSavedGames>
+    <AffectsSavedGames>0</AffectsSavedGames>
     <MinCompatibleSaveVersion>0</MinCompatibleSaveVersion>
     <SupportsSinglePlayer>1</SupportsSinglePlayer>
     <SupportsMultiplayer>1</SupportsMultiplayer>
@@ -42,7 +42,6 @@
     <File md5="12FFD6AB863E07A961588B776D756777" import="0">Core/JFDGameText_AIObserver.xml</File>
     <File md5="BC454BB7BFF245F073DA3B3D1DC57260" import="0">Core/JFDGameText_Interface_AIObserver.xml</File>
     <File md5="68CDC77D93CDE386478963934E07D742" import="0">Core/JFDIconFonts_AIObserver.sql</File>
-    <File md5="10093C0B5319267C1798AC3C3BD4CAFF" import="0">Core/JFDMaster_AIObserver.sql</File>
     <File md5="D60F37E01FE67960B8A7196FB608BF5E" import="0">CreditsInfo.txt</File>
     <File md5="6476D7889D54DD2D5DFBEF8FB85807F0" import="0">Lua/JFD_UI_BigMiniMapOverview.lua</File>
     <File md5="32E063D92891C68E65071440651834E5" import="0">Lua/JFD_UI_BigMiniMapOverview.xml</File>
@@ -62,7 +61,6 @@
   </Files>
   <Actions>
     <OnModActivated>
-      <UpdateDatabase>Core/JFDMaster_AIObserver.sql</UpdateDatabase>
       <UpdateDatabase>Core/JFDColors_AIObserver.sql</UpdateDatabase>
       <UpdateDatabase>Core/JFDGameText_AIObserver.xml</UpdateDatabase>
       <UpdateDatabase>Core/JFDGameText_Interface_AIObserver.xml</UpdateDatabase>
