@@ -10,9 +10,6 @@
 			<Box Size="936,107" Anchor="C,C" Offset="10,0" ID="PlayerEntryAnimGrid" />
 			<AlphaAnim ID="PlayerEntryAnim" Anchor="L,T" Offset="5,0" Size="956,110" TextureOffset="0.0" Pause="0" Cycle="Bounce" Speed="0" AlphaStart=".75" AlphaEnd=".75" Hidden="0">
 				<Grid Size="956,110" Anchor="C,C" Offset="0,0" Style="GridGlass16" ID="PlayerEntryAnimGrid2" />
-				<Grid Size="956,110" Anchor="C,C" Offset="0,0" Style="Grid9Gold8" ID="PlayerEntryAnimGridGA" />
-				<Grid Size="956,110" Anchor="C,C" Offset="0,0" Style="Grid9Red8" ID="PlayerEntryAnimGridDA" />
-				<Grid Size="956,110" Anchor="C,C" Offset="0,0" Style="Grid9Science8" ID="PlayerEntryAnimGridNA" />
 			</AlphaAnim>
 
 			<!-- Leader Portrait -->

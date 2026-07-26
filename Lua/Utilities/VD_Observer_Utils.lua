@@ -271,7 +271,4 @@ function VD_ResizeEntryBox(controlTable, height)
 	local animH = height
 	controlTable.PlayerEntryAnim:SetSizeY(animH)
 	controlTable.PlayerEntryAnimGrid2:SetSizeY(animH)
-	controlTable.PlayerEntryAnimGridGA:SetSizeY(animH)
-	controlTable.PlayerEntryAnimGridDA:SetSizeY(animH)
-	controlTable.PlayerEntryAnimGridNA:SetSizeY(animH)
 end

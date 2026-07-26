@@ -504,14 +504,6 @@ function UpdateNewData(playerID)
 				strHappFont = "[ICON_GOLDEN_AGE]"
 				strHappDesc = "[COLOR_JFD_OVERLAY_GOLDEN_AGE]G. Age![ENDCOLOR]"
 				strStatusDesc = "[COLOR_JFD_OVERLAY_GOLDEN_AGE]GA![ENDCOLOR]"
-			elseif LuaTypes.Player.IsDarkAge and pPlayer:IsDarkAge() then
-				strHappFont = "[ICON_DARK_AGE]"
-				strHappDesc = "[COLOR_JFD_OVERLAY_DARK_AGE]D. Age![ENDCOLOR]"
-				strStatusDesc = "[COLOR_JFD_OVERLAY_DARK_AGE]DA![ENDCOLOR]"
-			elseif pPlayer:IsAnarchy() then
-				strHappFont = "[ICON_LEGEND_ANARCHY]"
-				strHappDesc = "[COLOR_JFD_OVERLAY_ANARCHY]Anarchy![ENDCOLOR]"
-				strStatusDesc = "[COLOR_JFD_OVERLAY_ANARCHY]ANARCHY![ENDCOLOR]"
 			end
 			local strHappTT = Locale.ConvertTextKey("{1_Desc} Stability: {2_Desc}", strHappFont, strHappDesc)
 			Controls.HappInfo:SetText(strStatusDesc)
@@ -1145,9 +1137,6 @@ function OnWorldCivsListUpdated()
 		local backgroundColor = {x = secondaryColor.x, y = secondaryColor.y, z = secondaryColor.z, w = 0.3}
 		controlTable.PlayerEntryAnimGrid:SetColor(backgroundColor)
 		controlTable.PlayerEntryAnim:Stop()
-		controlTable.PlayerEntryAnimGridDA:SetHide(true)
-		controlTable.PlayerEntryAnimGridNA:SetHide(true)
-		controlTable.PlayerEntryAnimGridGA:SetHide(true)
 	end
 	
 	Controls.PlayerListStack:CalculateSize();

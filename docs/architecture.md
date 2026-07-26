@@ -37,7 +37,7 @@ NotificationAdded / popup    ──► optional suppression handlers
 
 ## Load sequence
 
-1. `<OnModActivated>` loads the two icon-font registrations, the small color and game-option
+1. `<OnModActivated>` loads the observer icon-font registration, the small color and game-option
    tables, localized text, and the two VP API extension flags.
 2. The `JFD_AIObserver_Functions.xml` and `JFD_UI_BigMiniMapOverview.lua` entry points create
    independent UI contexts.
@@ -50,12 +50,11 @@ NotificationAdded / popup    ──► optional suppression handlers
 The runtime database additions are deliberately small:
 
 - two suppression game options;
-- eight text colors used by the live HUD;
+- six text colors used by the live HUD;
 - seven observer icon mappings;
-- one legacy-sheet mapping for `ICON_LEGEND_ANARCHY`;
 - English text for the live options, minimap title, civ-list title, abbreviated months, and turn
   counter;
 - `API_EXTENSIONS` and `API_LUA_EXTENSIONS` VP flags.
 
-The former overlay-map schema, city descriptors, leader-flavor cache, score ranking, and their
-supporting text/icon/color rows are not shipped.
+The former overlay-map schema and font registration, city descriptors, leader-flavor cache, score
+ranking, and their supporting text/icon/color rows are not shipped.

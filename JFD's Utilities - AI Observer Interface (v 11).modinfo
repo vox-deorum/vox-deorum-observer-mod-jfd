@@ -29,8 +29,6 @@
   <Files>
     <File md5="EA29518D45EFB6B501222E18B1BDC520" import="1">Art/Font Icons/JFDFontIcons_AIObserver_22.dds</File>
     <File md5="68FD6249CE1A4E55C9F3B9BFAC9580B7" import="1">Art/Font Icons/JFDFontIcons_AIObserver_22.ggxml</File>
-    <File md5="D30590A777AA3944C2FBD110C9F29471" import="1">Art/Font Icons/JFDFontIcons_Players_OverlayMaps_22.dds</File>
-    <File md5="B32C35BA8FC91762B877FAFFC9E98551" import="1">Art/Font Icons/JFDFontIcons_Players_OverlayMaps_22.ggxml</File>
     <File md5="56081EC8249214A1E9EB8877AEEE7455" import="1">Art/Images/aiobserversymbolframe32.dds</File>
     <File md5="DE83886DFFEBC5989E962A4CA9531DC6" import="1">Art/Images/aiobserversymbolrankedframe32.dds</File>
     <File md5="273E74894B9927443F06C2C92A96CF88" import="1">Art/Images/bottomright128x224_2.dds</File>
@@ -40,13 +38,12 @@
     <File md5="01AAFF9F31750A367DEF907C85682684" import="1">Art/Images/overlaymapbuttonhl.dds</File>
     <File md5="A250920064191E28EEBC78BFED3E9CA7" import="1">Art/Images/topleft2_aiobserver2.dds</File>
     <File md5="F2A72CF0A1B714D0BA5E3EF7BACCE321" import="1">Art/Images/topleftaiobserver3.dds</File>
-    <File md5="8152427A52955DA1655E6403DAC6E3A6" import="0">Core/JFDColors_AIObserver.sql</File>
+    <File md5="30E15CAA40BB89067CE212122FC1395F" import="0">Core/JFDColors_AIObserver.sql</File>
     <File md5="ADFE587F11D4ABE32A494CAFFFF21FE8" import="0">Core/JFDGameOptions_AIObserver.sql</File>
     <File md5="12FFD6AB863E07A961588B776D756777" import="0">Core/JFDGameText_AIObserver.xml</File>
     <File md5="94BDF695F10784D26CA392DC5E42B57F" import="0">Core/JFDGameText_Interface_AIObserver.xml</File>
     <File md5="68CDC77D93CDE386478963934E07D742" import="0">Core/JFDIconFonts_AIObserver.sql</File>
     <File md5="10093C0B5319267C1798AC3C3BD4CAFF" import="0">Core/JFDMaster_AIObserver.sql</File>
-    <File md5="BAA398D9099A06327FD5F067EF00FF97" import="0">Core/Overlay Maps/JFDIconFonts_OverlayMaps.sql</File>
     <File md5="D60F37E01FE67960B8A7196FB608BF5E" import="0">CreditsInfo.txt</File>
     <File md5="11BA1A52D1E1116F77A8999CEEC0FE39" import="0">Lua/JFD_AIObserver_Functions.lua</File>
     <File md5="D2ED60651CE7E3DD2C9F07EA9B6A3387" import="0">Lua/JFD_AIObserver_Functions.xml</File>
@@ -58,17 +55,16 @@
     <File md5="63AF18F050E205045CBA583C011A56A7" import="1">Lua/UI/Overrides/DiploCorner.xml</File>
     <File md5="A717B6F3C85F87ABA7215F6411A46411" import="1">Lua/UI/Overrides/NewTurn.lua</File>
     <File md5="D2ED60651CE7E3DD2C9F07EA9B6A3387" import="1">Lua/UI/Overrides/NewTurn.xml</File>
-    <File md5="2A442C185F3ECA0B59CE5FB71B484B47" import="1">Lua/UI/Overrides/TopPanel.lua</File>
-    <File md5="7875DF1CC40F2E0FFB23FA618E92DB21" import="1">Lua/UI/Overrides/TopPanel.xml</File>
+    <File md5="59102964266A05872DEB81B6BDA8FB93" import="1">Lua/UI/Overrides/TopPanel.lua</File>
+    <File md5="50DEE41DC6FFE3922F5E407D860347F8" import="1">Lua/UI/Overrides/TopPanel.xml</File>
     <File md5="3BFAC5D70803C63BAE3BE6B41C3BE2C9" import="1">Lua/UI/Overrides/LeagueOverview.lua</File>
     <File md5="EB233D228AB90A7798378209D11DEE29" import="1">Lua/UI/Overrides/TurnProcessing.lua</File>
     <File md5="7A6397F6DE772C5A0111D536D655C6D0" import="1">Lua/UI/Overrides/TurnProcessing.xml</File>
     <File md5="EE391A44F1513CEEDE08BE903A62204F" import="1">Lua/Utilities/JFD_AIObserver_Utils.lua</File>
-    <File md5="3DCB46B97242223158A18F67D5867C03" import="1">Lua/Utilities/VD_Observer_Utils.lua</File>
+    <File md5="3065781EEB71F6F2C0FD4ACD603F69F3" import="1">Lua/Utilities/VD_Observer_Utils.lua</File>
   </Files>
   <Actions>
     <OnModActivated>
-      <UpdateDatabase>Core/Overlay Maps/JFDIconFonts_OverlayMaps.sql</UpdateDatabase>
       <UpdateDatabase>Core/JFDMaster_AIObserver.sql</UpdateDatabase>
       <UpdateDatabase>Core/JFDColors_AIObserver.sql</UpdateDatabase>
       <UpdateDatabase>Core/JFDGameOptions_AIObserver.sql</UpdateDatabase>

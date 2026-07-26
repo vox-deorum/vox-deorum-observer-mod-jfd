@@ -15,11 +15,6 @@ Registered mappings:
 | 23 | `ICON_CITY` |
 | 24 | `ICON_PANTHEON_A` |
 
-### `JFDFontIcons_Players_OverlayMaps_22`
-
-Only glyph 2, `ICON_LEGEND_ANARCHY`, is registered. The legacy filename remains because the live
-stability display uses that glyph; the removed overlay-map framework does not ship.
-
 ## UI textures
 
 | Texture | Live use |
@@ -32,5 +27,5 @@ stability display uses that glyph; the removed overlay-map framework does not sh
 | `IGEButton.dds`, `IGEButtonHL.dds` | Optional IGE minimap button and hover state |
 | `bottomright128x224_2.dds` | Minimap corner referenced by `MiniMapPanel.xml` |
 
-Font sheets require their paired `.ggxml` descriptors. Every texture and descriptor must also be
+The font sheet requires its paired `.ggxml` descriptor. Every texture and descriptor must also be
 listed in the modinfo `<Files>` section.

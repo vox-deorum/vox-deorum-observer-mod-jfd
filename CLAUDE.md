@@ -33,7 +33,6 @@ This is a fork of **JFD's Utilities — AI Observer Interface (v11)**, a Civ5 mo
 │
 ├── Art/                          # DDS textures, font icons, UI images
 ├── Core/                         # SQL schema + XML game text
-│   └── Overlay Maps/             # Legacy ANARCHY legend glyph mapping
 │
 └── Lua/
     ├── JFD_AIObserver_Functions.lua        # InGameUIAddin; popup/notification suppression
@@ -54,9 +53,7 @@ This is a fork of **JFD's Utilities — AI Observer Interface (v11)**, a Civ5 mo
 ```
 
 **Footprint policy:** the mod drops everything not needed for vox-deorum, including minimap
-overlay modes, city descriptors, score ranking, and religion/government map colouring. The
-otherwise-legacy Overlay Maps font sheet remains because the live `ICON_LEGEND_ANARCHY` glyph is
-stored in it.
+overlay modes, city descriptors, score ranking, and religion/government map colouring.
 Don't reintroduce a file without adding it to the modinfo `<Files>` list — and note that
 `import="0"` on a `.dds` means the engine can never resolve it. The completed cleanup is recorded
 in [docs/dead-code.md](docs/dead-code.md).
@@ -119,6 +116,6 @@ Run this as the final step before handing work back to the user, even if you thi
 - The vox-deorum TypeScript backend communicates with the Civ5 Lua layer via named pipes or file I/O (see vox-deorum repo for protocol details).
 - New UI panels for LLM action display should follow the existing popup pattern: `.lua` controller + `.xml` layout, registered as `InGameUIAddin` in the `.modinfo`.
 - LLM decisions reach the UI over `LuaEvents` — `VoxDeorumPlayerInfo` and `VoxDeorumAction` are consumed by `TopPanel.lua`, which drives both the rationale box and the civ list. See [docs/observer-api.md](docs/observer-api.md).
-- The Overlay Maps subsystem has been **removed**. Its legacy font sheet and SQL registration
-  remain only for the live `ICON_LEGEND_ANARCHY` glyph. Don't plan LLM-action visualisation around
-  it; extend the civ list or add a new `InGameUIAddin` popup instead.
+- The Overlay Maps subsystem and its legacy font registration have been **removed**. Don't plan
+  LLM-action visualisation around it; extend the civ list or add a new `InGameUIAddin` popup
+  instead.

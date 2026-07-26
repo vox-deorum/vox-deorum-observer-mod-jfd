@@ -17,12 +17,11 @@ Removed in this pass:
 - empty minimap refresh/active-player handlers and the non-rendering new-turn controller;
 - unused includes, locals, callback arguments, loop indices, and constant initializers reported by
   static analysis;
-- 14 textures whose final live references were removed.
+- the anarchy/dark-age status branches, colors, and permanently unused age-state backgrounds;
+- 15 textures and the legacy overlay-font descriptor whose final live references were removed.
 
 Deliberately retained:
 
-- `JFDFontIcons_Players_OverlayMaps_22.*` and its one SQL mapping because
-  `ICON_LEGEND_ANARCHY` is live;
 - `bottomright128x224_2.dds` because `MiniMapPanel.xml` still resolves it by basename;
 - the standard minimap map-option code and League Overview code, both of which remain reachable
   through visible controls and engine events.
