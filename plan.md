@@ -12,7 +12,6 @@ The AI Observer Interface mod displays AI-only Civ5 games. The vox-deorum backen
 |------|------|
 | `Lua/UI/Overrides/TopPanel.lua` | Main player panel controller — Stages 1–4 |
 | `Lua/UI/Overrides/TopPanel.xml` | Top-left panel layout — Stage 4 XML changes |
-| `Lua/JFD_AIObserver_Functions.lua` | Entry point / event broker |
 | `JFD's Utilities - AI Observer Interface (v 11).modinfo` | Must register any new InGameUIAddin files |
 
 Existing utilities to reuse:

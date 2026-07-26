@@ -13,8 +13,8 @@
 **Mod ID:** `970aae10-1004-4c8a-af2d-8d601de5ec02`
 
 A Civilization V mod that provides an enhanced spectator/observer UI for watching AI-only games.
-This fork keeps the compact top panel, civ list, enlarged minimap, turn indicator, and optional
-popup suppression needed by vox-deorum.
+This fork keeps the compact top panel, civ list, enlarged minimap, and turn indicator needed by
+vox-deorum.
 
 ---
 
@@ -24,7 +24,6 @@ popup suppression needed by vox-deorum.
 - **Automatic spectating** — follows AI turns and interesting combat/city events while reporting animation metadata
 - **Big Minimap Overview** — enlarges the engine minimap in a full-screen popup
 - **World Congress observation** — exposes session state and cached resolution results
-- **Popup & Notification Suppression** — optionally silences ancient ruins, archaeology, golden age, great person, and new era popups
 - **Compact footprint** — removed overlay maps, city descriptors, ranking UI, and unused compatibility layers from the original mod
 
 ---

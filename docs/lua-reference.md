@@ -57,9 +57,3 @@ barbarian turns. It hides the popup when the active or remote human turn starts.
 Copies the engine minimap texture into a larger popup. It can be opened by the minimap button, the
 Additional Information dropdown, or `JFD_UI_ShowBigMiniMapOverview`.
 
-### `JFD_AIObserver_Functions.lua`
-
-Conditionally registers two local handlers:
-
-- `Events.NotificationAdded` clears intrusive goody-hut and archaeology notifications.
-- `Events.SerialEventGameMessagePopup` dequeues the configured reward/era/wonder popups.

@@ -1,18 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <GameData>
 	<Language_en_US>
-		<Row Tag="TXT_KEY_GAMEOPTION_JFD_AIOBSERVER_SUPPRESS_NOTIFS">
-			<Text>Suppress Intrusive Notifications</Text>
-		</Row>
-		<Row Tag="TXT_KEY_GAMEOPTION_JFD_AIOBSERVER_SUPPRESS_NOTIFS_HELP">
-			<Text>Suppresses intrusive Notifications like the discovery of Ancient Ruins or Natural Wonders.</Text>
-		</Row>
-		<Row Tag="TXT_KEY_GAMEOPTION_JFD_AIOBSERVER_SUPPRESS_POPUPS">
-			<Text>Suppress Intrusive Popups</Text>
-		</Row>
-		<Row Tag="TXT_KEY_GAMEOPTION_JFD_AIOBSERVER_SUPPRESS_POPUPS_HELP">
-			<Text>Suppresses intrusive popups like Who's Winning and Golden Age.</Text>
-		</Row>
 		<Row Tag="TXT_KEY_JFD_MINIMAP_OVERVIEW">
 			<Text>Minimap Overview</Text>
 		</Row>

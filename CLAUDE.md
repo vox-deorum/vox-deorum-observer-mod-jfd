@@ -35,8 +35,6 @@ This is a fork of **JFD's Utilities — AI Observer Interface (v11)**, a Civ5 mo
 ├── Core/                         # SQL schema + XML game text
 │
 └── Lua/
-    ├── JFD_AIObserver_Functions.lua        # InGameUIAddin; popup/notification suppression
-    ├── JFD_AIObserver_Functions.xml        # Empty host context for Functions
     ├── JFD_UI_BigMiniMapOverview.lua       # Full-screen minimap popup (InGameUIAddin)
     ├── JFD_UI_BigMiniMapOverview.xml
     ├── Utilities/

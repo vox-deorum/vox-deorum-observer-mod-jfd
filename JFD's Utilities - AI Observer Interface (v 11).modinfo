@@ -39,14 +39,11 @@
     <File md5="A250920064191E28EEBC78BFED3E9CA7" import="1">Art/Images/topleft2_aiobserver2.dds</File>
     <File md5="F2A72CF0A1B714D0BA5E3EF7BACCE321" import="1">Art/Images/topleftaiobserver3.dds</File>
     <File md5="30E15CAA40BB89067CE212122FC1395F" import="0">Core/JFDColors_AIObserver.sql</File>
-    <File md5="ADFE587F11D4ABE32A494CAFFFF21FE8" import="0">Core/JFDGameOptions_AIObserver.sql</File>
     <File md5="12FFD6AB863E07A961588B776D756777" import="0">Core/JFDGameText_AIObserver.xml</File>
-    <File md5="94BDF695F10784D26CA392DC5E42B57F" import="0">Core/JFDGameText_Interface_AIObserver.xml</File>
+    <File md5="BC454BB7BFF245F073DA3B3D1DC57260" import="0">Core/JFDGameText_Interface_AIObserver.xml</File>
     <File md5="68CDC77D93CDE386478963934E07D742" import="0">Core/JFDIconFonts_AIObserver.sql</File>
     <File md5="10093C0B5319267C1798AC3C3BD4CAFF" import="0">Core/JFDMaster_AIObserver.sql</File>
     <File md5="D60F37E01FE67960B8A7196FB608BF5E" import="0">CreditsInfo.txt</File>
-    <File md5="11BA1A52D1E1116F77A8999CEEC0FE39" import="0">Lua/JFD_AIObserver_Functions.lua</File>
-    <File md5="D2ED60651CE7E3DD2C9F07EA9B6A3387" import="0">Lua/JFD_AIObserver_Functions.xml</File>
     <File md5="6476D7889D54DD2D5DFBEF8FB85807F0" import="0">Lua/JFD_UI_BigMiniMapOverview.lua</File>
     <File md5="32E063D92891C68E65071440651834E5" import="0">Lua/JFD_UI_BigMiniMapOverview.xml</File>
     <File md5="E1ED264A1A683D1E5B8B7495A1344723" import="1">Lua/UI/MiniMap/MiniMapPanel.lua</File>
@@ -67,18 +64,12 @@
     <OnModActivated>
       <UpdateDatabase>Core/JFDMaster_AIObserver.sql</UpdateDatabase>
       <UpdateDatabase>Core/JFDColors_AIObserver.sql</UpdateDatabase>
-      <UpdateDatabase>Core/JFDGameOptions_AIObserver.sql</UpdateDatabase>
       <UpdateDatabase>Core/JFDGameText_AIObserver.xml</UpdateDatabase>
       <UpdateDatabase>Core/JFDGameText_Interface_AIObserver.xml</UpdateDatabase>
       <UpdateDatabase>Core/JFDIconFonts_AIObserver.sql</UpdateDatabase>
     </OnModActivated>
   </Actions>
   <EntryPoints>
-    <EntryPoint type="InGameUIAddin" file="Lua/JFD_AIObserver_Functions.xml">
-      <Name>JFD_AIObserver_Functions.xml</Name>
-      <Description>
-      </Description>
-    </EntryPoint>
     <EntryPoint type="InGameUIAddin" file="Lua/JFD_UI_BigMiniMapOverview.lua">
       <Name>JFD_UI_BigMiniMapOverview.lua</Name>
       <Description>
